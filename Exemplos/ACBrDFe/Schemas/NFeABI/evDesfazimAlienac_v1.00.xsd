@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema XML de validacao do Evento de Desfazimento da Alienacao da NF-e ABI (NT 2026.001) - PROVISORIO ate a publicacao do schema oficial -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.portalfiscal.inf.br/nfeabi" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.portalfiscal.inf.br/nfeabi" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="eventoNFeABITiposBasico_v1.00.xsd"/>
+	<xs:element name="evDesfazimAlienac">
+		<xs:annotation>
+			<xs:documentation>Schema XML de validacao do Evento de Desfazimento da Alienacao da NF-e ABI</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="descEvento">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:whiteSpace value="preserve"/>
+							<xs:minLength value="5"/>
+							<xs:maxLength value="60"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="tpDesfaz">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:whiteSpace value="preserve"/>
+							<xs:pattern value="0[1-5]|99"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="dtDesfaz" type="TData"/>
+				<xs:element name="xDesfaz" minOccurs="0">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:whiteSpace value="preserve"/>
+							<xs:minLength value="5"/>
+							<xs:maxLength value="150"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="versao" type="TVerEvento" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

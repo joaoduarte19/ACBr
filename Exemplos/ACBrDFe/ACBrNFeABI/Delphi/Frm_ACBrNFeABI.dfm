@@ -1646,6 +1646,7 @@ object frmACBrNFeABI: TfrmACBrNFeABI
   end
   object ACBrNFeABI1: TACBrNFeABI
     MAIL = ACBrMail1
+    DANFeABI = ACBrNFeABIDANFeABIFPDF1
     OnStatusChange = ACBrNFeABI1StatusChange
     OnGerarLog = ACBrNFeABI1GerarLog
     Configuracoes.Geral.SSLLib = libNone
@@ -1660,5 +1661,10 @@ object frmACBrNFeABI: TfrmACBrNFeABI
     Configuracoes.RespTec.IdCSRT = 0
     Left = 342
     Top = 220
+  end
+  object ACBrNFeABIDANFeABIFPDF1: TACBrNFeABIDANFeABIFPDF
+    ACBrNFeABI = ACBrNFeABI1
+    Left = 342
+    Top = 268
   end
 end

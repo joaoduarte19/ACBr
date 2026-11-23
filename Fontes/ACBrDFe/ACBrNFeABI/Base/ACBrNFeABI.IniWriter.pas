@@ -60,6 +60,7 @@ type
     procedure Gerar_gCont(AINIRec: TMemIniFile; gCont: TgCont);
 
     procedure Gerar_NFref(AINIRec: TMemIniFile; NFref: TNFrefCollection);
+    procedure Gerar_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoCollection);
 
     procedure Gerar_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
     procedure Gerar_transmit(AINIRec: TMemIniFile; transmit: tTransmitCollection);
@@ -70,6 +71,7 @@ type
     procedure Gerar_imovelTorna(AINIRec: TMemIniFile; imovelTorna: timovelTornaCollection);
     procedure Gerar_gIntermedCorret(AINIRec: TMemIniFile; gIntermedCorret: tgIntermedCorretCollection);
     procedure Gerar_ginfTrib(AINIRec: TMemIniFile; ginfTrib: TginfTrib);
+    procedure Gerar_gInfTribTransic(AINIRec: TMemIniFile; gInfTribTransic: TgInfTribTransic);
     procedure Gerar_pag(AINIRec: TMemIniFile; pag: Tpag);
     procedure Gerar_detPagImovel(AINIRec: TMemIniFile; detPagImovel: tdetPagImovelCollection);
     procedure Gerar_detPagIncorpLote(AINIRec: TMemIniFile; detPagIncorpLote: tdetPagIncorpLoteCollection);
@@ -95,6 +97,7 @@ type
 implementation
 
 uses
+  StrUtils,
   ACBrXmlBase,
   ACBrDFeUtil,
   ACBrNFeABI,
@@ -128,6 +131,7 @@ begin
 
     Gerar_Identificacao(INIRec, FNFeABI.Ide);
     Gerar_NFref(INIRec,FNFeABI.NFref);
+    Gerar_gPagAntecipado(INIRec, FNFeABI.gPagAntecipado);
     Gerar_Emitente(INIRec, FNFeABI.Emit);
     Gerar_transmit(INIRec, NFeABI.transmit);
     Gerar_adquirente(INIRec, NFeABI.adquirente);
@@ -135,6 +139,7 @@ begin
     Gerar_autXML(INIRec, FNFeABI.autXML);
     Gerar_infOper(INIRec, FNFeABI.infOper);
     Gerar_ginfTrib(INIRec, FNFeABI.gInfTrib);
+    Gerar_gInfTribTransic(INIRec, FNFeABI.gInfTribTransic);
 
     if (NFeABI.pag.detPagImovel.Count > 0) or
        (NFeABI.pag.detPagIncorpLote.Count > 0) then
@@ -172,6 +177,7 @@ begin
   AINIRec.WriteString(sSecao, 'nSiteAutoriz', SiteAutorizadorToStr(Ide.nSiteAutoriz));
   AINIRec.WriteString(sSecao, 'tpAmb', TipoAmbienteToStr(Ide.tpAmb));
   AINIRec.WriteString(sSecao, 'finNFe', finNFeToStr(Ide.finNFe));
+  AINIRec.WriteString(sSecao, 'tpPagAnt', tpPagAntABIToStr(Ide.tpPagAnt));
   AINIRec.WriteString(sSecao, 'procEmi', procEmiToStr(Ide.procEmi));
   AINIRec.WriteString(sSecao, 'verProc', Ide.verProc);
 
@@ -209,6 +215,18 @@ begin
     begin
       AINIRec.WriteString(sSecao, 'refNFeABI', refNFeABI);
     end;
+  end;
+end;
+
+procedure TNFeABIIniWriter.Gerar_gPagAntecipado(AINIRec: TMemIniFile;
+  gPagAntecipado: TgPagAntecipadoCollection);
+var
+  I: Integer;
+begin
+  for I := 0 to gPagAntecipado.Count - 1 do
+  begin
+    sSecao := 'gPagAntecipado' + IntToStrZero(I + 1, 3);
+    AINIRec.WriteString(sSecao, 'chNFePagAnt', gPagAntecipado[I].chNFePagAnt);
   end;
 end;
 
@@ -309,6 +327,9 @@ begin
   AINIRec.WriteString(sSecao, 'nIptu', Imovel.cadastro.nIptu);
   AINIRec.WriteString(sSecao, 'indIncra', TIndicadorToStr(Imovel.cadastro.indIncra));
   AINIRec.WriteString(sSecao, 'nIncra', Imovel.cadastro.nIncra);
+  if Imovel.cadastro.indRIP <> tieNenhum then
+    AINIRec.WriteString(sSecao, 'indRIP', IfThen(Imovel.cadastro.indRIP = tieSim, '1', '0'));
+  AINIRec.WriteString(sSecao, 'nRIP', Imovel.cadastro.nRIP);
   // Endereço do Imovel
   AINIRec.WriteString(sSecao, 'xLgr', Imovel.enderImovel.xLgr);
   AINIRec.WriteString(sSecao, 'nro', Imovel.enderImovel.nro);
@@ -351,9 +372,10 @@ begin
 
   AINIRec.WriteFloat(sSecao, 'vTorna', infOper.gTorna.vTorna);
 
-  AINIRec.WriteString(sSecao, 'indIncorpLote', TIndicadorToStr(infOper.gIncorpLote.indIncorpLote));
+  AINIRec.WriteString(sSecao, 'indIncorpLote', indIncorpLoteToStr(infOper.gIncorpLote.indIncorpLote));
   AINIRec.WriteString(sSecao, 'CNPJempImob', infOper.gIncorpLote.CNPJempImob);
   AINIRec.WriteString(sSecao, 'cCIBObra', infOper.gIncorpLote.cCIBObra);
+  AINIRec.WriteString(sSecao, 'CNO', infOper.gIncorpLote.CNO);
 
   if infOper.gRedAjusteImovel.vRedAjusteImovel > 0 then
   begin
@@ -434,6 +456,54 @@ procedure TNFeABIIniWriter.Gerar_ginfTrib(AINIRec: TMemIniFile;
 begin
   Gerar_gCompraGovReduzido(AINIRec, ginfTrib.gCompraGov);
   Gerar_IBSCBS(AINIRec, ginfTrib.IBSCBS, -1, -1);
+
+  if ginfTrib.gInfPagAntecip.vPagAntecip <> 0 then
+  begin
+    AINIRec.WriteFloat('gInfPagAntecip', 'vPagAntecip', ginfTrib.gInfPagAntecip.vPagAntecip);
+    AINIRec.WriteString('gInfPagAntecip', 'dtPagAntecip', DateTimeToStr(ginfTrib.gInfPagAntecip.dtPagAntecip));
+
+    if ginfTrib.gInfPagAntecip.indCNPJempImob <> tieNenhum then
+      AINIRec.WriteString('gInfPagAntecip', 'indCNPJempImob',
+        IfThen(ginfTrib.gInfPagAntecip.indCNPJempImob = tieSim, '1', '0'));
+
+    AINIRec.WriteString('gInfPagAntecip', 'CNPJempImob', ginfTrib.gInfPagAntecip.CNPJempImob);
+  end;
+end;
+
+procedure TNFeABIIniWriter.Gerar_gInfTribTransic(AINIRec: TMemIniFile;
+  gInfTribTransic: TgInfTribTransic);
+begin
+  if (gInfTribTransic.xNome = '') and (gInfTribTransic.IBSCBS.CST = cstNenhum) then Exit;
+
+  with gInfTribTransic do
+  begin
+    AINIRec.WriteString('gInfTribTransic', 'CNPJCPF', CNPJCPF);
+    AINIRec.WriteString('gInfTribTransic', 'xNome', xNome);
+    AINIRec.WriteString('gInfTribTransic', 'CST', CSTIBSCBSToStr(IBSCBS.CST));
+    AINIRec.WriteString('gInfTribTransic', 'cClassTrib', IBSCBS.cClassTrib);
+
+    if IBSCBS.gExigSusp.tpSusp <> tsuNenhum then
+    begin
+      AINIRec.WriteString('gExigSusp', 'tpSusp', tpSuspToStr(IBSCBS.gExigSusp.tpSusp));
+      AINIRec.WriteString('gExigSusp', 'nProcesso', IBSCBS.gExigSusp.nProcesso);
+    end;
+
+    with IBSCBS.gIBSCBSTransic do
+    begin
+      AINIRec.WriteString('gIBSCBSTransic', 'CNPJIncImob', CNPJIncImob);
+      AINIRec.WriteString('gIBSCBSTransic', 'dtRecUni', DateTimeToStr(dtRecUni));
+      AINIRec.WriteFloat('gIBSCBSTransic', 'vRecRecebRET', vRecRecebRET);
+      AINIRec.WriteFloat('gIBSCBSTransic', 'vRecFinRET', vRecFinRET);
+      AINIRec.WriteFloat('gIBSCBSTransic', 'vRecTotal', vRecTotal);
+      AINIRec.WriteFloat('gIBSCBSTransic', 'vBC', vBC);
+      AINIRec.WriteFloat('gIBSUFTransic', 'pIBSUF', gIBSUF.pIBSUF);
+      AINIRec.WriteFloat('gIBSUFTransic', 'vIBSUF', gIBSUF.vIBSUF);
+      AINIRec.WriteFloat('gIBSMunTransic', 'pIBSMun', gIBSMun.pIBSMun);
+      AINIRec.WriteFloat('gIBSMunTransic', 'vIBSMun', gIBSMun.vIBSMun);
+      AINIRec.WriteFloat('gCBSTransic', 'pCBS', gCBS.pCBS);
+      AINIRec.WriteFloat('gCBSTransic', 'vCBS', gCBS.vCBS);
+    end;
+  end;
 end;
 
 procedure TNFeABIIniWriter.Gerar_pag(AINIRec: TMemIniFile; pag: Tpag);

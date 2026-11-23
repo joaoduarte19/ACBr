@@ -2188,6 +2188,7 @@ object frmACBrNFeABI: TfrmACBrNFeABI
   end
   object ACBrNFeABI1: TACBrNFeABI
     MAIL = ACBrMail1
+    DANFeABI = ACBrNFeABIDANFeABIFPDF1
     OnStatusChange = ACBrNFeABI1StatusChange
     OnGerarLog = ACBrNFeABI1GerarLog
     Configuracoes.Geral.SSLLib = libNone
@@ -2201,6 +2202,11 @@ object frmACBrNFeABI: TfrmACBrNFeABI
     Configuracoes.WebServices.QuebradeLinha = '|'
     Configuracoes.RespTec.IdCSRT = 0
     Left = 428
+    Top = 275
+  end
+  object ACBrNFeABIDANFeABIFPDF1: TACBrNFeABIDANFeABIFPDF
+    ACBrNFeABI = ACBrNFeABI1
+    Left = 540
     Top = 275
   end
   object SynXMLSyn1: TSynXMLSyn

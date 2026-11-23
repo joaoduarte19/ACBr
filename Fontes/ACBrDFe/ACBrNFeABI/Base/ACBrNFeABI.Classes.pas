@@ -104,6 +104,7 @@ type
     FcDV: Integer;
     FtpAmb: TACBrTipoAmbiente;
     FfinNFe: TfinNFe;
+    FtpPagAnt: TtpPagAntABI;
     FprocEmi: TACBrProcessoEmissao;
     FverProc: string;
     FgCont: TgCont;
@@ -125,6 +126,7 @@ type
     property cDV: Integer read FcDV write FcDV;
     property tpAmb: TACBrTipoAmbiente read FtpAmb write FtpAmb;
     property finNFe: TfinNFe read FfinNFe write FfinNFe;
+    property tpPagAnt: TtpPagAntABI read FtpPagAnt write FtpPagAnt default tpabNenhum;
     property procEmi: TACBrProcessoEmissao read FprocEmi write FprocEmi;
     property verProc: string read FverProc write FverProc;
     property gCont: TgCont read FgCont write FgCont;
@@ -263,12 +265,16 @@ type
     FnIptu: string;
     FindIncra: TIndicador;
     FnIncra: string;
+    FindRIP: TIndicadorEx;
+    FnRIP: string;
   public
     property cCIB: string read FcCIB write FcCIB;
     property indIPTU: TIndicador read FindIPTU write FindIPTU;
     property nIptu: string read FnIptu write FnIptu;
     property indIncra: TIndicador read FindIncra write FindIncra;
     property nIncra: string read FnIncra write FnIncra;
+    property indRIP: TIndicadorEx read FindRIP write FindRIP default tieNenhum;
+    property nRIP: string read FnRIP write FnRIP;
   end;
 
   { Timovel }
@@ -360,13 +366,15 @@ type
 
   TgIncorpLote = class(TObject)
   private
-    FindIncorpLote: TIndicador;
+    FindIncorpLote: TindIncorpLote;
     FCNPJempImob: string;
     FcCIBObra: string;
+    FCNO: string;
   public
-    property indIncorpLote: TIndicador read FindIncorpLote write FindIncorpLote;
+    property indIncorpLote: TindIncorpLote read FindIncorpLote write FindIncorpLote default iilNenhum;
     property CNPJempImob: string read FCNPJempImob write FCNPJempImob;
     property cCIBObra: string read FcCIBObra write FcCIBObra;
+    property CNO: string read FCNO write FCNO;
   end;
 
   { TgRedAjusteImovel }
@@ -454,18 +462,120 @@ type
     property gIntermedCorret: TgIntermedCorretCollection read FgIntermedCorret write SetgIntermedCorret;
   end;
 
+  { TgPagAntecipadoCollectionItem }
+
+  TgPagAntecipadoCollectionItem = class(TObject)
+  private
+    FchNFePagAnt: string;
+  public
+    property chNFePagAnt: string read FchNFePagAnt write FchNFePagAnt;
+  end;
+
+  TgPagAntecipadoCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgPagAntecipadoCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgPagAntecipadoCollectionItem);
+  public
+    function New: TgPagAntecipadoCollectionItem;
+    property Items[Index: Integer]: TgPagAntecipadoCollectionItem read GetItem write SetItem; default;
+  end;
+
+  { TgInfPagAntecip }
+
+  TgInfPagAntecip = class(TObject)
+  private
+    FvPagAntecip: Double;
+    FdtPagAntecip: TDateTime;
+    FindCNPJempImob: TIndicadorEx;
+    FCNPJempImob: string;
+  public
+    property vPagAntecip: Double read FvPagAntecip write FvPagAntecip;
+    property dtPagAntecip: TDateTime read FdtPagAntecip write FdtPagAntecip;
+    property indCNPJempImob: TIndicadorEx read FindCNPJempImob write FindCNPJempImob default tieNenhum;
+    property CNPJempImob: string read FCNPJempImob write FCNPJempImob;
+  end;
+
+  { Grupo UA - gInfTribTransic }
+
+  TgExigSusp = class(TObject)
+  private
+    FtpSusp: TtpSusp;
+    FnProcesso: string;
+  public
+    property tpSusp: TtpSusp read FtpSusp write FtpSusp default tsuNenhum;
+    property nProcesso: string read FnProcesso write FnProcesso;
+  end;
+
+  TgIBSCBSTransic = class(TObject)
+  private
+    FCNPJIncImob: string;
+    FdtRecUni: TDateTime;
+    FvRecRecebRET: Double;
+    FvRecFinRET: Double;
+    FvRecTotal: Double;
+    FvBC: Double;
+    FgIBSUF: TgIBSUFValores;
+    FgIBSMun: TgIBSMunValores;
+    FgCBS: TgCBSValores;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property CNPJIncImob: string read FCNPJIncImob write FCNPJIncImob;
+    property dtRecUni: TDateTime read FdtRecUni write FdtRecUni;
+    property vRecRecebRET: Double read FvRecRecebRET write FvRecRecebRET;
+    property vRecFinRET: Double read FvRecFinRET write FvRecFinRET;
+    property vRecTotal: Double read FvRecTotal write FvRecTotal;
+    property vBC: Double read FvBC write FvBC;
+    property gIBSUF: TgIBSUFValores read FgIBSUF write FgIBSUF;
+    property gIBSMun: TgIBSMunValores read FgIBSMun write FgIBSMun;
+    property gCBS: TgCBSValores read FgCBS write FgCBS;
+  end;
+
+  TIBSCBSTransic = class(TObject)
+  private
+    FCST: TCSTIBSCBS;
+    FcClassTrib: string;
+    FgExigSusp: TgExigSusp;
+    FgIBSCBSTransic: TgIBSCBSTransic;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property CST: TCSTIBSCBS read FCST write FCST;
+    property cClassTrib: string read FcClassTrib write FcClassTrib;
+    property gExigSusp: TgExigSusp read FgExigSusp write FgExigSusp;
+    property gIBSCBSTransic: TgIBSCBSTransic read FgIBSCBSTransic write FgIBSCBSTransic;
+  end;
+
+  TgInfTribTransic = class(TObject)
+  private
+    FCNPJCPF: string;
+    FxNome: string;
+    FIBSCBS: TIBSCBSTransic;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property CNPJCPF: string read FCNPJCPF write FCNPJCPF;
+    property xNome: string read FxNome write FxNome;
+    property IBSCBS: TIBSCBSTransic read FIBSCBS write FIBSCBS;
+  end;
+
   { TgInfTrib }
 
   TgInfTrib = class(TObject)
   private
     FgCompraGov: TgCompraGovReduzido;
     FIBSCBS: TIBSCBS;
+    FgInfPagAntecip: TgInfPagAntecip;
   public
     constructor Create;
     destructor Destroy; override;
 
     property gCompraGov: TgCompraGovReduzido read FgCompraGov write FgCompraGov;
     property IBSCBS: TIBSCBS read FIBSCBS write FIBSCBS;
+    property gInfPagAntecip: TgInfPagAntecip read FgInfPagAntecip write FgInfPagAntecip;
   end;
 
   TdetPagImovelCollectionItem = class(TObject)
@@ -645,11 +755,14 @@ type
     FinfNFeSupl: TinfNFeSupl;
     FProcNFeABI: TProcDFe;
     FSignature: TSignature;
+    FgPagAntecipado: TgPagAntecipadoCollection;
+    FgInfTribTransic: TgInfTribTransic;
 
     procedure Settransmit(const Value: TtransmitCollection);
     procedure Setadquirente(const Value: TadquirenteCollection);
     procedure SetautXML(const Value: TautXMLCollection);
     procedure SetNFref(const Value: TNFrefCollection);
+    procedure SetgPagAntecipado(const Value: TgPagAntecipadoCollection);
   public
     constructor Create;
     destructor Destroy; override;
@@ -657,6 +770,7 @@ type
     property infNFeABI: TinfNFeABI  read FinfNFeABI write FinfNFeABI;
     property Ide: TIde read FIde write FIde;
     property NFref: TNFrefCollection read FNFref write SetNFref;
+    property gPagAntecipado: TgPagAntecipadoCollection read FgPagAntecipado write SetgPagAntecipado;
 
     property emit: Temit read Femit write Femit;
     property transmit: TtransmitCollection read Ftransmit write Settransmit;
@@ -665,6 +779,7 @@ type
     property autXML: TautXMLCollection read FautXML write SetautXML;
     property infOper: TinfOper read FinfOper write FinfOper;
     property gInfTrib: TgInfTrib read FgInfTrib write FgInfTrib;
+    property gInfTribTransic: TgInfTribTransic read FgInfTribTransic write FgInfTribTransic;
     property pag: Tpag read Fpag write Fpag;
     property total: Ttotal read Ftotal write Ftotal;
     property infAdic: TinfAdic read FinfAdic write FinfAdic;
@@ -688,6 +803,8 @@ begin
   FinfNFeABI := TInfNFeABI.Create;
   Fide := Tide.Create;
   FNFref := TNFrefCollection.Create;
+  FgPagAntecipado := TgPagAntecipadoCollection.Create;
+  FgInfTribTransic := TgInfTribTransic.Create;
   Femit := Temit.Create;
   Ftransmit := TtransmitCollection.Create;
   Fadquirente := TadquirenteCollection.Create;
@@ -709,6 +826,8 @@ begin
   FinfNFeABI.Free;
   Fide.Free;
   FNFref.Free;
+  FgPagAntecipado.Free;
+  FgInfTribTransic.Free;
   Femit.Free;
   Ftransmit.Free;
   Fadquirente.Free;
@@ -739,6 +858,11 @@ end;
 procedure TNFeABI.SetNFref(const Value: TNFrefCollection);
 begin
   FNFref := Value;
+end;
+
+procedure TNFeABI.SetgPagAntecipado(const Value: TgPagAntecipadoCollection);
+begin
+  FgPagAntecipado := Value;
 end;
 
 procedure TNFeABI.Settransmit(const Value: TtransmitCollection);
@@ -1016,6 +1140,78 @@ begin
   inherited Items[Index] := Value;
 end;
 
+{ TgPagAntecipadoCollection }
+
+function TgPagAntecipadoCollection.GetItem(Index: Integer): TgPagAntecipadoCollectionItem;
+begin
+  Result := TgPagAntecipadoCollectionItem(inherited Items[Index]);
+end;
+
+function TgPagAntecipadoCollection.New: TgPagAntecipadoCollectionItem;
+begin
+  Result := TgPagAntecipadoCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgPagAntecipadoCollection.SetItem(Index: Integer; Value: TgPagAntecipadoCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TgIBSCBSTransic }
+
+constructor TgIBSCBSTransic.Create;
+begin
+  inherited Create;
+
+  FgIBSUF := TgIBSUFValores.Create;
+  FgIBSMun := TgIBSMunValores.Create;
+  FgCBS := TgCBSValores.Create;
+end;
+
+destructor TgIBSCBSTransic.Destroy;
+begin
+  FgIBSUF.Free;
+  FgIBSMun.Free;
+  FgCBS.Free;
+
+  inherited;
+end;
+
+{ TIBSCBSTransic }
+
+constructor TIBSCBSTransic.Create;
+begin
+  inherited Create;
+
+  FgExigSusp := TgExigSusp.Create;
+  FgIBSCBSTransic := TgIBSCBSTransic.Create;
+end;
+
+destructor TIBSCBSTransic.Destroy;
+begin
+  FgExigSusp.Free;
+  FgIBSCBSTransic.Free;
+
+  inherited;
+end;
+
+{ TgInfTribTransic }
+
+constructor TgInfTribTransic.Create;
+begin
+  inherited Create;
+
+  FIBSCBS := TIBSCBSTransic.Create;
+end;
+
+destructor TgInfTribTransic.Destroy;
+begin
+  FIBSCBS.Free;
+
+  inherited;
+end;
+
 { TgInfTrib }
 
 constructor TgInfTrib.Create;
@@ -1024,12 +1220,14 @@ begin
 
   FgCompraGov := TgCompraGovReduzido.Create;
   FIBSCBS := TIBSCBS.Create;
+  FgInfPagAntecip := TgInfPagAntecip.Create;
 end;
 
 destructor TgInfTrib.Destroy;
 begin
   FgCompraGov.Free;
   FIBSCBS.Free;
+  FgInfPagAntecip.Free;
 
   inherited;
 end;

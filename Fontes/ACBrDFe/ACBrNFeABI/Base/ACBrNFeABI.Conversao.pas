@@ -55,12 +55,12 @@ const
 
 type
   TSchemaNFeABI = (schErroNFeABI, schNFeABI, schEventoNFeABI, schconsSitNFeABI,
-                schconsStatServNFeABI, schevCancNFeABI,
-                schevPagParcelaNFeABI);
+                schconsStatServNFeABI, schevCancNFeABI, schevPagParcelaNFeABI,
+                schevApropCredIndNFeABI, schevDesfazimAlienac);
 
 const
   TSchemaNFeABIArrayStrings: array[TSchemaNFeABI] of string = ('', '', '', '', '',
-    'evCancNFeABI', 'evPagParcelaNFeABI'); 
+    'evCancNFeABI', 'evPagParcelaNFeABI', 'evApropCredIndNFeABI', 'evDesfazimAlienac');
 
 type
   TLayOutNFeABI = (LayNFeABIAutorizacao, LayNFeABIConsulta, LayNFeABIStatusServico,
@@ -98,11 +98,11 @@ const
 type
   TtpEmit = (teVendedor, teComprador, teLeiloeiro, teTabelionato, teJuntaComercial,
              teBanco, teOrganizacao, teCredor, teGrupoConsorcio, teSucessora,
-             teOutros);
+             teInstAdmFundoInvestimento, teOutros);
 
 const
   TtpEmitArrayStrings: array[TtpEmit] of string = ('01', '02', '03', '04', '05',
-    '06', '07', '08', '09', '10', '99');
+    '06', '07', '08', '09', '10', '11', '99');
 
 type
   TindContrib = (icNenhum, icNaoContribuinteIBSCBS, icContribuinteRegimeRegular,
@@ -122,6 +122,31 @@ type
 
 const
   TuareaTotalArrayStrings: array[TuareaTotal] of string = ('m2', 'ha');
+
+type
+  TtpPagAntABI = (tpabNenhum, tpabPagamentoAntecipado, tpabFornecimentoPagAnterior);
+
+const
+  TtpPagAntABIArrayStrings: array[TtpPagAntABI] of string = ('', '1', '2');
+
+type
+  TindIncorpLote = (iilNenhum, iilNao, iilIncorporacao, iilLoteamento);
+
+const
+  TindIncorpLoteArrayStrings: array[TindIncorpLote] of string = ('', '0', '1', '2');
+
+type
+  TtpSusp = (tsuNenhum, tsuDecisaoJudicial, tsuDecisaoAdministrativa);
+
+const
+  TtpSuspArrayStrings: array[TtpSusp] of string = ('', '01', '02');
+
+type
+  TtpDesfaz = (tdzDistrato, tdzResolucaoExtrajudicial, tdzDecisaoJudicial,
+               tdzSentencaArbitral, tdzReversaoConsolidacao, tdzOutros);
+
+const
+  TtpDesfazArrayStrings: array[TtpDesfaz] of string = ('01', '02', '03', '04', '05', '99');
 
 {
   Declaração das funções de conversão
@@ -166,6 +191,19 @@ function StrToTipo(const s: String): Ttipo;
 function uareaTotalToStr(const t: TuareaTotal): String;
 function StrTouareaTotal(const s: String): TuareaTotal;
 
+function tpPagAntABIToStr(const t: TtpPagAntABI): String;
+function StrTotpPagAntABI(const s: String): TtpPagAntABI;
+
+function indIncorpLoteToStr(const t: TindIncorpLote): String;
+function StrToindIncorpLote(const s: String): TindIncorpLote;
+
+function tpSuspToStr(const t: TtpSusp): String;
+function StrTotpSusp(const s: String): TtpSusp;
+
+
+function tpDesfazToStr(const t: TtpDesfaz): String;
+function StrTotpDesfaz(const s: String): TtpDesfaz;
+
 implementation
 
 uses
@@ -174,12 +212,17 @@ uses
 
 function StrTotpEventoNFeABI(out ok: boolean; const s: string): TACBrTipoEvento;
 begin
+    // TEMPORARIO: 170110 e 190110 sao os codigos antigos do Pagamento de Parcela e da Apropriacao de Creditos
+    // Individuais, que a Sefaz ainda aceita (os novos, 112310 e 211310, seguem sem funcionar)
+    // Quando os novos eventos entrarem em vigor, remover os '170110', '190110'
+    // Ajuste nos arquivos ACBrNFeABI.Conversao.pas e ACBrNFeABI.EventoClass.pas
   Result := StrToEnumerado(ok, s,
-            ['-99999', '110111', '110112', '110114', '110115', '112310', 
-             '310112', '510620'],
+            ['-99999', '110111', '110112', '110114', '110115', '112310',
+             '310112', '510620', '211310', '112320', '170110', '190110'],
             [teNaoMapeado, teCancelamento, teEncerramento, teInclusaoCondutor,
              teInclusaoDFe, tePagamentoOperacao, teEncerramentoFisco,
-             teRegistroPassagemBRId]);
+             teRegistroPassagemBRId, teApropCredIndNFeABI, teDesfazAlienacNFeABI,
+             tePagamentoOperacao, teApropCredIndNFeABI]);
 end;
 
 function StrToVersaoNFeABI(const s: String): TVersaoNFeABI;
@@ -454,6 +497,90 @@ begin
   end;
 
   raise EACBrException.CreateFmt('Valor string inválido para TuareaTotal: %s', [s]);
+end;
+
+function tpPagAntABIToStr(const t: TtpPagAntABI): String;
+begin
+  result := TtpPagAntABIArrayStrings[t];
+end;
+
+function StrTotpPagAntABI(const s: String): TtpPagAntABI;
+var
+  idx: TtpPagAntABI;
+begin
+  for idx := Low(TtpPagAntABIArrayStrings) to High(TtpPagAntABIArrayStrings) do
+  begin
+    if (TtpPagAntABIArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para TtpPagAntABI: %s', [s]);
+end;
+
+function indIncorpLoteToStr(const t: TindIncorpLote): String;
+begin
+  result := TindIncorpLoteArrayStrings[t];
+end;
+
+function StrToindIncorpLote(const s: String): TindIncorpLote;
+var
+  idx: TindIncorpLote;
+begin
+  for idx := Low(TindIncorpLoteArrayStrings) to High(TindIncorpLoteArrayStrings) do
+  begin
+    if (TindIncorpLoteArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para TindIncorpLote: %s', [s]);
+end;
+
+function tpSuspToStr(const t: TtpSusp): String;
+begin
+  result := TtpSuspArrayStrings[t];
+end;
+
+function StrTotpSusp(const s: String): TtpSusp;
+var
+  idx: TtpSusp;
+begin
+  for idx := Low(TtpSuspArrayStrings) to High(TtpSuspArrayStrings) do
+  begin
+    if (TtpSuspArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para TtpSusp: %s', [s]);
+end;
+
+function tpDesfazToStr(const t: TtpDesfaz): String;
+begin
+  result := TtpDesfazArrayStrings[t];
+end;
+
+function StrTotpDesfaz(const s: String): TtpDesfaz;
+var
+  idx: TtpDesfaz;
+begin
+  for idx := Low(TtpDesfazArrayStrings) to High(TtpDesfazArrayStrings) do
+  begin
+    if (TtpDesfazArrayStrings[idx] = s) then
+    begin
+      result := idx;
+      exit;
+    end;
+  end;
+
+  raise EACBrException.CreateFmt('Valor string inválido para TtpDesfaz: %s', [s]);
 end;
 
 initialization

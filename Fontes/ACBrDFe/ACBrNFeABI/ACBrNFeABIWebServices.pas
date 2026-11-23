@@ -1315,6 +1315,18 @@ begin
             SchemaEventoNFeABI := schevPagParcelaNFeABI;
             infEvento.detEvento.Assign(FEvento.Evento[i].InfEvento.detEvento);
           end;
+
+          teApropCredIndNFeABI:
+          begin
+            SchemaEventoNFeABI := schevApropCredIndNFeABI;
+            infEvento.detEvento.Assign(FEvento.Evento[i].InfEvento.detEvento);
+          end;
+
+          teDesfazAlienacNFeABI:
+          begin
+            SchemaEventoNFeABI := schevDesfazimAlienac;
+            infEvento.detEvento.Assign(FEvento.Evento[i].InfEvento.detEvento);
+          end;
         end;
       end;
     end;
@@ -1330,14 +1342,14 @@ begin
     // Realiza a assinatura para cada evento
     while Eventos <> '' do
     begin
-      F := Pos('</eventoNFeABI>', Eventos);
+      F := Pos('</evento>', Eventos);
 
       if F > 0 then
       begin
-        Evento := Copy(Eventos, 1, F + 12);
-        Eventos := Copy(Eventos, F + 13, length(Eventos));
+        Evento := Copy(Eventos, 1, F + 8);
+        Eventos := Copy(Eventos, F + 9, length(Eventos));
 
-        AssinarXML(Evento, 'eventoNFeABI', 'infEvento', 'Falha ao assinar o Envio de Evento ');
+        AssinarXML(Evento, 'evento', 'infEvento', 'Falha ao assinar o Envio de Evento ');
         EventosAssinados := EventosAssinados + FPDadosMsg;
       end
       else
@@ -1352,6 +1364,10 @@ begin
         AXMLEvento := ElementoEventoComNS(AXMLEvento, 'evCancNFeABI');
       schevPagParcelaNFeABI:
         AXMLEvento := ElementoEventoComNS(AXMLEvento, 'evPagParcelaNFeABI');
+      schevApropCredIndNFeABI:
+        AXMLEvento := ElementoEventoComNS(AXMLEvento, 'evApropCredIndNFeABI');
+      schevDesfazimAlienac:
+        AXMLEvento := ElementoEventoComNS(AXMLEvento, 'evDesfazimAlienac');
     else
       AXMLEvento := '';
     end;
@@ -1416,7 +1432,7 @@ begin
 
       VersaoEvento := TACBrNFeABI(FPDFeOwner).LerVersaoDeParams(LayNFeABIEvento);
 
-      PedEvento := SeparaDados(FPDadosMsg, 'eventoNFeABI');
+      PedEvento := SeparaDados(FPDadosMsg, 'evento');
       RetEvento := SeparaDados(FPRetWS, 'retEventoNFeABI');
 
       Texto := '<procEventoNFeABI versao="' + VersaoEvento + '" xmlns="' + ACBRNFeABI_NAMESPACE + '">' +

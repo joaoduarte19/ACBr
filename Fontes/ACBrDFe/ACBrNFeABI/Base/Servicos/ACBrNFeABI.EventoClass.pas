@@ -45,12 +45,33 @@ uses
   {$ELSEIF DEFINED(DELPHICOMPILER16_UP)}
    System.Contnrs,
   {$IFEND}
+  ACBrBase,
   ACBrXmlBase,
   ACBrDFe.Conversao,
   ACBrNFeABI.Conversao;
 
 type
   EventoException = class(Exception);
+
+  TgAdquirenteApropCollectionItem = class(TObject)
+  private
+    FCNPJCPF: string;
+    FxNome: string;
+    FpParticip: Double;
+  public
+    property CNPJCPF: string read FCNPJCPF write FCNPJCPF;
+    property xNome: string read FxNome write FxNome;
+    property pParticip: Double read FpParticip write FpParticip;
+  end;
+
+  TgAdquirenteApropCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgAdquirenteApropCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgAdquirenteApropCollectionItem);
+  public
+    function New: TgAdquirenteApropCollectionItem;
+    property Items[Index: Integer]: TgAdquirenteApropCollectionItem read GetItem write SetItem; default;
+  end;
 
   TDetEvento = class
   private
@@ -67,7 +88,14 @@ type
     FpIBSUF, FpRedAliqIBSUF, FpAliqEfetIBSUF, FvIBSUF: Double;
     FpIBSMun, FpRedAliqIBSMun, FpAliqEfetIBSMun, FvIBSMun: Double;
     FpCBS, FpRedAliqCBS, FpAliqEfetCBS, FvCBS: Double;
+    Fadquirente: TgAdquirenteApropCollection;
+    FtpDesfaz: TtpDesfaz;
+    FdtDesfaz: TDateTime;
+    FxDesfaz: string;
   public
+    constructor Create;
+    destructor Destroy; override;
+
     property versao: string     read FVersao     write FVersao;
     property descEvento: string read FDescEvento write FDescEvento;
     property nProt: string      read FnProt      write FnProt;
@@ -101,6 +129,10 @@ type
     property pRedAliqCBS: Double read FpRedAliqCBS write FpRedAliqCBS;
     property pAliqEfetCBS: Double read FpAliqEfetCBS write FpAliqEfetCBS;
     property vCBS: Double read FvCBS write FvCBS;
+    property adquirente: TgAdquirenteApropCollection read Fadquirente write Fadquirente;
+    property tpDesfaz: TtpDesfaz read FtpDesfaz write FtpDesfaz;
+    property dtDesfaz: TDateTime read FdtDesfaz write FdtDesfaz;
+    property xDesfaz: string read FxDesfaz write FxDesfaz;
   end;
 
   TInfEvento = class
@@ -182,9 +214,43 @@ type
 
 implementation
 
+{ TgAdquirenteApropCollection }
+
+function TgAdquirenteApropCollection.GetItem(Index: Integer): TgAdquirenteApropCollectionItem;
+begin
+  Result := TgAdquirenteApropCollectionItem(inherited Items[Index]);
+end;
+
+function TgAdquirenteApropCollection.New: TgAdquirenteApropCollectionItem;
+begin
+  Result := TgAdquirenteApropCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgAdquirenteApropCollection.SetItem(Index: Integer; Value: TgAdquirenteApropCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
 { TDetEvento }
 
+constructor TDetEvento.Create;
+begin
+  inherited Create;
+
+  Fadquirente := TgAdquirenteApropCollection.Create;
+end;
+
+destructor TDetEvento.Destroy;
+begin
+  Fadquirente.Free;
+
+  inherited;
+end;
+
 procedure TDetEvento.Assign(Source: TDetEvento);
+var
+  I: Integer;
 begin
   FVersao := Source.FVersao;
   FDescEvento := Source.FDescEvento;
@@ -216,6 +282,19 @@ begin
   FpRedAliqCBS := Source.FpRedAliqCBS;
   FpAliqEfetCBS := Source.FpAliqEfetCBS;
   FvCBS := Source.FvCBS;
+
+  Fadquirente.Clear;
+  for I := 0 to Source.Fadquirente.Count - 1 do
+    with Fadquirente.New do
+    begin
+      CNPJCPF := Source.Fadquirente[I].CNPJCPF;
+      xNome := Source.Fadquirente[I].xNome;
+      pParticip := Source.Fadquirente[I].pParticip;
+    end;
+
+  FtpDesfaz := Source.FtpDesfaz;
+  FdtDesfaz := Source.FdtDesfaz;
+  FxDesfaz := Source.FxDesfaz;
 end;
 
 { TInfEvento }
@@ -248,7 +327,9 @@ function TInfEvento.getDescEvento: string;
 begin
   case fTpEvento of
     teCancelamento: Result := 'Cancelamento';
-    tePagamentoOperacao: Result := 'Pagamento de Parcela'; 
+    tePagamentoOperacao: Result := 'Pagamento de Parcela';
+    teApropCredIndNFeABI: Result := 'Apropriação de créditos individuais';
+    teDesfazAlienacNFeABI: Result := 'Evento de Desfazimento da Alienação';
   else
     Result := '';
   end;
@@ -257,8 +338,14 @@ end;
 function TInfEvento.getTipoEvento: string;
 begin
   try
+    // TEMPORARIO: 170110 e 190110 sao os codigos antigos do Pagamento de Parcela e da Apropriacao de Creditos
+    // Individuais, que a Sefaz ainda aceita (os novos, 112310 e 211310, seguem sem funcionar)
+    // Quando os novos eventos entrarem em vigor, remover os '170110', '190110'
+    // Ajuste nos arquivos ACBrNFeABI.Conversao.pas e ACBrNFeABI.EventoClass.pas
     if FTpEvento = tePagamentoOperacao then
-      Result := '112310'
+      Result := '170110'
+    else if FTpEvento = teApropCredIndNFeABI then
+      Result := '190110'
     else
       Result := TpEventoToStr( FTpEvento );
   except
@@ -271,6 +358,8 @@ begin
   case TipoEvento of
     teCancelamento: Result := 'CANCELAMENTO DE DC-e';
     tePagamentoOperacao: Result := 'PAGAMENTO DE PARCELA';
+    teApropCredIndNFeABI: Result := 'APROPRIAÇÃO DE CRÉDITOS INDIVIDUAIS';
+    teDesfazAlienacNFeABI: Result := 'DESFAZIMENTO DA ALIENAÇÃO';
   else
     Result := 'Não Definido';
   end;

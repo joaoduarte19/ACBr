@@ -42,6 +42,7 @@ uses
 
 resourcestring
   NAME_SPACE_NFeABI = 'xmlns="http://www.portalfiscal.inf.br/nfeabi"';
+  HOM_NOME = 'NF-E ABI EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL';
 
   DSC_TPNF = 'Tipo de Nota Fiscal';
   DSC_MODOPER = 'Modalidade da operacao';

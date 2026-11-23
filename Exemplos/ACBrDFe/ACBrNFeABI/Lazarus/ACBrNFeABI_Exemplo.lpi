@@ -42,6 +42,9 @@
         <PackageName Value="ACBr_NFeABI"/>
       </Item>
       <Item>
+        <PackageName Value="ACBr_NFeABI_DANFeABIFPDF"/>
+      </Item>
+      <Item>
         <PackageName Value="LCL"/>
       </Item>
     </RequiredPackages>

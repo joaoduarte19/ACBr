@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/11/2026
+-- Diversos --
+[+] Implementação da NT 2026.001 e Leiaute DANFeABIFPDF
+   Por: Renato Rubinho
+
 Data 11/11/2026
 [*] Merge dos fontes doados por MXM Sistema com os fontes escritos pela Equipe ACBr.
    Por: Italo Giurizzato Junior

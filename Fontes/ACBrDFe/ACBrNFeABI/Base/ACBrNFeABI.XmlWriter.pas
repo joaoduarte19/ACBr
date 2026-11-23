@@ -95,6 +95,7 @@ type
     function Gerar_transmit(transmit: tTransmitCollection): TACBrXmlNodeArray;
     function Gerar_adquirente(adquirente: tadquirenteCollection): TACBrXmlNodeArray;
 
+    function Gerar_gPagAntecipado(gPagAntecipado: TgPagAntecipadoCollection): TACBrXmlNode;
     function Gerar_Imovel(Imovel: Timovel): TACBrXmlNode;
     function Gerar_Cadastro(Cadastro: TCadastro): TACBrXmlNode;
 
@@ -109,6 +110,8 @@ type
     function Gerar_gIntermedCorret(gIntermedCorret: tgIntermedCorretCollection): TACBrXmlNodeArray;
 
     function Gerar_ginfTrib(ginfTrib: TginfTrib): TACBrXmlNode;
+    function Gerar_IBSCBSPagAntecipado(IBSCBS: TIBSCBS; gInfPagAntecip: TgInfPagAntecip): TACBrXmlNode;
+    function Gerar_gInfTribTransic(gInfTribTransic: TgInfTribTransic): TACBrXmlNode;
     function Gerar_IBSCBSNFeABIProprio(IBSCBS: TIBSCBS): TACBrXmlNode; 
     function Gerar_GrupoAliqNFeABI(const ATag, ATagAliq, ATagValor: string; AAliq, ARedAliq, AAliqEfet, AValor: Double): TACBrXmlNode;
 
@@ -282,6 +285,9 @@ begin
     Result.AppendChild(nodeArray[i]);
   end;
 
+  if NFeABI.gPagAntecipado.Count > 0 then
+    Result.AppendChild(Gerar_gPagAntecipado(NFeABI.gPagAntecipado));
+
   Result.AppendChild(Gerar_Emit(NFeABI.emit));
 
   nodeArray := Gerar_transmit(NFeABI.transmit);
@@ -298,7 +304,8 @@ begin
     Result.AppendChild(nodeArray[i]);
   end;
 
-  Result.AppendChild(Gerar_Imovel(NFeABI.imovel));
+  if NFeABI.Ide.tpNF <> tdTransicao then
+    Result.AppendChild(Gerar_Imovel(NFeABI.imovel));
 
   nodeArray := Gerar_autXML(NFeABI.autXML);
 
@@ -307,14 +314,22 @@ begin
     Result.AppendChild(nodeArray[i]);
   end;
 
-  Result.AppendChild(Gerar_infOper(NFeABI.infOper));
-  Result.AppendChild(Gerar_ginfTrib(NFeABI.gInfTrib));
+  if (NFeABI.Ide.tpNF <> tdTransicao) and
+     (NFeABI.Ide.tpPagAnt <> tpabPagamentoAntecipado) then
+    Result.AppendChild(Gerar_infOper(NFeABI.infOper));
+
+  if NFeABI.Ide.tpNF <> tdTransicao then
+    Result.AppendChild(Gerar_ginfTrib(NFeABI.gInfTrib));
+
+  if NFeABI.Ide.tpNF = tdTransicao then
+    Result.AppendChild(Gerar_gInfTribTransic(NFeABI.gInfTribTransic));
 
   if (NFeABI.pag.detPagImovel.Count > 0) or
      (NFeABI.pag.detPagIncorpLote.Count > 0) then
     Result.AppendChild(Gerar_pag(NFeABI.pag));
 
-  if NFeABI.infOper.gIncorpLote.indIncorpLote <> tiSim then
+  if (not (NFeABI.infOper.gIncorpLote.indIncorpLote in [iilIncorporacao, iilLoteamento])) and
+     (NFeABI.total.vNF <> 0) then
     Result.AppendChild(Gerar_Total(NFeABI.total));
   Result.AppendChild(Gerar_InfAdic(NFeABI.infAdic));
   Result.AppendChild(Gerar_infRespTec(NFeABI.infRespTec));
@@ -348,7 +363,8 @@ begin
   Result.AppendChild(AddNode(tcStr, 'B21', 'tpImp', 1, 1, 1,
                                              tpImpToStr(Ide.tpImp), DSC_TPIMP));
 
-  Result.AppendChild(Gerar_gModNat(Ide.gModNat));
+  if Ide.tpNF <> tdTransicao then
+    Result.AppendChild(Gerar_gModNat(Ide.gModNat));
 
   Result.AppendChild(AddNode(tcStr, 'B08', 'tpEmis', 1, 1, 1,
                                      TipoEmissaoToStr(Ide.tpEmis), DSC_TPEMIS));
@@ -363,6 +379,10 @@ begin
 
   Result.AppendChild(AddNode(tcStr, 'B13', 'finNFe', 1, 1, 1,
                                           finNFeToStr(Ide.finNFe), DSC_FINNFE));
+
+  if Ide.tpPagAnt <> tpabNenhum then
+    Result.AppendChild(AddNode(tcStr, 'B18a', 'tpPagAnt', 1, 1, 0,
+                  tpPagAntABIToStr(Ide.tpPagAnt), 'Tipo de pagamento antecipado'));
 
   Result.AppendChild(AddNode(tcStr, 'B14', 'procEmi', 1, 1, 1,
                                        procEmiToStr(Ide.procEmi), DSC_PROCEMI));
@@ -424,7 +444,10 @@ begin
 
   Result.AppendChild(AddNodeCNPJCPF('C02', 'C02a', Emit.CNPJCPF));
 
-  Result.AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 60, 1,
+  if NFeABI.Ide.tpAmb = taHomologacao then
+    Emit.xNome := HOM_NOME;
+
+  Result.AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
                                                         Emit.xNome, DSC_XNOME));
 
   Result.AppendChild(AddNode(tcStr, 'C03', 'xFant', 1, 60, 0,
@@ -507,7 +530,10 @@ begin
 
     Result[i].AppendChild(AddNodeCNPJCPF('F02', 'F03', transmit[i].CNPJCPF));
 
-    Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 60, 1,
+    if NFeABI.Ide.tpAmb = taHomologacao then
+      transmit[i].xNome := HOM_NOME;
+
+    Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
                                                  transmit[i].xNome, DSC_XNOME));
 
     if transmit[i].enderTransmit.xLgr <> '' then
@@ -543,7 +569,10 @@ begin
 
     Result[i].AppendChild(AddNodeCNPJCPF('F02', 'F03', adquirente[i].CNPJCPF));
 
-    Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 60, 1,
+    if NFeABI.Ide.tpAmb = taHomologacao then
+      adquirente[i].xNome := HOM_NOME;
+
+    Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
                                                adquirente[i].xNome, DSC_XNOME));
 
     Result[i].AppendChild(Gerar_Endereco('enderAdquirente',
@@ -603,7 +632,8 @@ begin
 
   if (Cadastro.cCIB <> '') or (Cadastro.indIPTU = tiSim) or
      (Cadastro.nIptu <> '') or (Cadastro.indIncra = tiSim) or
-     (Cadastro.nIncra <> '') then
+     (Cadastro.nIncra <> '') or (Cadastro.indRIP <> tieNenhum) or
+     (Cadastro.nRIP <> '') then
   begin
     Result := FDocument.CreateElement('cadastro');
 
@@ -623,6 +653,14 @@ begin
 
     Result.AppendChild(AddNode(tcStr, 'D09', 'nIncra', 2, 60, 0,
                                                   Cadastro.nIncra, DSC_NINCRA));
+
+    if Cadastro.indRIP <> tieNenhum then
+      Result.AppendChild(AddNode(tcStr, 'G08a', 'indRIP', 1, 1, 0,
+                     IfThen(Cadastro.indRIP = tieSim, '1', '0'), 'Indicador de RIP'));
+
+    if Cadastro.nRIP <> '' then
+      Result.AppendChild(AddNode(tcStr, 'G08b', 'nRIP', 2, 60, 0,
+                                                  Cadastro.nRIP, 'Numero do RIP'));
   end;
 end;
 
@@ -672,7 +710,8 @@ begin
     Result.AppendChild(AddNode(tcStr, 'I17c', 'indRedSocial', 1, 1, 1,
                       TIndicadorToStr(infOper.indRedSocial), DSC_INDREDSOCIAL));
 
-  Result.AppendChild(AddNode(tcDe2, 'W16', 'vRedSocial', 1, 15, 1,
+  if infOper.indRedSocial = tiSim then
+    Result.AppendChild(AddNode(tcDe2, 'W16', 'vRedSocial', 1, 15, 1,
                                            infOper.vRedSocial, DSC_VREDSOCIAL));
 
   Result.AppendChild(Gerar_instrumento(infOper.instrumento));
@@ -762,20 +801,25 @@ function TNFeABIXmlWriter.Gerar_gIncorpLote(
 begin
   Result := nil;
 
-  if (gIncorpLote.indIncorpLote = tiSim) or
-     (gIncorpLote.CNPJempImob <> '') or (gIncorpLote.cCIBObra <> '') then
+  if (gIncorpLote.indIncorpLote <> iilNenhum) or
+     (gIncorpLote.CNPJempImob <> '') or (gIncorpLote.cCIBObra <> '') or
+     (gIncorpLote.CNO <> '') then
   begin
     Result := FDocument.CreateElement('gIncorpLote');
 
-    if gIncorpLote.indIncorpLote = tiSim then
+    if gIncorpLote.indIncorpLote <> iilNenhum then
       Result.AppendChild(AddNode(tcStr, 'I17c', 'indIncorpLote', 1, 1, 1,
-                TIndicadorToStr(gIncorpLote.indIncorpLote), DSC_INDINCORPLOTE));
+                indIncorpLoteToStr(gIncorpLote.indIncorpLote), DSC_INDINCORPLOTE));
 
     Result.AppendChild(AddNode(tcStr, 'D09', 'CNPJempImob', 14, 14, 0,
                                      gIncorpLote.CNPJempImob, DSC_CNPJEMPIMOB));
 
     Result.AppendChild(AddNode(tcStr, 'D09', 'cCIBObra', 2, 60, 0,
                                            gIncorpLote.cCIBObra, DSC_CCIBOBRA));
+
+    if gIncorpLote.CNO <> '' then
+      Result.AppendChild(AddNode(tcStr, 'H10b', 'CNO', 2, 60, 0,
+                                           gIncorpLote.CNO, 'CNO da obra'));
   end;
 end;
 
@@ -830,7 +874,7 @@ begin
 
     Result[i].AppendChild(AddNodeCNPJCPF('F02', 'F03', gIntermedCorret[i].CNPJCPF));
 
-    Result[i].AppendChild(AddNode(tcStr, 'W16', 'xNome', 2, 60, 1,
+    Result[i].AppendChild(AddNode(tcStr, 'W16', 'xNome', 2, 70, 1,
                                           gIntermedCorret[i].xNome, DSC_XNOME));
 
     Result[i].AppendChild(AddNode(tcDe2, 'W16', 'vCorretagem', 1, 15, 1,
@@ -847,7 +891,170 @@ begin
 
   Result.AppendChild(Gerar_gCompraGovReduzido(ginfTrib.gCompraGov));
 
-  Result.AppendChild(Gerar_IBSCBSNFeABIProprio(ginfTrib.IBSCBS));
+  if NFeABI.Ide.tpPagAnt = tpabPagamentoAntecipado then
+    Result.AppendChild(Gerar_IBSCBSPagAntecipado(ginfTrib.IBSCBS, ginfTrib.gInfPagAntecip))
+  else
+    Result.AppendChild(Gerar_IBSCBSNFeABIProprio(ginfTrib.IBSCBS));
+end;
+
+function TNFeABIXmlWriter.Gerar_gPagAntecipado(
+  gPagAntecipado: TgPagAntecipadoCollection): TACBrXmlNode;
+var
+  i: Integer;
+begin
+  Result := FDocument.CreateElement('gPagAntecipado');
+
+  for i := 0 to gPagAntecipado.Count - 1 do
+    Result.AppendChild(AddNode(tcStr, 'BB02', 'chNFePagAnt', 44, 44, 1,
+                           gPagAntecipado[i].chNFePagAnt, 'Chave da NFeABI de pagamento antecipado'));
+
+  if gPagAntecipado.Count > 99 then
+    wAlerta('BB01', 'gPagAntecipado', '', ERR_MSG_MAIOR_MAXIMO + '99');
+end;
+
+function TNFeABIXmlWriter.Gerar_IBSCBSPagAntecipado(IBSCBS: TIBSCBS;
+  gInfPagAntecip: TgInfPagAntecip): TACBrXmlNode;
+var
+  LgIBSCBS: TACBrXmlNode;
+  LgInfPagAntecip: TACBrXmlNode;
+begin
+  Result := nil;
+
+  if (IBSCBS.CST = cstNenhum) or (IBSCBS.cClassTrib = '') then
+    Exit;
+
+  Result := FDocument.CreateElement('IBSCBS');
+
+  Result.AppendChild(AddNode(tcStr, 'U07', 'CST', 3, 3, 1,
+                                        CSTIBSCBSToStr(IBSCBS.CST), DSC_CST));
+
+  Result.AppendChild(AddNode(tcStr, 'U08', 'cClassTrib', 6, 6, 1,
+                                          IBSCBS.cClassTrib, DSC_CCLASSTRIB));
+
+  LgIBSCBS := FDocument.CreateElement('gIBSCBS');
+
+  LgInfPagAntecip := FDocument.CreateElement('gInfPagAntecip');
+
+  LgInfPagAntecip.AppendChild(AddNode(tcDe2, 'U09b', 'vPagAntecip', 1, 15, 1,
+                                gInfPagAntecip.vPagAntecip, 'Valor do pagamento antecipado'));
+
+  LgInfPagAntecip.AppendChild(AddNode(tcDat, 'U09c', 'dtPagAntecip', 10, 10, 1,
+                                gInfPagAntecip.dtPagAntecip, 'Data do pagamento antecipado'));
+
+  LgInfPagAntecip.AppendChild(AddNode(tcStr, 'U09d', 'indCNPJempImob', 1, 1, 1,
+         IfThen(gInfPagAntecip.indCNPJempImob = tieSim, '1', '0'), 'Indicador do CNPJ da empresa imobiliaria'));
+
+  if gInfPagAntecip.indCNPJempImob = tieSim then
+    LgInfPagAntecip.AppendChild(AddNode(tcStr, 'U09e', 'CNPJempImob', 14, 14, 0,
+                                gInfPagAntecip.CNPJempImob, 'CNPJ da empresa imobiliaria'));
+
+  LgIBSCBS.AppendChild(LgInfPagAntecip);
+
+  LgIBSCBS.AppendChild(AddNode(tcDe2, 'U14', 'vBC', 1, 15, 1,
+                                      IBSCBS.gIBSCBS.vBC, DSC_VBCIBSCBS));
+
+  LgIBSCBS.AppendChild(Gerar_gIBSUF(IBSCBS.gIBSCBS.gIBSUF));
+  LgIBSCBS.AppendChild(Gerar_gIBSMun(IBSCBS.gIBSCBS.gIBSMun));
+  LgIBSCBS.AppendChild(Gerar_gCBS(IBSCBS.gIBSCBS.gCBS));
+
+  Result.AppendChild(LgIBSCBS);
+end;
+
+function TNFeABIXmlWriter.Gerar_gInfTribTransic(
+  gInfTribTransic: TgInfTribTransic): TACBrXmlNode;
+var
+  LIBSCBS: TACBrXmlNode;
+  LGrupo: TACBrXmlNode;
+  LAliq: TACBrXmlNode;
+begin
+  Result := FDocument.CreateElement('gInfTribTransic');
+
+  Result.AppendChild(AddNodeCNPJCPF('UA02', 'UA03', gInfTribTransic.CNPJCPF));
+
+  Result.AppendChild(AddNode(tcStr, 'UA04', 'xNome', 2, 70, 1,
+                                                gInfTribTransic.xNome, DSC_XNOME));
+
+  LIBSCBS := FDocument.CreateElement('IBSCBS');
+
+  with gInfTribTransic.IBSCBS do
+  begin
+    LIBSCBS.AppendChild(AddNode(tcStr, 'UA06', 'CST', 3, 3, 1,
+                                          CSTIBSCBSToStr(CST), DSC_CST));
+
+    LIBSCBS.AppendChild(AddNode(tcStr, 'UA07', 'cClassTrib', 6, 6, 1,
+                                            cClassTrib, DSC_CCLASSTRIB));
+
+    if gExigSusp.tpSusp <> tsuNenhum then
+    begin
+      LGrupo := FDocument.CreateElement('gExigSusp');
+
+      LGrupo.AppendChild(AddNode(tcStr, 'UA09', 'tpSusp', 2, 2, 1,
+                       tpSuspToStr(gExigSusp.tpSusp), 'Tipo de suspensao'));
+
+      LGrupo.AppendChild(AddNode(tcStr, 'UA10', 'nProcesso', 1, 30, 1,
+                       gExigSusp.nProcesso, 'Numero do processo'));
+
+      LIBSCBS.AppendChild(LGrupo);
+    end;
+
+    with gIBSCBSTransic do
+    begin
+      LGrupo := FDocument.CreateElement('gIBSCBSTransic');
+
+      LGrupo.AppendChild(AddNode(tcStr, 'UA12', 'CNPJIncImob', 14, 14, 1,
+                       CNPJIncImob, 'CNPJ do empreendimento'));
+
+      if dtRecUni > 0 then
+        LGrupo.AppendChild(AddNode(tcDat, 'UA13', 'dtRecUni', 10, 10, 0,
+                       dtRecUni, 'Data do recolhimento unificado'));
+
+      LGrupo.AppendChild(AddNode(tcDe2, 'UA14', 'vRecRecebRET', 1, 15, 1,
+                       vRecRecebRET, 'Receita recebida'));
+
+      LGrupo.AppendChild(AddNode(tcDe2, 'UA15', 'vRecFinRET', 1, 15, 1,
+                       vRecFinRET, 'Receita financeira'));
+
+      LGrupo.AppendChild(AddNode(tcDe2, 'UA15a', 'vRecTotal', 1, 15, 1,
+                       vRecTotal, 'Receita total'));
+
+      LGrupo.AppendChild(AddNode(tcDe2, 'UA16', 'vBC', 1, 15, 1,
+                       vBC, DSC_VBCIBSCBS));
+
+      LAliq := FDocument.CreateElement('gIBSUF');
+
+      LAliq.AppendChild(AddNode(tcDe4, 'UA18', 'pIBSUF', 1, 8, 1,
+                       gIBSUF.pIBSUF, 'Aliquota'));
+
+      LAliq.AppendChild(AddNode(tcDe2, 'UA19', 'vIBSUF', 1, 15, 1,
+                       gIBSUF.vIBSUF, 'Valor'));
+
+      LGrupo.AppendChild(LAliq);
+
+      LAliq := FDocument.CreateElement('gIBSMun');
+
+      LAliq.AppendChild(AddNode(tcDe4, 'UA21', 'pIBSMun', 1, 8, 1,
+                       gIBSMun.pIBSMun, 'Aliquota'));
+
+      LAliq.AppendChild(AddNode(tcDe2, 'UA22', 'vIBSMun', 1, 15, 1,
+                       gIBSMun.vIBSMun, 'Valor'));
+
+      LGrupo.AppendChild(LAliq);
+
+      LAliq := FDocument.CreateElement('gCBS');
+
+      LAliq.AppendChild(AddNode(tcDe4, 'UA24', 'pCBS', 1, 8, 1,
+                       gCBS.pCBS, 'Aliquota'));
+
+      LAliq.AppendChild(AddNode(tcDe2, 'UA25', 'vCBS', 1, 15, 1,
+                       gCBS.vCBS, 'Valor'));
+
+      LGrupo.AppendChild(LAliq);
+
+      LIBSCBS.AppendChild(LGrupo);
+    end;
+  end;
+
+  Result.AppendChild(LIBSCBS);
 end;
 
 function TNFeABIXmlWriter.Gerar_pag(pag: Tpag): TACBrXmlNode;
@@ -930,11 +1137,15 @@ function TNFeABIXmlWriter.Gerar_Total(total: Ttotal): TACBrXmlNode;
 begin
   Result := FDocument.CreateElement('total');
 
-  Result.AppendChild(AddNode(tcDe2, 'W16', 'vTotalOperacao', 1, 15, 1,
+  if (NFeABI.Ide.tpNF <> tdTransicao) and
+     (NFeABI.Ide.tpPagAnt <> tpabPagamentoAntecipado) then
+  begin
+    Result.AppendChild(AddNode(tcDe2, 'W16', 'vTotalOperacao', 1, 15, 1,
                                      Total.vTotalOperacao, DSC_VTOTALOPERACAO));
 
-  Result.AppendChild(AddNode(tcDe2, 'W16', 'vOperacIndiv', 1, 15, 1,
+    Result.AppendChild(AddNode(tcDe2, 'W16', 'vOperacIndiv', 1, 15, 1,
                                          Total.vOperacIndiv, DSC_VOPERACINDIV));
+  end;
 
   Result.AppendChild(Gerar_tribTot(Total));
 
@@ -1136,7 +1347,7 @@ begin
   if NFeABI.infNFeSupl.qrCode <> '' then
   begin
     xmlNode := NFeABINode.AddChild('infNFeSupl');
-    xmlNode.AppendChild(AddNode(tcStr, 'ZX02', 'qrCode', 100, 600, 1,
+    xmlNode.AppendChild(AddNode(tcStr, 'ZX02', 'qrCode', 100, 1000, 1,
                        '<![CDATA[' + NFeABI.infNFeSupl.qrCode + ']]>', '', False));
 
     xmlNode.AppendChild(AddNode(tcStr, 'ZX03', 'urlChave', 21,85, 1,

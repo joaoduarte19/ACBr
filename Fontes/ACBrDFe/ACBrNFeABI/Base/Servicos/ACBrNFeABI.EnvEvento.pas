@@ -47,6 +47,7 @@ uses
   {$IfEnd}
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  ACBrDFe.RTC.Classes,
   ACBrDFeConsts,
   ACBrNFeABI.EventoClass,
   ACBrBase,
@@ -100,6 +101,8 @@ type
     function Gerar_DetEvento(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_Cancelamento(Idx: Integer): TACBrXmlNode;
     function Gerar_Evento_PagParcela(Idx: Integer): TACBrXmlNode; 
+    function Gerar_Evento_ApropCredInd(Idx: Integer): TACBrXmlNode;
+    function Gerar_Evento_Desfazimento(Idx: Integer): TACBrXmlNode;
   public
     constructor Create;
     destructor Destroy; override;
@@ -156,6 +159,8 @@ begin
   case tpEvento of
     teCancelamento: Result := IntToStr(Self.idLote) + '-can-eve.xml';
     tePagamentoOperacao: Result := IntToStr(Self.idLote) + '-pagparc-eve.xml';
+    teApropCredIndNFeABI: Result := IntToStr(Self.idLote) + '-apropcred-eve.xml';
+    teDesfazAlienacNFeABI: Result := IntToStr(Self.idLote) + '-desfaz-eve.xml';
   else
     raise EventoException.Create('Obter nome do arquivo de Evento não Implementado!');
   end;
@@ -264,6 +269,55 @@ begin
   Result.AppendChild(NodeG);
 end;
 
+function TEventoNFeABI.Gerar_Evento_ApropCredInd(Idx: Integer): TACBrXmlNode;
+var
+  I: Integer;
+  LAdquir: TgAdquirenteApropCollectionItem;
+  LNodeAdquir: TACBrXmlNode;
+begin
+  Result := CreateElement('evApropCredIndNFeABI');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'ZZB01b', 'descEvento', 5, 60, 1,
+                                           Evento[Idx].InfEvento.DescEvento, '', False));
+
+  for I := 0 to Evento[Idx].InfEvento.detEvento.adquirente.Count - 1 do
+  begin
+    LAdquir := Evento[Idx].InfEvento.detEvento.adquirente[I];
+
+    LNodeAdquir := CreateElement('adquirente');
+    LNodeAdquir.SetAttribute('nAdquir', IntToStr(I + 1));
+
+    LNodeAdquir.AppendChild(AddNodeCNPJCPF('ZZB03', 'ZZB04', LAdquir.CNPJCPF));
+    LNodeAdquir.AppendChild(AddNode(tcStr, 'ZZB05', 'xNome', 2, 70, 1, LAdquir.xNome, DSC_XNOME));
+    LNodeAdquir.AppendChild(AddNode(tcDe4, 'ZZB06', 'pParticip', 1, 8, 1, LAdquir.pParticip,
+                                                                 'Percentual de participacao'));
+
+    Result.AppendChild(LNodeAdquir);
+  end;
+end;
+
+function TEventoNFeABI.Gerar_Evento_Desfazimento(Idx: Integer): TACBrXmlNode;
+var
+  LDet: TDetEvento;
+begin
+  LDet := Evento[Idx].InfEvento.detEvento;
+
+  Result := CreateElement('evDesfazimAlienac');
+  Result.SetAttribute('versao', Versao);
+
+  Result.AppendChild(AddNode(tcStr, 'ZZC01b', 'descEvento', 5, 60, 1,
+                                           Evento[Idx].InfEvento.DescEvento, '', False));
+  Result.AppendChild(AddNode(tcStr, 'ZZC02', 'tpDesfaz', 2, 2, 1,
+                                           tpDesfazToStr(LDet.tpDesfaz), 'Tipo de desfazimento'));
+  Result.AppendChild(AddNode(tcDat, 'ZZC03', 'dtDesfaz', 10, 10, 1,
+                                           LDet.dtDesfaz, 'Data do ato de desfazimento'));
+
+  if LDet.xDesfaz <> '' then
+    Result.AppendChild(AddNode(tcStr, 'ZZC04', 'xDesfaz', 5, 150, 0,
+                                           LDet.xDesfaz, 'Descricao do ato de desfazimento'));
+end;
+
 function TEventoNFeABI.Gerar_DetEvento(Idx: Integer): TACBrXmlNode;
 begin
   Result := CreateElement('detEvento');
@@ -271,7 +325,9 @@ begin
 
   case Evento[Idx].InfEvento.tpEvento of
     teCancelamento: Result.AppendChild(Gerar_Evento_Cancelamento(Idx));
-    tePagamentoOperacao: Result.AppendChild(Gerar_Evento_PagParcela(Idx)); 
+    tePagamentoOperacao: Result.AppendChild(Gerar_Evento_PagParcela(Idx));
+    teApropCredIndNFeABI: Result.AppendChild(Gerar_Evento_ApropCredInd(Idx));
+    teDesfazAlienacNFeABI: Result.AppendChild(Gerar_Evento_Desfazimento(Idx));
   end;
 end;
 
@@ -279,7 +335,7 @@ function TEventoNFeABI.Gerar_InfEvento(Idx: Integer): TACBrXmlNode;
 begin
   Evento[Idx].InfEvento.id := 'ID' + Evento[Idx].InfEvento.TipoEvento +
                              RemoverLiteralChave(Evento[Idx].InfEvento.chNFeABI) +
-                             IntToStr(Evento[Idx].InfEvento.nSeqEvento);
+                             Format('%.3d', [Evento[Idx].InfEvento.nSeqEvento]);
 
   if Length(Evento[Idx].InfEvento.id) < 53 then 
     wAlerta('P04', 'ID', '', 'ID de Evento inválido');
@@ -367,9 +423,7 @@ begin
       infEvento.tpEvento := RetEventoNFeABI.InfEvento.tpEvento;
       infEvento.nSeqEvento := RetEventoNFeABI.InfEvento.nSeqEvento;
 
-       infEvento.DetEvento.descEvento := RetEventoNFeABI.InfEvento.DetEvento.descEvento;
-      infEvento.DetEvento.nProt := RetEventoNFeABI.InfEvento.DetEvento.nProt;
-      infEvento.DetEvento.xJust := RetEventoNFeABI.InfEvento.DetEvento.xJust;
+      infEvento.DetEvento.Assign(RetEventoNFeABI.InfEvento.DetEvento);
 
       signature.URI := RetEventoNFeABI.signature.URI;
       signature.DigestValue := RetEventoNFeABI.signature.DigestValue;
@@ -400,8 +454,8 @@ end;
 
 function TEventoNFeABI.LerFromIni(const AIniString: string): Boolean;
 var
-  I: Integer;
-  sSecao, sFim: string;
+  I, J: Integer;
+  sSecao, sFim, sSecaoAdq, sFimAdq: string;
   INIRec: TMemIniFile;
   ok: Boolean;
 begin
@@ -437,6 +491,70 @@ begin
 
         infEvento.detEvento.nProt := INIRec.ReadString(sSecao, 'nProt', '');
         infEvento.detEvento.xJust := INIRec.ReadString(sSecao, 'xJust', '');
+
+        if infEvento.tpEvento = tePagamentoOperacao then
+        begin
+          with infEvento.detEvento do
+          begin
+            cdEventoPag := INIRec.ReadString(sSecao, 'cdEventoPag', '');
+            vParcela := StringToFloatDef(INIRec.ReadString(sSecao, 'vParcela', '0'), 0);
+            vAcrescimos := StringToFloatDef(INIRec.ReadString(sSecao, 'vAcrescimos', '0'), 0);
+            vTotalParcela := StringToFloatDef(INIRec.ReadString(sSecao, 'vTotalParcela', '0'), 0);
+            vOrigParcela := StringToFloatDef(INIRec.ReadString(sSecao, 'vOrigParcela', '0'), 0);
+            vAcrescParcela := StringToFloatDef(INIRec.ReadString(sSecao, 'vAcrescParcela', '0'), 0);
+            dataPag := StringToDateTime(INIRec.ReadString(sSecao, 'dataPag', '0'));
+            CST := INIRec.ReadString(sSecao, 'CST', '');
+            cClassTrib := INIRec.ReadString(sSecao, 'cClassTrib', '');
+
+            vOperacIndiv := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSCBS', 'vOperacIndiv', '0'), 0);
+            vRedAjusteIndiv := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSCBS', 'vRedAjusteIndiv', '0'), 0);
+            vRedSocialIndiv := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSCBS', 'vRedSocialIndiv', '0'), 0);
+            vBC := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSCBS', 'vBC', '0'), 0);
+
+            pIBSUF := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSUF', 'pIBSUF', '0'), 0);
+            pRedAliqIBSUF := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSUF', 'pRedAliq', '0'), 0);
+            pAliqEfetIBSUF := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSUF', 'pAliqEfet', '0'), 0);
+            vIBSUF := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSUF', 'vIBSUF', '0'), 0);
+
+            pIBSMun := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSMun', 'pIBSMun', '0'), 0);
+            pRedAliqIBSMun := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSMun', 'pRedAliq', '0'), 0);
+            pAliqEfetIBSMun := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSMun', 'pAliqEfet', '0'), 0);
+            vIBSMun := StringToFloatDef(INIRec.ReadString(sSecao + 'gIBSMun', 'vIBSMun', '0'), 0);
+
+            pCBS := StringToFloatDef(INIRec.ReadString(sSecao + 'gCBS', 'pCBS', '0'), 0);
+            pRedAliqCBS := StringToFloatDef(INIRec.ReadString(sSecao + 'gCBS', 'pRedAliq', '0'), 0);
+            pAliqEfetCBS := StringToFloatDef(INIRec.ReadString(sSecao + 'gCBS', 'pAliqEfet', '0'), 0);
+            vCBS := StringToFloatDef(INIRec.ReadString(sSecao + 'gCBS', 'vCBS', '0'), 0);
+          end;
+        end;
+
+        if infEvento.tpEvento = teApropCredIndNFeABI then
+        begin
+          J := 1;
+          while True do
+          begin
+            sSecaoAdq := sSecao + 'adquirente' + IntToStrZero(J, 2);
+            sFimAdq := OnlyCPFCNPJAlphaNum(INIRec.ReadString(sSecaoAdq, 'CNPJCPF', 'FIM'));
+            if (sFimAdq = 'FIM') or (Length(sFimAdq) <= 0) then
+              Break;
+
+            with infEvento.detEvento.adquirente.New do
+            begin
+              CNPJCPF := sFimAdq;
+              xNome := INIRec.ReadString(sSecaoAdq, 'xNome', '');
+              pParticip := StringToFloatDef(INIRec.ReadString(sSecaoAdq, 'pParticip', '0'), 0);
+            end;
+
+            Inc(J);
+          end;
+        end;
+
+        if infEvento.tpEvento = teDesfazAlienacNFeABI then
+        begin
+          infEvento.detEvento.tpDesfaz := StrTotpDesfaz(INIRec.ReadString(sSecao, 'tpDesfaz', '01'));
+          infEvento.detEvento.dtDesfaz := StringToDateTime(INIRec.ReadString(sSecao, 'dtDesfaz', '0'));
+          infEvento.detEvento.xDesfaz := INIRec.ReadString(sSecao, 'xDesfaz', '');
+        end;
       end;
 
       Inc(I);

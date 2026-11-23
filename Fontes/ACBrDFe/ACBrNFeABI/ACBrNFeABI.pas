@@ -335,7 +335,7 @@ end;
 function TACBrNFeABI.cStatCancelado(AValue: integer): Boolean;
 begin
   case AValue of
-    101, 151, 155: Result := True;
+    101, 135, 151, 155: Result := True;
     else
       Result := False;
   end;
@@ -359,7 +359,9 @@ begin
 
       case lTipoEvento of
         teCancelamento: Result := schevCancNFeABI;
-        tePagamentoOperacao: Result := schevPagParcelaNFeABI; 
+        tePagamentoOperacao: Result := schevPagParcelaNFeABI;
+        teApropCredIndNFeABI: Result := schevApropCredIndNFeABI;
+        teDesfazAlienacNFeABI: Result := schevDesfazimAlienac;
       else 
         Result := schErroNFeABI;
       end;

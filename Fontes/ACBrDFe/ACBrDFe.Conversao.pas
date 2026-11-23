@@ -125,7 +125,8 @@ type
                   teAceiteDebitoApuracaoNotaCredito, teImobilizacaoItem,
                   teSolicApropCredCombustivel, teSolicApropCredBensServicos,
                   teManifPedTransfCredIBSSucessao, teManifPedTransfCredCBSSucessao,
-                  teAtualizacaoDataPrevisaoEntrega, teVinculoPgto, teCancVinculoPgto);
+                  teAtualizacaoDataPrevisaoEntrega, teVinculoPgto, teCancVinculoPgto,
+                  teApropCredIndNFeABI, teDesfazAlienacNFeABI);
 
 const
   TACBrTipoEventoArrayStrings: array[TACBrTipoEvento] of string = ('-99999', '110110',
@@ -142,7 +143,7 @@ const
     '110190', '110191', '110192', '110193', '110750', '110751', '510630',
     '110001', '112110', '112120', '112130', '112140', '211110', '211120',
     '211124', '211128', '211130', '211140', '211150', '212110', '212120',
-    '112150', '110300', '110301');
+    '112150', '110300', '110301', '211310', '112320');
 
   TACBrTipoEventoDescricaoArrayStrings: array[TACBrTipoEvento] of string = ('NaoMapeado',
     'CCe', 'Cancelamento', 'ManifDestConfirmacao', 'ManifDestCiencia',
@@ -176,7 +177,8 @@ const
     'AceiteDebitoApuracaoNotaCredito', 'ImobilizacaoItem',
     'SolicApropCredCombustivel', 'SolicApropCredBensServicos',
     'ManifPedTransfCredIBSSucessao', 'ManifPedTransfCredCBSSucessao',
-    'AtualizacaoDataPrevisaoEntrega', 'VinculoPagamento', 'CancVinculoPgto');
+    'AtualizacaoDataPrevisaoEntrega', 'VinculoPagamento', 'CancVinculoPgto',
+    'ApropCredIndNFeABI', 'DesfazAlienacNFeABI');
 
 type
   TStrToTpEvento = function (out ok: boolean; const s: string): TACBrTipoEvento;

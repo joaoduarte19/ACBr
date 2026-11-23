@@ -168,7 +168,7 @@
 					<xs:restriction base="TString">
 						<xs:whiteSpace value="preserve"/>
 						<xs:minLength value="2"/>
-						<xs:maxLength value="60"/>
+						<xs:maxLength value="70"/>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
@@ -220,9 +220,25 @@
 			<xs:element name="vTribCBS" type="TDec_1302"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="TGInfPagAntecip">
+		<xs:sequence>
+			<xs:element name="vPagAntecip" type="TDec_1302"/>
+			<xs:element name="dtPagAntecip" type="TDate"/>
+			<xs:element name="indCNPJempImob">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:whiteSpace value="preserve"/>
+						<xs:pattern value="[0-1]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="CNPJempImob" type="TCnpj" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="TGIBSCBS">
 		<xs:sequence>
-			<xs:element name="vOperacIndiv" type="TDec_1302"/>
+			<xs:element name="gInfPagAntecip" type="TGInfPagAntecip" minOccurs="0"/>
+			<xs:element name="vOperacIndiv" type="TDec_1302" minOccurs="0"/>
 			<xs:element name="vTornaIndiv" type="TDec_1302" minOccurs="0"/>
 			<xs:element name="vRedAjusteIndiv" type="TDec_1302" minOccurs="0"/>
 			<xs:element name="vRedSocialIndiv" type="TDec_1302" minOccurs="0"/>

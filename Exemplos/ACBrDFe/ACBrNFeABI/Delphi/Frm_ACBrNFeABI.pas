@@ -60,6 +60,7 @@ uses
   ACBrUtil.DateTime,
   ACBrUtil.Strings,
   ACBrDFe, ACBrDFeReport,
+  ACBrNFeABI.DANFEABIFPDF,
   ACBrMail, ACBrNFeABI;
 
 type
@@ -250,6 +251,7 @@ type
     btnLerArqINI: TButton;
     btnGerarArqINI: TButton;
     btnLerArqINIEnviarEvento: TButton;
+    ACBrNFeABIDANFeABIFPDF1: TACBrNFeABIDANFeABIFPDF;
     ACBrNFeABI1: TACBrNFeABI;
 
     procedure FormCreate(Sender: TObject);
@@ -429,7 +431,7 @@ begin
     Ide.serie := 1;
     Ide.nNF := StrToIntDef(NumDFe, 0);
     Ide.dhEmi := Now;
-    // tdSimplificado, tdCompleto
+    // tdSimplificado, tdCompleto, tdTransicao
     Ide.tpNF := tdCompleto;
     // tiSemGeracao, tiRetrato, tiPaisagem)
     Ide.tpImp := tiRetrato;
@@ -450,6 +452,9 @@ begin
 
     // fnNormal, fnSubstituicao
     Ide.finNFe := fnNormal;
+    // Tipo de pagamento antecipado (NT 2026.001):
+    // tpabNenhum, tpabPagamentoAntecipado, tpabFornecimentoPagAnterior
+    Ide.tpPagAnt := tpabNenhum;
     // peAplicativoContribuinte, peAvulsaFisco, peAvulsaContribuinte,
     // peContribuinteAplicativoFisco, peProvedorAssinaturaAutorizacao
     Ide.procEmi := peAplicativoContribuinte;
@@ -464,6 +469,15 @@ begin
     with NFref.New do
     begin
       refNFeABI := '';
+    end;
+    }
+
+    // Chaves das NFeABI de pagamento antecipado (maximo 99); alimentar somente
+    // se Ide.tpPagAnt = tpabFornecimentoPagAnterior (NT 2026.001)
+    {
+    with gPagAntecipado.New do
+    begin
+      chNFePagAnt := '';
     end;
     }
 
@@ -486,7 +500,8 @@ begin
     Emit.EnderEmit.cPais := 1058;
     Emit.EnderEmit.xPais := 'Brasil';
     // teVendedor, teComprador, teLeiloeiro, teTabelionato, teJuntaComercial,
-    // teBanco, teOrganizacao, teCredor, teGrupoConsorcio, teSucessora, teOutros
+    // teBanco, teOrganizacao, teCredor, teGrupoConsorcio, teSucessora,
+    // teInstAdmFundoInvestimento, teOutros
     Emit.tpEmit := teVendedor;
 
     //
@@ -552,6 +567,10 @@ begin
     imovel.cadastro.nIptu := '12345';
     imovel.cadastro.indIncra := tiNao;
     imovel.cadastro.nIncra := '';
+    // RIP - Registro Imobiliário Patrimonial (NT 2026.001)
+    // tieNenhum (não informa a tag), tieSim, tieNao
+    imovel.cadastro.indRIP := tieNao;
+    imovel.cadastro.nRIP := '';
 
     imovel.espImovel := '01';
     imovel.xOutrosEspecies := '';
@@ -628,9 +647,11 @@ begin
       imovel.matricTransc := '';
     end;
 
-    infOper.gIncorpLote.indIncorpLote := tiSim;
+    // iilNao, iilIncorporacao, iilLoteamento
+    infOper.gIncorpLote.indIncorpLote := iilIncorporacao;
     infOper.gIncorpLote.CNPJempImob := '';
     infOper.gIncorpLote.cCIBObra := '12345';
+    infOper.gIncorpLote.CNO := '12345';
 
     infOper.gRedAjusteImovel.vInicial := 100;
     infOper.gRedAjusteImovel.vITBI := 100;
@@ -701,6 +722,47 @@ begin
     //  Informações Estorno de Crédito
     gInfTrib.IBSCBS.gEstornoCred.vIBSEstCred := 100;
     gInfTrib.IBSCBS.gEstornoCred.vCBSEstCred := 100;
+
+    //  Informações do pagamento antecipado (NT 2026.001)
+    // Só são geradas se Ide.tpPagAnt = tpabPagamentoAntecipado
+    gInfTrib.gInfPagAntecip.vPagAntecip := 100;
+    gInfTrib.gInfPagAntecip.dtPagAntecip := Date;
+    // tieNenhum, tieSim, tieNao
+    gInfTrib.gInfPagAntecip.indCNPJempImob := tieSim;
+    gInfTrib.gInfPagAntecip.CNPJempImob := edtEmitCNPJ.Text;
+
+    //
+    // Grupo UA - Informações da tributação no regime de transição (NT 2026.001)
+    // Só é gerado se Ide.tpNF = tdTransicao
+    //
+    gInfTribTransic.CNPJCPF := edtEmitCNPJ.Text;
+    gInfTribTransic.xNome := edtEmitRazao.Text;
+
+    gInfTribTransic.IBSCBS.CST := cst200;
+    gInfTribTransic.IBSCBS.cClassTrib := '200001';
+
+    // Exigibilidade suspensa: tsuNenhum, tsuDecisaoJudicial, tsuDecisaoAdministrativa
+    gInfTribTransic.IBSCBS.gExigSusp.tpSusp := tsuNenhum;
+    gInfTribTransic.IBSCBS.gExigSusp.nProcesso := '';
+
+    with gInfTribTransic.IBSCBS.gIBSCBSTransic do
+    begin
+      CNPJIncImob := edtEmitCNPJ.Text;
+      dtRecUni := Date;
+      vRecRecebRET := 100;
+      vRecFinRET := 100;
+      vRecTotal := 200;
+      vBC := 100;
+
+      gIBSUF.pIBSUF := 5;
+      gIBSUF.vIBSUF := 100;
+
+      gIBSMun.pIBSMun := 5;
+      gIBSMun.vIBSMun := 100;
+
+      gCBS.pCBS := 5;
+      gCBS.vCBS := 100;
+    end;
 
     //
     // Grupo de pagamento

@@ -47,6 +47,7 @@ uses
   {$IfEnd}
   ACBrXmlBase,
   ACBrDFe.Conversao,
+  ACBrDFe.RTC.Classes,
   ACBrNFeABI.EventoClass,
   ACBrBase,
   ACBrXmlDocument;
@@ -91,6 +92,9 @@ type
 //    procedure Ler_RetEvento(const ANode: TACBrXmlNode);
     procedure Ler_InfEvento(const ANode: TACBrXmlNode);
     procedure Ler_DetEvento(const ANode: TACBrXmlNode);
+    procedure Ler_EvPagParcela(const ANode: TACBrXmlNode);
+    procedure Ler_EvApropCredInd(const ANode: TACBrXmlNode);
+    procedure Ler_EvDesfazimAlienac(const ANode: TACBrXmlNode);
 
   public
     constructor Create;
@@ -190,6 +194,9 @@ begin
 
   case InfEvento.tpEvento of
     teCancelamento: AuxNode := ANode.Childrens.FindAnyNs('evCancNFeABI');
+    tePagamentoOperacao: AuxNode := ANode.Childrens.FindAnyNs('evPagParcelaNFeABI');
+    teApropCredIndNFeABI: AuxNode := ANode.Childrens.FindAnyNs('evApropCredIndNFeABI');
+    teDesfazAlienacNFeABI: AuxNode := ANode.Childrens.FindAnyNs('evDesfazimAlienac');
   else
     AuxNode := nil;
   end;
@@ -199,7 +206,105 @@ begin
     InfEvento.DetEvento.descEvento := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('descEvento'), tcStr);
     InfEvento.DetEvento.nProt := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('nProt'), tcStr);
     InfEvento.DetEvento.xJust := ObterConteudoTag(AuxNode.Childrens.FindAnyNs('xJust'), tcStr);
+
+    case InfEvento.tpEvento of
+      tePagamentoOperacao: Ler_EvPagParcela(AuxNode);
+      teApropCredIndNFeABI: Ler_EvApropCredInd(AuxNode);
+      teDesfazAlienacNFeABI: Ler_EvDesfazimAlienac(AuxNode);
+    end;
   end;
+end;
+
+procedure TRetEventoNFeABI.Ler_EvPagParcela(const ANode: TACBrXmlNode);
+var
+  LDet: TDetEvento;
+  LGIBSCBS, LAux, LRed: TACBrXmlNode;
+begin
+  LDet := InfEvento.DetEvento;
+
+  LDet.cdEventoPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('cdEventoPag'), tcStr);
+  LDet.vParcela := ObterConteudoTag(ANode.Childrens.FindAnyNs('vParcela'), tcDe2);
+  LDet.vAcrescimos := ObterConteudoTag(ANode.Childrens.FindAnyNs('vAcrescimos'), tcDe2);
+  LDet.vTotalParcela := ObterConteudoTag(ANode.Childrens.FindAnyNs('vTotalParcela'), tcDe2);
+  LDet.vOrigParcela := ObterConteudoTag(ANode.Childrens.FindAnyNs('vOrigParcela'), tcDe2);
+  LDet.vAcrescParcela := ObterConteudoTag(ANode.Childrens.FindAnyNs('vAcrescParcela'), tcDe2);
+  LDet.dataPag := ObterConteudoTag(ANode.Childrens.FindAnyNs('dataPag'), tcDat);
+  LDet.CST := ObterConteudoTag(ANode.Childrens.FindAnyNs('CST'), tcStr);
+  LDet.cClassTrib := ObterConteudoTag(ANode.Childrens.FindAnyNs('cClassTrib'), tcStr);
+
+  LGIBSCBS := ANode.Childrens.FindAnyNs('gIBSCBS');
+  if not Assigned(LGIBSCBS) then Exit;
+
+  LDet.vOperacIndiv := ObterConteudoTag(LGIBSCBS.Childrens.FindAnyNs('vOperacIndiv'), tcDe2);
+  LDet.vRedAjusteIndiv := ObterConteudoTag(LGIBSCBS.Childrens.FindAnyNs('vRedAjusteIndiv'), tcDe2);
+  LDet.vRedSocialIndiv := ObterConteudoTag(LGIBSCBS.Childrens.FindAnyNs('vRedSocialIndiv'), tcDe2);
+  LDet.vBC := ObterConteudoTag(LGIBSCBS.Childrens.FindAnyNs('vBC'), tcDe2);
+
+  LAux := LGIBSCBS.Childrens.FindAnyNs('gIBSUF');
+  if Assigned(LAux) then
+  begin
+    LDet.pIBSUF := ObterConteudoTag(LAux.Childrens.FindAnyNs('pIBSUF'), tcDe4);
+    LDet.vIBSUF := ObterConteudoTag(LAux.Childrens.FindAnyNs('vIBSUF'), tcDe2);
+
+    LRed := LAux.Childrens.FindAnyNs('gRed');
+    if Assigned(LRed) then
+    begin
+      LDet.pRedAliqIBSUF := ObterConteudoTag(LRed.Childrens.FindAnyNs('pRedAliq'), tcDe4);
+      LDet.pAliqEfetIBSUF := ObterConteudoTag(LRed.Childrens.FindAnyNs('pAliqEfet'), tcDe4);
+    end;
+  end;
+
+  LAux := LGIBSCBS.Childrens.FindAnyNs('gIBSMun');
+  if Assigned(LAux) then
+  begin
+    LDet.pIBSMun := ObterConteudoTag(LAux.Childrens.FindAnyNs('pIBSMun'), tcDe4);
+    LDet.vIBSMun := ObterConteudoTag(LAux.Childrens.FindAnyNs('vIBSMun'), tcDe2);
+
+    LRed := LAux.Childrens.FindAnyNs('gRed');
+    if Assigned(LRed) then
+    begin
+      LDet.pRedAliqIBSMun := ObterConteudoTag(LRed.Childrens.FindAnyNs('pRedAliq'), tcDe4);
+      LDet.pAliqEfetIBSMun := ObterConteudoTag(LRed.Childrens.FindAnyNs('pAliqEfet'), tcDe4);
+    end;
+  end;
+
+  LAux := LGIBSCBS.Childrens.FindAnyNs('gCBS');
+  if Assigned(LAux) then
+  begin
+    LDet.pCBS := ObterConteudoTag(LAux.Childrens.FindAnyNs('pCBS'), tcDe4);
+    LDet.vCBS := ObterConteudoTag(LAux.Childrens.FindAnyNs('vCBS'), tcDe2);
+
+    LRed := LAux.Childrens.FindAnyNs('gRed');
+    if Assigned(LRed) then
+    begin
+      LDet.pRedAliqCBS := ObterConteudoTag(LRed.Childrens.FindAnyNs('pRedAliq'), tcDe4);
+      LDet.pAliqEfetCBS := ObterConteudoTag(LRed.Childrens.FindAnyNs('pAliqEfet'), tcDe4);
+    end;
+  end;
+end;
+
+procedure TRetEventoNFeABI.Ler_EvApropCredInd(const ANode: TACBrXmlNode);
+var
+  ANodes: TACBrXmlNodeArray;
+  I: Integer;
+begin
+  InfEvento.DetEvento.adquirente.Clear;
+
+  ANodes := ANode.Childrens.FindAll('adquirente');
+  for I := 0 to Length(ANodes) - 1 do
+    with InfEvento.DetEvento.adquirente.New do
+    begin
+      CNPJCPF := ObterConteudoTagCNPJCPF(ANodes[I]);
+      xNome := ObterConteudoTag(ANodes[I].Childrens.FindAnyNs('xNome'), tcStr);
+      pParticip := ObterConteudoTag(ANodes[I].Childrens.FindAnyNs('pParticip'), tcDe4);
+    end;
+end;
+
+procedure TRetEventoNFeABI.Ler_EvDesfazimAlienac(const ANode: TACBrXmlNode);
+begin
+  InfEvento.DetEvento.tpDesfaz := StrTotpDesfaz(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpDesfaz'), tcStr));
+  InfEvento.DetEvento.dtDesfaz := ObterConteudoTag(ANode.Childrens.FindAnyNs('dtDesfaz'), tcDat);
+  InfEvento.DetEvento.xDesfaz := ObterConteudoTag(ANode.Childrens.FindAnyNs('xDesfaz'), tcStr);
 end;
 
 procedure TRetEventoNFeABI.Ler_InfEvento(const ANode: TACBrXmlNode);

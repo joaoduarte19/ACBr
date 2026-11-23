@@ -61,6 +61,7 @@ type
 
     procedure Ler_Identificacao(AINIRec: TMemIniFile; Ide: TIde);
     procedure Ler_NFref(AINIRec: TMemIniFile; NFref: TNFrefCollection);
+    procedure Ler_gPagAntecipado(AINIRec: TMemIniFile; gPagAntecipado: TgPagAntecipadoCollection);
     procedure Ler_Emitente(AINIRec: TMemIniFile; Emit: TEmit);
     procedure Ler_Transmit(AINIRec: TMemIniFile; transmit: tTransmitCollection);
     procedure Ler_Adquirente(AINIRec: TMemIniFile; adquirente: tadquirenteCollection);
@@ -70,6 +71,7 @@ type
     procedure Ler_imovelTorna(AINIRec: TMemIniFile; imovelTorna: timovelTornaCollection);
     procedure Ler_gIntermedCorret(AINIRec: TMemIniFile; gIntermedCorret: tgIntermedCorretCollection);
     procedure Ler_ginfTrib(AINIRec: TMemIniFile; ginfTrib: TginfTrib);
+    procedure Ler_gInfTribTransic(AINIRec: TMemIniFile; gInfTribTransic: TgInfTribTransic);
     procedure Ler_pag(AINIRec: TMemIniFile; pag: Tpag);
     procedure Ler_detPagImovel(AINIRec: TMemIniFile; detPagImovel: tdetPagImovelCollection);
     procedure Ler_detPagIncorpLote(AINIRec: TMemIniFile; detPagIncorpLote: tdetPagIncorpLoteCollection);
@@ -123,6 +125,7 @@ begin
 
     Ler_Identificacao(INIRec, FNFeABI.Ide);
     Ler_NFref(INIRec,FNFeABI.NFref);
+    Ler_gPagAntecipado(INIRec, FNFeABI.gPagAntecipado);
     Ler_Emitente(INIRec, FNFeABI.Emit);
     Ler_transmit(INIRec, NFeABI.transmit);
     Ler_adquirente(INIRec, NFeABI.adquirente);
@@ -130,6 +133,7 @@ begin
     Ler_autXML(INIRec, FNFeABI.autXML);
     Ler_infOper(INIRec, FNFeABI.infOper);
     Ler_ginfTrib(INIRec, FNFeABI.gInfTrib);
+    Ler_gInfTribTransic(INIRec, FNFeABI.gInfTribTransic);
     Ler_pag(INIRec, FNFeABI.pag);
     Ler_Total(INIRec, FNFeABI.total);
     Ler_InfAdic(INIRec, FNFeABI.infAdic);
@@ -151,6 +155,7 @@ begin
   Ide.dhEmi := StringToDateTime(AINIRec.ReadString(sSecao, 'dhEmi', '0'));
   Ide.tpEmis := StrToTipoEmissao(AINIRec.ReadString(sSecao, 'tpEmis', IntToStr(tpEmis)));
   Ide.nSiteAutoriz := StrToSiteAutorizator(AINIRec.ReadString(sSecao, 'nSiteAutoriz', '0'));
+  Ide.tpPagAnt := StrTotpPagAntABI(AINIRec.ReadString(sSecao, 'tpPagAnt', ''));
   Ide.verProc := AINIRec.ReadString(sSecao, 'verProc', 'ACBrNFCom');
 end;
 
@@ -168,6 +173,25 @@ begin
       break ;
 
     NFref.New.refNFeABI := sFim;
+
+    Inc(I);
+  end;
+end;
+
+procedure TNFeABIIniReader.Ler_gPagAntecipado(AINIRec: TMemIniFile;
+  gPagAntecipado: TgPagAntecipadoCollection);
+var
+  I: Integer;
+begin
+  I := 1;
+  while true do
+  begin
+    sSecao := 'gPagAntecipado' + IntToStrZero(I, 3);
+    sFim   := AINIRec.ReadString(sSecao, 'chNFePagAnt', 'FIM');
+    if (sFim = 'FIM') or (Length(sFim) <= 0) then
+      break;
+
+    gPagAntecipado.New.chNFePagAnt := sFim;
 
     Inc(I);
   end;
@@ -284,10 +308,18 @@ begin
   Imovel.matricTransc := AINIRec.ReadString(sSecao, 'matricTransc', '');
   // Cadastro do Imovel
   Imovel.cadastro.cCIB := AINIRec.ReadString(sSecao, 'cCIB', '');
-  Imovel.cadastro.indIPTU := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIPTU', ''));
+  Imovel.cadastro.indIPTU := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIPTU', '0'));
   Imovel.cadastro.nIptu := AINIRec.ReadString(sSecao, 'nIptu', '');
-  Imovel.cadastro.indIncra := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIncra', ''));
+  Imovel.cadastro.indIncra := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIncra', '0'));
   Imovel.cadastro.nIncra := AINIRec.ReadString(sSecao, 'nIncra', '');
+  sFim := AINIRec.ReadString(sSecao, 'indRIP', '');
+  if sFim = '1' then
+    Imovel.cadastro.indRIP := tieSim
+  else if sFim = '0' then
+    Imovel.cadastro.indRIP := tieNao
+  else
+    Imovel.cadastro.indRIP := tieNenhum;
+  Imovel.cadastro.nRIP := AINIRec.ReadString(sSecao, 'nRIP', '');
   // Endereço do Imovel
   Imovel.enderImovel.xLgr := AINIRec.ReadString(sSecao, 'xLgr', '');
   Imovel.enderImovel.nro := AINIRec.ReadString(sSecao, 'nro', '');
@@ -326,14 +358,15 @@ begin
   sSecao := 'infOper';
   infOper.pTransImovel := StringToFloatDef(AINIRec.ReadString(sSecao, 'pTransImovel', ''), 0);
   infOper.vTotalOperacao := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTotalOperacao', ''), 0);
-  infOper.indTorna := StrToTIndicador(AINIRec.ReadString(sSecao, 'indTorna', ''));
-  infOper.indRedSocial := StrToTIndicador(AINIRec.ReadString(sSecao, 'indRedSocial', ''));
+  infOper.indTorna := StrToTIndicador(AINIRec.ReadString(sSecao, 'indTorna', '0'));
+  infOper.indRedSocial := StrToTIndicador(AINIRec.ReadString(sSecao, 'indRedSocial', '0'));
   infOper.vRedSocial := StringToFloatDef(AINIRec.ReadString(sSecao, 'vRedSocial', ''), 0);
-  infOper.indIntermedCorret := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIntermedCorret', ''));
+  infOper.indIntermedCorret := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIntermedCorret', '0'));
   infOper.gTorna.vTorna := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTorna', ''), 0);
-  infOper.gIncorpLote.indIncorpLote := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIncorpLote', ''));
+  infOper.gIncorpLote.indIncorpLote := StrToindIncorpLote(AINIRec.ReadString(sSecao, 'indIncorpLote', ''));
   infOper.gIncorpLote.CNPJempImob := AINIRec.ReadString(sSecao, 'CNPJempImob', '');
   infOper.gIncorpLote.cCIBObra := AINIRec.ReadString(sSecao, 'cCIBObra', '');
+  infOper.gIncorpLote.CNO := AINIRec.ReadString(sSecao, 'CNO', '');
 
   infOper.gRedAjusteImovel.vInicial := StringToFloatDef(AINIRec.ReadString(sSecao, 'vInicial', ''), 0);
   infOper.gRedAjusteImovel.vITBI := StringToFloatDef(AINIRec.ReadString(sSecao, 'vITBI', ''), 0);
@@ -375,9 +408,9 @@ begin
       Imovel.matricTransc := AINIRec.ReadString(sSecao, 'matricTransc', '');
       // Cadastro do Imovel
       Imovel.cadastro.cCIB := AINIRec.ReadString(sSecao, 'cCIB', '');
-      Imovel.cadastro.indIPTU := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIPTU', ''));
+      Imovel.cadastro.indIPTU := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIPTU', '0'));
       Imovel.cadastro.nIptu := AINIRec.ReadString(sSecao, 'nIptu', '');
-      Imovel.cadastro.indIncra := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIncra', ''));
+      Imovel.cadastro.indIncra := StrToTIndicador(AINIRec.ReadString(sSecao, 'indIncra', '0'));
       Imovel.cadastro.nIncra := AINIRec.ReadString(sSecao, 'nIncra', '');
       // Endereço do Imovel
       Imovel.enderImovel.xLgr := AINIRec.ReadString(sSecao, 'xLgr', '');
@@ -426,6 +459,55 @@ procedure TNFeABIIniReader.Ler_ginfTrib(AINIRec: TMemIniFile;
 begin
   Ler_gCompraGovReduzido(AINIRec, ginfTrib.gCompraGov);
   Ler_IBSCBS(AINIRec, ginfTrib.IBSCBS, -1, -1);
+
+  if AINIRec.SectionExists('gInfPagAntecip') then
+  begin
+    ginfTrib.gInfPagAntecip.vPagAntecip := StringToFloatDef(AINIRec.ReadString('gInfPagAntecip', 'vPagAntecip', '0'), 0);
+    ginfTrib.gInfPagAntecip.dtPagAntecip := StringToDateTime(AINIRec.ReadString('gInfPagAntecip', 'dtPagAntecip', '0'));
+
+    sFim := AINIRec.ReadString('gInfPagAntecip', 'indCNPJempImob', '');
+    if sFim = '1' then
+      ginfTrib.gInfPagAntecip.indCNPJempImob := tieSim
+    else if sFim = '0' then
+      ginfTrib.gInfPagAntecip.indCNPJempImob := tieNao
+    else
+      ginfTrib.gInfPagAntecip.indCNPJempImob := tieNenhum;
+
+    ginfTrib.gInfPagAntecip.CNPJempImob := AINIRec.ReadString('gInfPagAntecip', 'CNPJempImob', '');
+  end;
+end;
+
+procedure TNFeABIIniReader.Ler_gInfTribTransic(AINIRec: TMemIniFile;
+  gInfTribTransic: TgInfTribTransic);
+begin
+  if not AINIRec.SectionExists('gInfTribTransic') then Exit;
+
+  with gInfTribTransic do
+  begin
+    CNPJCPF := AINIRec.ReadString('gInfTribTransic', 'CNPJCPF', '');
+    xNome := AINIRec.ReadString('gInfTribTransic', 'xNome', '');
+    IBSCBS.CST := StrToCSTIBSCBS(AINIRec.ReadString('gInfTribTransic', 'CST', ''));
+    IBSCBS.cClassTrib := AINIRec.ReadString('gInfTribTransic', 'cClassTrib', '');
+
+    IBSCBS.gExigSusp.tpSusp := StrTotpSusp(AINIRec.ReadString('gExigSusp', 'tpSusp', ''));
+    IBSCBS.gExigSusp.nProcesso := AINIRec.ReadString('gExigSusp', 'nProcesso', '');
+
+    with IBSCBS.gIBSCBSTransic do
+    begin
+      CNPJIncImob := AINIRec.ReadString('gIBSCBSTransic', 'CNPJIncImob', '');
+      dtRecUni := StringToDateTime(AINIRec.ReadString('gIBSCBSTransic', 'dtRecUni', '0'));
+      vRecRecebRET := StringToFloatDef(AINIRec.ReadString('gIBSCBSTransic', 'vRecRecebRET', '0'), 0);
+      vRecFinRET := StringToFloatDef(AINIRec.ReadString('gIBSCBSTransic', 'vRecFinRET', '0'), 0);
+      vRecTotal := StringToFloatDef(AINIRec.ReadString('gIBSCBSTransic', 'vRecTotal', '0'), 0);
+      vBC := StringToFloatDef(AINIRec.ReadString('gIBSCBSTransic', 'vBC', '0'), 0);
+      gIBSUF.pIBSUF := StringToFloatDef(AINIRec.ReadString('gIBSUFTransic', 'pIBSUF', '0'), 0);
+      gIBSUF.vIBSUF := StringToFloatDef(AINIRec.ReadString('gIBSUFTransic', 'vIBSUF', '0'), 0);
+      gIBSMun.pIBSMun := StringToFloatDef(AINIRec.ReadString('gIBSMunTransic', 'pIBSMun', '0'), 0);
+      gIBSMun.vIBSMun := StringToFloatDef(AINIRec.ReadString('gIBSMunTransic', 'vIBSMun', '0'), 0);
+      gCBS.pCBS := StringToFloatDef(AINIRec.ReadString('gCBSTransic', 'pCBS', '0'), 0);
+      gCBS.vCBS := StringToFloatDef(AINIRec.ReadString('gCBSTransic', 'vCBS', '0'), 0);
+    end;
+  end;
 end;
 
 procedure TNFeABIIniReader.Ler_pag(AINIRec: TMemIniFile; pag: Tpag);

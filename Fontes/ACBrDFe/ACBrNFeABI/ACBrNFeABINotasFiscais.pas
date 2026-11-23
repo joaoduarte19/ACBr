@@ -845,18 +845,21 @@ begin
   begin
     P := pos('</NFeABIProc>', XMLStr);
 
+    if P = 0 then
+      P := pos('</nfeabiProc>', XMLStr);
+
     if P <= 0 then
       P := pos('</procNFeABI>', XMLStr);  // NFeABI obtido pelo Portal da Receita
 
     if P > 0 then
     begin
-      ANFeABIXML := copy(XMLStr, 1, P + 11);
-      XMLStr := Trim(copy(XMLStr, P + 11, length(XMLStr)));
+      ANFeABIXML := copy(XMLStr, 1, P + 12);
+      XMLStr := Trim(copy(XMLStr, P + 13, length(XMLStr)));
     end
     else
     begin
-      ANFeABIXML := copy(XMLStr, 1, N + 7);
-      XMLStr := Trim(copy(XMLStr, N + 7, length(XMLStr)));
+      ANFeABIXML := copy(XMLStr, 1, N + 8);
+      XMLStr := Trim(copy(XMLStr, N + 9, length(XMLStr)));
     end;
 
     with Self.Add do

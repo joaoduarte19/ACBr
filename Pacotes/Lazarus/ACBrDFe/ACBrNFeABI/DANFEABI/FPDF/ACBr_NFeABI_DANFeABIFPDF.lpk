@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="ACBr_NFeABI_DANFeABIFPDF"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Juliomar Marchetti"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DANFeABI\FPDF"/>
+        <UnitOutputDirectory Value="..\..\..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrNFeABI\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="ACBr - DANFeABI em FDPF - (http://www.projetoacbr.com.br/)"/>
+    <License Value="LGPL"/>
+    <Files Count="3">
+      <Item1>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DANFeABI\FPDF\ACBrNFeABI.DANFEABIFPDF.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrNFeABI.DANFEABIFPDF"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DANFeABI\FPDF\ACBrNFeABI.DANFEABIFPDFReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrNFeABI.DANFEABIFPDFReg"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\..\..\..\..\Fontes\ACBrDFe\ACBrNFeABI\DANFeABI\FPDF\ACBrNFeABI.UtilsFPDF.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrNFeABI.UtilsFPDF"/>
+      </Item3>
+    </Files>
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="ACBr_NFeABI"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
