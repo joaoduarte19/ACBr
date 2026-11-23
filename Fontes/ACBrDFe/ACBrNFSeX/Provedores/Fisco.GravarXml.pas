@@ -38,7 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
-  ACBrXmlBase,
+  ACBrXmlBase, ACBrXmlDocument,
   ACBrNFSeXGravarXml_ABRASFv2;
 
 type
@@ -47,13 +47,15 @@ type
   TNFSeW_Fisco203 = class(TNFSeW_ABRASFv2)
   protected
     procedure Configuracao; override;
+    function GerarServico: TACBrXmlNode; override;
 
   end;
 
 implementation
 
 uses
-  ACBrDFe.Conversao;
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva gerar o XML do RPS do provedor:
@@ -72,6 +74,35 @@ begin
 
   NrOcorrDiscriminacao_2 := 1;
   NrOcorrCodigoMunic_2 := 1;
+end;
+
+function TNFSeW_Fisco203.GerarServico: TACBrXmlNode;
+var
+  lcClassTrib, lcIndOp: string;
+begin
+  Result := inherited GerarServico;
+
+  // Reforma Tributária: tags avulsas no final de Servico, conforme o modelo da prefeitura
+  lcClassTrib := Trim(NFSe.IBSCBS.valores.trib.gIBSCBS.cClassTrib);
+  if lcClassTrib = '' then
+    lcClassTrib := Trim(NFSe.Servico.cClassTrib);
+
+  lcIndOp := Trim(NFSe.IBSCBS.cIndOp);
+  if lcIndOp = '' then
+    lcIndOp := Trim(NFSe.Servico.INDOP);
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'cClassTrib', 6, 6, 0,
+                                                       lcClassTrib, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'cIndOp', 6, 6, 0,
+                                                       lcIndOp, ''));
+
+  if NFSe.Servico.Valores.tribFed.CST <> cstVazio then
+    Result.AppendChild(AddNode(tcStr, '#39', 'CST', 2, 2, 0,
+                         CSTToStr(NFSe.Servico.Valores.tribFed.CST), ''));
+
+  Result.AppendChild(AddNode(tcStr, '#39', 'tpRetPisCofins', 1, 1, 0,
+     tpRetPisCofinsToStr(NFSe.Servico.Valores.tribFed.tpRetPisCofins), ''));
 end;
 
 end.

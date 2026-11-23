@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/11/2026
+-- Fisco.GravarXml --
+[+] ACBR-10275 - Sobrescrito a function GerarServico visando gerar as tags: cClassTrib, cIndOp, CST e
+    tpRetPisCofins.
+   Por: daniel-unymos
 -- ACBrNFSeXConversao --
 [+] ACBR-10265 - Incluído a função tribISSQNToDescricao para retornar a descrição do tribISSQN.
    Por: Italo Giurizzato Junior
