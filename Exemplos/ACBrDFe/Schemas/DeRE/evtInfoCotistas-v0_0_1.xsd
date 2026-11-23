@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.dere.gov.br/schemas/evtInfoCotistas/v0_0_1"
+           targetNamespace="http://www.dere.gov.br/schemas/evtInfoCotistas/v0_0_1"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+  <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+  <xs:element name="DeRE">
+    <xs:annotation>
+      <xs:documentation>Envelope raiz dos eventos da DeRE.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+      <xs:element name="evtInfoCotistas">
+        <xs:annotation>
+          <xs:documentation>Evento de informações sobre cotistas de fundos de investimento. Validação: Evento exclusivo e obrigatório para o registro de operações cujos códigos de base de cálculo ({codBC}) correspondam a um dos seguintes valores: [2015; 2020].</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+          <xs:element name="ideEvento" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações de identificação do evento.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="tpOper" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Tipo de operação do evento. Nota: A alteração substitui integralmente as informações do evento enviado anteriormente.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Inclusão</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="2">
+                      <xs:annotation><xs:documentation>Alteração</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="3">
+                      <xs:annotation><xs:documentation>Exclusão</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="motExcl" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Motivo da exclusão. Código do motivo que justifica a exclusão do evento. Preenchimento: Exclusivo e obrigatório se {tpOper} = [3].</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Determinação judicial ou administrativa</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="2">
+                      <xs:annotation><xs:documentation>Envio indevido (fato inexistente)</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="3">
+                      <xs:annotation><xs:documentation>Erro na identificação (CNPJ/período incorretos)</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="9">
+                      <xs:annotation><xs:documentation>Outro</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="nrProc" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Informar o número do processo administrativo/judicial. Preenchimento: Obrigatório se {motExcl} = [1]. Validação: Deve ser um número de processo válido e existente no evento D-1021.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:maxLength value="21"/>
+                    <xs:pattern value="[0-9A-Za-z]+"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="nrRecibo" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Caso seja um evento de alteração/retificação ou exclusão, preencher com o número do recibo do arquivo a ser alterado/retificado ou excluído.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="31"/>
+                    <xs:pattern value="[0-9]{4}-20[0-9]{2}(0[1-9]|1[0-2])-[0-9A-Z]{19}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="tpAmb" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Identificação do ambiente para o qual os dados estão sendo transmitidos.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Produção</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="2">
+                      <xs:annotation><xs:documentation>Produção restrita</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="aplicEmi" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Identificação do aplicativo emissor do evento.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Emissão com aplicativo da empresa</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="2">
+                      <xs:annotation><xs:documentation>Aplicativo governamental</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="verAplic" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Versão do aplicativo emissor do evento.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:maxLength value="20"/>
+                    <xs:pattern value="([!-ÿ][ -ÿ]*[!-ÿ]|[!-ÿ])"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="ideContrib" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações de identificação do contribuinte.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="nrInsc" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Número de inscrição do contribuinte (CNPJ raiz). Validação: Deve ser um CNPJ raiz válido de 8 posições.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="8"/>
+                    <xs:pattern value="[0-9A-Z]{8}"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="idePeriodo" minOccurs="1" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Período de referência das informações do evento.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="perApur" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Informar o período de apuração, sendo o ano e mês da competência da declaração. Máscara: AAAA-MM Validação: Se {tpOper} = [1], só pode existir um único {perApur} para cada {nrInsc}. Quando informado {nrRecibo}, o {perApur} deve ser exatamente o mesmo existente no {nrRecibo} (caracteres 6 a 11 do recibo).</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:length value="7"/>
+                    <xs:pattern value="20[0-9]{2}-(0[1-9]|1[0-2])"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="infoCotistas" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+              <xs:documentation>Informações relativas aos fundos de investimento, classes e seus cotistas. Preenchimento: Vedado se {tpOper} = [3]; Obrigatório nos demais casos.</xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+              <xs:element name="tpDeclarante" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Indicador do tipo de declarante.</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:whiteSpace value="preserve"/>
+                    <xs:enumeration value="1">
+                      <xs:annotation><xs:documentation>Administrador de fundo de investimento (5401)</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="2">
+                      <xs:annotation><xs:documentation>Distribuidor de cotas por conta e ordem (5402)</xs:documentation></xs:annotation>
+                    </xs:enumeration>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="classes" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                  <xs:documentation>Agrupador das classes de fundos de investimento informadas no evento.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:sequence>
+                  <xs:element name="classe" minOccurs="1" maxOccurs="10000">
+                    <xs:annotation>
+                      <xs:documentation>Detalhamento dos dados de cada classe do fundo de investimento.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:sequence>
+                      <xs:element name="cotistas" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                          <xs:documentation>Agrupador dos cotistas ou distribuidores por conta e ordem vinculados à classe.</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                          <xs:sequence>
+                          <xs:element name="cotista" minOccurs="1" maxOccurs="2000000">
+                            <xs:annotation>
+                              <xs:documentation>Detalhamento dos dados de cada cotista ou distribuidor por conta e ordem da classe.</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                              <xs:element name="cotas" minOccurs="1" maxOccurs="1">
+                                <xs:annotation>
+                                  <xs:documentation>Agrupador dos tipos de cotas detidas pelo cotista ou distribuidor.</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                  <xs:sequence>
+                                  <xs:element name="cota" minOccurs="1" maxOccurs="50">
+                                    <xs:annotation>
+                                      <xs:documentation>Detalhamento das características, quantidade e valor de cada tipo de cota detida.</xs:documentation>
+                                    </xs:annotation>
+                                    <xs:complexType>
+                                      <xs:sequence>
+                                      </xs:sequence>
+                                      <xs:attribute name="tipoCota" use="required">
+                                        <xs:annotation>
+                                          <xs:documentation>Classificação do tipo e série de cota detida. Informar o tipo de cota conforme abaixo: 1 – Cota única; 2 – Cota senior; 3 – Cota subordinada; 4 – Cota mezanino; 5 – Outras. Preenchimento: Informar o tipo base [1 a 5]. Existindo mais de uma série do mesmo tipo, informar a série por meio das 2 casas decimais. Exemplo: para a primeira série de cota sênior informar [2.01]; para a segunda série, [2.02].</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:decimal">
+                                            <xs:totalDigits value="4"/>
+                                            <xs:pattern value="[1-5](\.\d{1,2})?"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                      <xs:attribute name="subclasse" use="required">
+                                        <xs:annotation>
+                                          <xs:documentation>Código da subclasse do fundo constante no cadastro da CVM. Preenchimento: Informar o código alfanumérico com 15 posições cadastrado na CVM. Não havendo subclasse atribuída, registrar [NA].</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:string">
+                                            <xs:whiteSpace value="preserve"/>
+                                            <xs:minLength value="2"/>
+                                            <xs:maxLength value="15"/>
+                                            <xs:pattern value="[a-zA-Z0-9]{15}|NA"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                      <xs:attribute name="qtdeCotas" use="required">
+                                        <xs:annotation>
+                                          <xs:documentation>Quantidade de cotas detidas pelo cotista ou distribuidor para a subclasse e tipo informados.</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:decimal">
+                                            <xs:totalDigits value="30"/>
+                                            <xs:pattern value="\d{1,19}\.\d{1,10}|\d{1,19}"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                      <xs:attribute name="valorCota" use="required">
+                                        <xs:annotation>
+                                          <xs:documentation>Valor da cota. Preenchimento: Admite valor negativo para classes em situação de patrimônio líquido negativo.</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:simpleType>
+                                          <xs:restriction base="xs:decimal">
+                                            <xs:totalDigits value="31"/>
+                                            <xs:pattern value="(-){0,1}\d{1,19}\.\d{1,10}|(-){0,1}\d{1,19}"/>
+                                          </xs:restriction>
+                                        </xs:simpleType>
+                                      </xs:attribute>
+                                    </xs:complexType>
+                                  </xs:element>
+                                  </xs:sequence>
+                                </xs:complexType>
+                              </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="tipoPessoa" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>Indicador do tipo de pessoa do cotista ou distribuidor.</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:whiteSpace value="preserve"/>
+                                    <xs:enumeration value="1">
+                                      <xs:annotation><xs:documentation>Pessoa física residente no país</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="2">
+                                      <xs:annotation><xs:documentation>Pessoa jurídica residente no país</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="3">
+                                      <xs:annotation><xs:documentation>Pessoa física residente no exterior</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="4">
+                                      <xs:annotation><xs:documentation>Pessoa jurídica residente no exterior</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="5">
+                                      <xs:annotation><xs:documentation>Pessoa física temporariamente não identificada</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="6">
+                                      <xs:annotation><xs:documentation>Pessoa jurídica temporariamente não identificada</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="identificacao" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>Identificação do cotista ou distribuidor. Preenchimento: 1. Se {tipoPessoa} = [1; 3; 5], informar o CPF (11 dígitos); 2. Se {tipoPessoa} = [2; 4; 6], informar o CNPJ (14 dígitos); 3. Para fundos 157 sem individualização, informar [157], agregando e totalizando as cotas nessa situação; 4. Para cotistas temporariamente não identificados, informar [999]. Validação: Para CPF e CNPJ, deve ser validado o dígito verificador. Exemplo: &lt;cotista tipoPessoa="1" identificacao="157" classificacao="1">. Todos os cotistas nessa situação deverão ser agregados e totalizados.</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:whiteSpace value="preserve"/>
+                                    <xs:minLength value="3"/>
+                                    <xs:maxLength value="14"/>
+                                    <xs:pattern value="[a-zA-Z0-9]{14}|[0-9]{11}|157|999"/>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="classificacao" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>Classificação da condição da parte informada no registro. Preenchimento: 1. Se {tpDeclarante} = [2] (Distribuidor de cotas por conta e ordem (5402)), informar obrigatoriamente [1]; 2. Se {tpDeclarante} = [1] (Administrador de fundo de investimento (5401)), informar [1] para cotista ou [2] para distribuidor por conta e ordem.</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:whiteSpace value="preserve"/>
+                                    <xs:enumeration value="1">
+                                      <xs:annotation><xs:documentation>Cotista de fundo de investimento</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                    <xs:enumeration value="2">
+                                      <xs:annotation><xs:documentation>Distribuidor de cotas de fundo de investimento</xs:documentation></xs:annotation>
+                                    </xs:enumeration>
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                      </xs:sequence>
+                      <xs:attribute name="idClasse" use="required">
+                        <xs:annotation>
+                          <xs:documentation>Número de inscrição no CNPJ da classe do fundo de investimento. Nota: Para fundos ainda não adaptados à Resolução CVM nº 175/2022, repetir o CNPJ do fundo ({cnpjFundo}). Validação: Deve ser um CNPJ válido com 14 posições.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:length value="14"/>
+                            <xs:pattern value="[0-9A-Z]{12}[0-9]{2}"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                      <xs:attribute name="quantidadeCotas" use="required">
+                        <xs:annotation>
+                          <xs:documentation>Quantidade total de cotas da classe. Preenchimento: 1. Se {tpDeclarante} = [1] (Administrador de fundo de investimento (5401)), informar a quantidade total de cotas emitidas da classe; 2. Se {tpDeclarante} = [2] (Distribuidor de cotas por conta e ordem (5402)), informar a quantidade total de cotas distribuídas por conta e ordem.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:decimal">
+                            <xs:totalDigits value="30"/>
+                            <xs:pattern value="\d{1,19}\.\d{1,10}|\d{1,19}"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                      <xs:attribute name="quantidadeCotistas" use="required">
+                        <xs:annotation>
+                          <xs:documentation>Quantidade total de cotistas. Preenchimento: 1. Se {tpDeclarante} = [1] (Administrador de fundo de investimento (5401)), informar o total de cotistas da classe; 2. Se {tpDeclarante} = [2] (Distribuidor de cotas por conta e ordem (5402)), informar o total de cotistas detentores de cotas distribuídas por conta e ordem.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:maxLength value="19"/>
+                            <xs:pattern value="[0-9]+"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                      <xs:attribute name="plClasse" use="optional">
+                        <xs:annotation>
+                          <xs:documentation>Valor do patrimônio líquido da classe. Preenchimento: 1. Obrigatório se {tpDeclarante} = [1] (Administrador de fundo de investimento (5401)); 2. Vedado se {tpDeclarante} = [2] (Distribuidor de cotas por conta e ordem (5402)).</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:decimal">
+                            <xs:totalDigits value="20"/>
+                            <xs:pattern value="\d{1,17}\.\d{2}"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                      <xs:attribute name="cnpjFundo" use="required">
+                        <xs:annotation>
+                          <xs:documentation>Número de inscrição no CNPJ do fundo de investimento ao qual pertence a classe informada. Validação: Deve ser um CNPJ válido com 14 posições.</xs:documentation>
+                        </xs:annotation>
+                        <xs:simpleType>
+                          <xs:restriction base="xs:string">
+                            <xs:whiteSpace value="preserve"/>
+                            <xs:length value="14"/>
+                            <xs:pattern value="[0-9A-Z]{12}[0-9]{2}"/>
+                          </xs:restriction>
+                        </xs:simpleType>
+                      </xs:attribute>
+                    </xs:complexType>
+                  </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          </xs:sequence>
+          <xs:attribute name="id" use="required">
+            <xs:annotation>
+              <xs:documentation>Identificador que representa unicamente o evento.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:whiteSpace value="preserve"/>
+                <xs:length value="42"/>
+                <xs:pattern value="DeRE[0-9]{4}[1-2][0-9A-Z]{14}[0-9]{19}"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:complexType>
+      </xs:element>
+        <xs:element ref="ds:Signature"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

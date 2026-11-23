@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <PathDelim Value="\"/>
+    <Name Value="ACBr_DeRE"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Projeto ACBr"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE;..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base;..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos;..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos"/>
+        <UnitOutputDirectory Value="..\..\..\..\Lib\Lazarus\ACBrDFe\ACBrDeRE\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="ACBr DeRE - Declaracao de Regimes Especificos (www.projetoacbr.com.br)"/>
+    <License Value="LGPL"/>
+    <Files Count="121">
+      <Item1>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeRE.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrDeRE"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREConfiguracoes.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrDeREConfiguracoes"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREEventos.pas"/>
+        <UnitName Value="ACBrDeREEventos"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREWebServices.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrDeREWebServices"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Consts.pas"/>
+        <UnitName Value="ACBrDeRE.Consts"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Conversao.pas"/>
+        <UnitName Value="ACBrDeRE.Conversao"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.Classes"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D1001.Classes"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D1011.Classes"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D1101.Classes"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D1106.Classes"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D1121.Classes"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D1198.Classes"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D1199.Classes"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2101.Classes"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2102.Classes"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2201.Classes"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2202.Classes"/>
+      </Item18>
+      <Item19>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2211.Classes"/>
+      </Item19>
+      <Item20>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2221.Classes"/>
+      </Item20>
+      <Item21>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2231.Classes"/>
+      </Item21>
+      <Item22>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2241.Classes"/>
+      </Item22>
+      <Item23>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2242.Classes"/>
+      </Item23>
+      <Item24>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2251.Classes"/>
+      </Item24>
+      <Item25>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D2252.Classes"/>
+      </Item25>
+      <Item26>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D3201.Classes"/>
+      </Item26>
+      <Item27>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.Classes.pas"/>
+        <UnitName Value="ACBrDeRE.D4201.Classes"/>
+      </Item27>
+      <Item28>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Classes.Retorno.pas"/>
+        <UnitName Value="ACBrDeRE.Classes.Retorno"/>
+      </Item28>
+      <Item29>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.XmlWriter"/>
+      </Item29>
+      <Item30>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1001.XmlWriter"/>
+      </Item30>
+      <Item31>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1011.XmlWriter"/>
+      </Item31>
+      <Item32>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1101.XmlWriter"/>
+      </Item32>
+      <Item33>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1106.XmlWriter"/>
+      </Item33>
+      <Item34>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1121.XmlWriter"/>
+      </Item34>
+      <Item35>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1198.XmlWriter"/>
+      </Item35>
+      <Item36>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1199.XmlWriter"/>
+      </Item36>
+      <Item37>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2101.XmlWriter"/>
+      </Item37>
+      <Item38>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2102.XmlWriter"/>
+      </Item38>
+      <Item39>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2201.XmlWriter"/>
+      </Item39>
+      <Item40>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2202.XmlWriter"/>
+      </Item40>
+      <Item41>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2211.XmlWriter"/>
+      </Item41>
+      <Item42>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2221.XmlWriter"/>
+      </Item42>
+      <Item43>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2231.XmlWriter"/>
+      </Item43>
+      <Item44>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2241.XmlWriter"/>
+      </Item44>
+      <Item45>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2242.XmlWriter"/>
+      </Item45>
+      <Item46>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2251.XmlWriter"/>
+      </Item46>
+      <Item47>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2252.XmlWriter"/>
+      </Item47>
+      <Item48>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D3201.XmlWriter"/>
+      </Item48>
+      <Item49>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.XmlWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D4201.XmlWriter"/>
+      </Item49>
+      <Item50>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1199.IniWriter"/>
+      </Item50>
+      <Item51>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1199.IniReader"/>
+      </Item51>
+      <Item52>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1199.XmlReader"/>
+      </Item52>
+      <Item53>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2101.IniWriter"/>
+      </Item53>
+      <Item54>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2101.IniReader"/>
+      </Item54>
+      <Item55>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2101.XmlReader"/>
+      </Item55>
+      <Item56>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2102.IniWriter"/>
+      </Item56>
+      <Item57>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2102.IniReader"/>
+      </Item57>
+      <Item58>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2102.XmlReader"/>
+      </Item58>
+      <Item59>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2201.IniWriter"/>
+      </Item59>
+      <Item60>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2201.IniReader"/>
+      </Item60>
+      <Item61>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2201.XmlReader"/>
+      </Item61>
+      <Item62>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2202.IniWriter"/>
+      </Item62>
+      <Item63>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2202.IniReader"/>
+      </Item63>
+      <Item64>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2202.XmlReader"/>
+      </Item64>
+      <Item65>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2211.IniWriter"/>
+      </Item65>
+      <Item66>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2211.IniReader"/>
+      </Item66>
+      <Item67>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2211.XmlReader"/>
+      </Item67>
+      <Item68>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2221.IniWriter"/>
+      </Item68>
+      <Item69>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2221.IniReader"/>
+      </Item69>
+      <Item70>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2221.XmlReader"/>
+      </Item70>
+      <Item71>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2231.IniWriter"/>
+      </Item71>
+      <Item72>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2231.IniReader"/>
+      </Item72>
+      <Item73>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2231.XmlReader"/>
+      </Item73>
+      <Item74>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2241.IniWriter"/>
+      </Item74>
+      <Item75>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2241.IniReader"/>
+      </Item75>
+      <Item76>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2241.XmlReader"/>
+      </Item76>
+      <Item77>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2242.IniWriter"/>
+      </Item77>
+      <Item78>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2242.IniReader"/>
+      </Item78>
+      <Item79>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2242.XmlReader"/>
+      </Item79>
+      <Item80>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2251.IniWriter"/>
+      </Item80>
+      <Item81>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2251.IniReader"/>
+      </Item81>
+      <Item82>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2251.XmlReader"/>
+      </Item82>
+      <Item83>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D2252.IniWriter"/>
+      </Item83>
+      <Item84>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2252.IniReader"/>
+      </Item84>
+      <Item85>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D2252.XmlReader"/>
+      </Item85>
+      <Item86>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D3201.IniWriter"/>
+      </Item86>
+      <Item87>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D3201.IniReader"/>
+      </Item87>
+      <Item88>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D3201.XmlReader"/>
+      </Item88>
+      <Item89>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D4201.IniWriter"/>
+      </Item89>
+      <Item90>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D4201.IniReader"/>
+      </Item90>
+      <Item91>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D4201.XmlReader"/>
+      </Item91>
+      <Item92>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1198.IniWriter"/>
+      </Item92>
+      <Item93>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1198.IniReader"/>
+      </Item93>
+      <Item94>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1198.XmlReader"/>
+      </Item94>
+      <Item95>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1011.IniWriter"/>
+      </Item95>
+      <Item96>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1011.IniReader"/>
+      </Item96>
+      <Item97>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1011.XmlReader"/>
+      </Item97>
+      <Item98>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1101.IniWriter"/>
+      </Item98>
+      <Item99>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1101.IniReader"/>
+      </Item99>
+      <Item100>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1101.XmlReader"/>
+      </Item100>
+      <Item101>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1106.IniWriter"/>
+      </Item101>
+      <Item102>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1106.IniReader"/>
+      </Item102>
+      <Item103>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1106.XmlReader"/>
+      </Item103>
+      <Item104>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1121.IniWriter"/>
+      </Item104>
+      <Item105>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1121.IniReader"/>
+      </Item105>
+      <Item106>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1121.XmlReader"/>
+      </Item106>
+      <Item107>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.IniWriter"/>
+      </Item107>
+      <Item108>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.IniReader"/>
+      </Item108>
+      <Item109>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.IniWriter.pas"/>
+        <UnitName Value="ACBrDeRE.D1001.IniWriter"/>
+      </Item109>
+      <Item110>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.IniReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1001.IniReader"/>
+      </Item110>
+      <Item111>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.D1001.XmlReader"/>
+      </Item111>
+      <Item112>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.XmlReader.pas"/>
+        <UnitName Value="ACBrDeRE.XmlReader"/>
+      </Item112>
+      <Item113>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.XmlReader.Retorno.pas"/>
+        <UnitName Value="ACBrDeRE.XmlReader.Retorno"/>
+      </Item113>
+      <Item114>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.ObterToken.pas"/>
+        <UnitName Value="ACBrDeRE.ObterToken"/>
+      </Item114>
+      <Item115>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.RetObterToken.pas"/>
+        <UnitName Value="ACBrDeRE.RetObterToken"/>
+      </Item115>
+      <Item116>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.EnvLote.pas"/>
+        <UnitName Value="ACBrDeRE.EnvLote"/>
+      </Item116>
+      <Item117>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.ConsLote.pas"/>
+        <UnitName Value="ACBrDeRE.ConsLote"/>
+      </Item117>
+      <Item118>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.RetEnvLote.pas"/>
+        <UnitName Value="ACBrDeRE.RetEnvLote"/>
+      </Item118>
+      <Item119>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.Limpeza.pas"/>
+        <UnitName Value="ACBrDeRE.Limpeza"/>
+      </Item119>
+      <Item120>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.RetLimpeza.pas"/>
+        <UnitName Value="ACBrDeRE.RetLimpeza"/>
+      </Item120>
+      <Item121>
+        <Filename Value="..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="ACBrDeREReg"/>
+      </Item121>
+    </Files>
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="ACBrDFeComum"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

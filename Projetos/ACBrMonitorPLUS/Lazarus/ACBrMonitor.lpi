@@ -38,7 +38,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
+            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\DeRE;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -75,7 +75,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
+            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\DeRE;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -111,7 +111,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
+            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\DeRE;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -147,7 +147,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
+            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\DeRE;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -183,7 +183,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
+            <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\DeRE;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -231,7 +231,7 @@
         </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="44">
+    <RequiredPackages Count="45">
       <Item1>
         <PackageName Value="SynEditDsgn"/>
       </Item1>
@@ -365,8 +365,11 @@
       <Item44>
         <PackageName Value="ACBr_CIOT"/>
       </Item44>
+      <Item45>
+        <PackageName Value="ACBr_DeRE"/>
+      </Item45>
     </RequiredPackages>
-    <Units Count="78">
+    <Units Count="79">
       <Unit0>
         <Filename Value="ACBrMonitor.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -700,6 +703,10 @@
         <Filename Value="DoACBrCIOTUnit.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit77>
+      <Unit78>
+        <Filename Value="DoACBrDeREUnit.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit78>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -710,7 +717,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
+      <OtherUnitFiles Value="..\..\..\Fontes\ACBrDFe\ACBrNFe\PCNNFe;..\..\..\Fontes\ACBrDFe\ACBrCTe\PCNCTe;..\..\..\Fontes\ACBrDFe\ACBrMDFe\PCNMDFe;..\..\ACBrLib\Fontes\MDFe;..\..\ACBrLib\Fontes\Comum;..\..\ACBrLib\Fontes\eSocial;..\..\ACBrLib\Fontes\Reinf;..\..\ACBrLib\Fontes\NFe;..\..\ACBrLib\Fontes\CTe;..\..\ACBrLib\Fontes\CIOT;..\..\ACBrLib\Fontes\SAT;..\..\ACBrLib\Fontes\CEP;..\..\ACBrLib\Fontes\IBGE;..\..\ACBrLib\Fontes\Sedex;..\..\ACBrLib\Fontes\GNRe;..\..\ACBrLib\Fontes\BPe;..\..\ACBrLib\Fontes\DeRE;..\..\ACBrLib\Fontes\ConsultaCNPJ;..\..\ACBrLib\Fontes\ConsultaCPF;..\..\ACBrLib\Fontes\Boleto;..\..\ACBrLib\Fontes\GTIN;..\..\ACBrLib\Fontes\NCMs;..\..\ACBrLib\Fontes\NFSe;..\..\ACBrLib\Fontes\ExtratoAPI"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

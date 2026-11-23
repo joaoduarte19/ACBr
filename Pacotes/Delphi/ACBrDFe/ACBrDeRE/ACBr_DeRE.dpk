@@ -1,0 +1,191 @@
+{******************************************************************************}
+{ Projeto: Componentes ACBr                                                    }
+{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
+{ mentos de Automação Comercial utilizados no Brasil                           }
+{                                                                              }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
+{                                                                              }
+{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{ Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
+{                                                                              }
+{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
+{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
+{ qualquer versão posterior.                                                   }
+{                                                                              }
+{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
+{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{                                                                              }
+{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
+{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
+{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Você também pode obter uma copia da licença em:                              }
+{ http://www.opensource.org/licenses/lgpl-license.php                          }
+{                                                                              }
+{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatué - SP - 18270-170         }
+{******************************************************************************}
+
+{$I ACBr.inc}
+
+package ACBr_DeRE;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'ACBr - DeRE - Declaração de Regimes Específicos - (http://www.projetoacbr.com.br/)'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  vcl,
+  rtl,
+  ACBr_DFeComum;
+
+contains
+  ACBrDeRE in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeRE.pas',
+  ACBrDeREConfiguracoes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREConfiguracoes.pas',
+  ACBrDeREEventos in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREEventos.pas',
+  ACBrDeREWebServices in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREWebServices.pas',
+  ACBrDeRE.Consts in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Consts.pas',
+  ACBrDeRE.Conversao in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Conversao.pas',
+  ACBrDeRE.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Classes.pas',
+  ACBrDeRE.D1001.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.Classes.pas',
+  ACBrDeRE.D1011.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.Classes.pas',
+  ACBrDeRE.D1101.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.Classes.pas',
+  ACBrDeRE.D1106.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.Classes.pas',
+  ACBrDeRE.D1121.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.Classes.pas',
+  ACBrDeRE.D1198.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.Classes.pas',
+  ACBrDeRE.D1199.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.Classes.pas',
+  ACBrDeRE.D2101.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.Classes.pas',
+  ACBrDeRE.D2102.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.Classes.pas',
+  ACBrDeRE.D2201.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.Classes.pas',
+  ACBrDeRE.D2202.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.Classes.pas',
+  ACBrDeRE.D2211.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.Classes.pas',
+  ACBrDeRE.D2221.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.Classes.pas',
+  ACBrDeRE.D2231.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.Classes.pas',
+  ACBrDeRE.D2241.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.Classes.pas',
+  ACBrDeRE.D2242.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.Classes.pas',
+  ACBrDeRE.D2251.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.Classes.pas',
+  ACBrDeRE.D2252.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.Classes.pas',
+  ACBrDeRE.D3201.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.Classes.pas',
+  ACBrDeRE.D4201.Classes in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.Classes.pas',
+  ACBrDeRE.Classes.Retorno in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.Classes.Retorno.pas',
+  ACBrDeRE.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.XmlWriter.pas',
+  ACBrDeRE.D1001.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.XmlWriter.pas',
+  ACBrDeRE.D1011.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.XmlWriter.pas',
+  ACBrDeRE.D1101.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.XmlWriter.pas',
+  ACBrDeRE.D1106.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.XmlWriter.pas',
+  ACBrDeRE.D1121.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.XmlWriter.pas',
+  ACBrDeRE.D1198.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.XmlWriter.pas',
+  ACBrDeRE.D1199.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.XmlWriter.pas',
+  ACBrDeRE.D2101.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.XmlWriter.pas',
+  ACBrDeRE.D2102.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.XmlWriter.pas',
+  ACBrDeRE.D2201.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.XmlWriter.pas',
+  ACBrDeRE.D2202.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.XmlWriter.pas',
+  ACBrDeRE.D2211.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.XmlWriter.pas',
+  ACBrDeRE.D2221.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.XmlWriter.pas',
+  ACBrDeRE.D2231.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.XmlWriter.pas',
+  ACBrDeRE.D2241.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.XmlWriter.pas',
+  ACBrDeRE.D2242.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.XmlWriter.pas',
+  ACBrDeRE.D2251.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.XmlWriter.pas',
+  ACBrDeRE.D2252.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.XmlWriter.pas',
+  ACBrDeRE.D3201.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.XmlWriter.pas',
+  ACBrDeRE.D4201.XmlWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.XmlWriter.pas',
+  ACBrDeRE.D1199.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.IniWriter.pas',
+  ACBrDeRE.D1199.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.IniReader.pas',
+  ACBrDeRE.D1199.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1199.XmlReader.pas',
+  ACBrDeRE.D2101.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.IniWriter.pas',
+  ACBrDeRE.D2101.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.IniReader.pas',
+  ACBrDeRE.D2101.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2101.XmlReader.pas',
+  ACBrDeRE.D2102.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.IniWriter.pas',
+  ACBrDeRE.D2102.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.IniReader.pas',
+  ACBrDeRE.D2102.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2102.XmlReader.pas',
+  ACBrDeRE.D2201.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.IniWriter.pas',
+  ACBrDeRE.D2201.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.IniReader.pas',
+  ACBrDeRE.D2201.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2201.XmlReader.pas',
+  ACBrDeRE.D2202.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.IniWriter.pas',
+  ACBrDeRE.D2202.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.IniReader.pas',
+  ACBrDeRE.D2202.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2202.XmlReader.pas',
+  ACBrDeRE.D2211.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.IniWriter.pas',
+  ACBrDeRE.D2211.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.IniReader.pas',
+  ACBrDeRE.D2211.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2211.XmlReader.pas',
+  ACBrDeRE.D2221.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.IniWriter.pas',
+  ACBrDeRE.D2221.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.IniReader.pas',
+  ACBrDeRE.D2221.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2221.XmlReader.pas',
+  ACBrDeRE.D2231.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.IniWriter.pas',
+  ACBrDeRE.D2231.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.IniReader.pas',
+  ACBrDeRE.D2231.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2231.XmlReader.pas',
+  ACBrDeRE.D2241.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.IniWriter.pas',
+  ACBrDeRE.D2241.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.IniReader.pas',
+  ACBrDeRE.D2241.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2241.XmlReader.pas',
+  ACBrDeRE.D2242.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.IniWriter.pas',
+  ACBrDeRE.D2242.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.IniReader.pas',
+  ACBrDeRE.D2242.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2242.XmlReader.pas',
+  ACBrDeRE.D2251.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.IniWriter.pas',
+  ACBrDeRE.D2251.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.IniReader.pas',
+  ACBrDeRE.D2251.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2251.XmlReader.pas',
+  ACBrDeRE.D2252.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.IniWriter.pas',
+  ACBrDeRE.D2252.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.IniReader.pas',
+  ACBrDeRE.D2252.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D2252.XmlReader.pas',
+  ACBrDeRE.D3201.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.IniWriter.pas',
+  ACBrDeRE.D3201.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.IniReader.pas',
+  ACBrDeRE.D3201.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D3201.XmlReader.pas',
+  ACBrDeRE.D4201.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.IniWriter.pas',
+  ACBrDeRE.D4201.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.IniReader.pas',
+  ACBrDeRE.D4201.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D4201.XmlReader.pas',
+  ACBrDeRE.D1198.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.IniWriter.pas',
+  ACBrDeRE.D1198.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.IniReader.pas',
+  ACBrDeRE.D1198.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1198.XmlReader.pas',
+  ACBrDeRE.D1011.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.IniWriter.pas',
+  ACBrDeRE.D1011.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.IniReader.pas',
+  ACBrDeRE.D1011.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1011.XmlReader.pas',
+  ACBrDeRE.D1101.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.IniWriter.pas',
+  ACBrDeRE.D1101.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.IniReader.pas',
+  ACBrDeRE.D1101.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1101.XmlReader.pas',
+  ACBrDeRE.D1106.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.IniWriter.pas',
+  ACBrDeRE.D1106.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.IniReader.pas',
+  ACBrDeRE.D1106.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1106.XmlReader.pas',
+  ACBrDeRE.D1121.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.IniWriter.pas',
+  ACBrDeRE.D1121.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.IniReader.pas',
+  ACBrDeRE.D1121.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1121.XmlReader.pas',
+  ACBrDeRE.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.IniWriter.pas',
+  ACBrDeRE.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.IniReader.pas',
+  ACBrDeRE.D1001.IniWriter in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.IniWriter.pas',
+  ACBrDeRE.D1001.IniReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.IniReader.pas',
+  ACBrDeRE.D1001.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Eventos\ACBrDeRE.D1001.XmlReader.pas',
+  ACBrDeRE.XmlReader in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.XmlReader.pas',
+  ACBrDeRE.XmlReader.Retorno in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\ACBrDeRE.XmlReader.Retorno.pas',
+  ACBrDeRE.ObterToken in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.ObterToken.pas',
+  ACBrDeRE.RetObterToken in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.RetObterToken.pas',
+  ACBrDeRE.EnvLote in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.EnvLote.pas',
+  ACBrDeRE.ConsLote in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.ConsLote.pas',
+  ACBrDeRE.RetEnvLote in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.RetEnvLote.pas',
+  ACBrDeRE.Limpeza in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.Limpeza.pas',
+  ACBrDeRE.RetLimpeza in '..\..\..\..\Fontes\ACBrDFe\ACBrDeRE\Base\Servicos\ACBrDeRE.RetLimpeza.pas';
+
+end.

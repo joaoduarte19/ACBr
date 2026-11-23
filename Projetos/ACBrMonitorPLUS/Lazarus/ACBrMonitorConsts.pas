@@ -108,6 +108,7 @@ const
   CACBreSocialServicosIni =            'ACBreSocialServicos.ini';
   CACBrReinfServicosIni =              'ACBrReinfServicos.ini';
   CACBrBPeServicosIni =                'ACBrBPeServicos.ini';
+  CACBrDeREServicosIni =               'ACBrDeREServicos.ini';
   CACBrNFSeServicosIni =               'ACBrNFSeXServicos.ini';
 
   CMetodoSATAtivar =                   'ativar';
@@ -1000,6 +1001,7 @@ const
   CKeyVersaoMDFe =                   'VersaoMDFe';
   CKeyVersaoeSocial =                'VersaoeSocial';
   CKeyVersaoReinf =                  'VersaoReinf';
+  CKeyVersaoDeRE =                   'VersaoDeRE';
   CKeyVersaoQRCode =                 'VersaoQRCode';
   CKeyVersaoBPe =                    'VersaoBPe';
   CKeyVersaoGNRe =                   'VersaoGNRe';
@@ -1025,6 +1027,10 @@ const
   CKeyIdTransmissor =                'IdTransmissor';
   CKeyTipoEmpregador =               'TipoEmpregador';
   CKeyIdContribuinte =               'IdContribuinte';
+  CKeyDeREClientID =                 'ClientID';
+  CKeyDeREClientSecret =             'ClientSecret';
+  CKeyDeREToken =                    'Token';
+  CKeyDeRETokenExpira =              'TokenExpira';
   CKeyTipoContribuinte =             'TipoContribuinte';
 
   CSecRespTecnico =                  'RespTecnico';
@@ -1197,6 +1203,7 @@ const
 
   CSeceSocial =                             'eSocial';
   CSecReinf =                               'Reinf';
+  CSecDeRE =                                'DeRE';
   CKey =                                    'Host';
 
   CSecCIOT =                                'CIOT';

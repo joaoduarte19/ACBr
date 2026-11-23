@@ -284,6 +284,7 @@ type
     VersaoBPe         : String;
     VersaoeSocial     : String;
     VersaoReinf       : String;
+    VersaoDeRE        : String;
     VersaoGNRe        : String;
     VersaoCIOT        : String;
     VersaoQRCode      : String;
@@ -441,6 +442,14 @@ type
     TipoContribuinte : String;
   end;
 
+  TDeRE = record
+    ClientID         : String;
+    ClientSecret     : String;
+    IdContribuinte   : String;
+    Token            : String;
+    TokenExpira      : String;  // dd/mm/yyyy hh:nn:ss
+  end;
+
   TCIOT = record
     Integradora: Integer;
     HashIntegrador: String;
@@ -465,6 +474,7 @@ type
     ArquivoWebServiceseSocial: String;
     ArquivoWebServicesReinf: String;
     ArquivoWebServicesBPe: String;
+    ArquivoWebServicesDeRE: String;
     ArquivoWebServicesNFSe: String;
     ValidarDigest      : Boolean;
     TimeoutWebService  : Integer;
@@ -475,6 +485,7 @@ type
     Diretorios         : TDFeDiretorios;
     ESocial            : TeSocial;
     Reinf              : TReinf;
+    DeRE               : TDeRE;
     CIOT: TCIOT;
     RespTecnico        : TDFeRespTecnico;
     QuebraDeLinha      : String;
@@ -911,7 +922,7 @@ type
 implementation
 
 uses
-  UtilUnit, StrUtils;
+  UtilUnit, StrUtils, ACBrDeRE.Conversao;
 
 { TMonitorConfig }
 
@@ -1175,6 +1186,7 @@ begin
       Ini.WriteString( CSecWebService, CKeyVersaoCTe, VersaoCTe );
       Ini.WriteString( CSecWebService, CKeyVersaoMDFe, VersaoMDFe );
       Ini.WriteString( CSecWebService, CKeyVersaoReinf, VersaoReinf );
+      Ini.WriteString( CSecWebService, CKeyVersaoDeRE, VersaoDeRE );
       Ini.WriteString( CSecWebService, CKeyVersaoeSocial, VersaoeSocial );
       Ini.WriteString( CSecWebService, CKeyVersaoQRCode, VersaoQRCode );
       Ini.WriteString( CSecWebService, CKeyVersaoBPe, VersaoBPe );
@@ -1215,6 +1227,15 @@ begin
       Ini.WriteString( CSecReinf, CKeyIdContribuinte, IdContribuinte );
       Ini.WriteString( CSecReinf, CKeyIdTransmissor, IdTransmissor );
       Ini.WriteString( CSecReinf, CKeyTipoContribuinte, TipoContribuinte );
+    end;
+
+    with DFe.DeRE do
+    begin
+      Ini.WriteString( CSecDeRE, CKeyIdContribuinte, IdContribuinte );
+      Ini.WriteString( CSecDeRE, CKeyDeREClientID, ClientID );
+      GravaINICrypt( Ini, CSecDeRE, CKeyDeREClientSecret, ClientSecret, _C );
+      GravaINICrypt( Ini, CSecDeRE, CKeyDeREToken, Token, _C );
+      Ini.WriteString( CSecDeRE, CKeyDeRETokenExpira, TokenExpira );
     end;
 
     with DFe.CIOT do
@@ -2026,6 +2047,7 @@ begin
       VersaoMDFe                := Ini.ReadString( CSecWebService, CKeyVersaoMDFe, VersaoMDFe );
       VersaoeSocial             := Ini.ReadString( CSecWebService, CKeyVersaoeSocial, CvalueVersaoeSocial );
       VersaoReinf               := Ini.ReadString( CSecWebService, CKeyVersaoReinf, CvalueVersaoReinf );
+      VersaoDeRE                := Ini.ReadString( CSecWebService, CKeyVersaoDeRE, VersaoDeREToStr(High(TVersaoDeRE)) );
       VersaoQRCode              := Ini.ReadString( CSecWebService, CKeyVersaoQRCode, CvalueVersaoQRCode );
       VersaoBPe                 := Ini.ReadString( CSecWebService, CKeyVersaoBPe, VersaoBPe );
       VersaoGNRe                := Ini.ReadString( CSecWebService, CKeyVersaoGNRe, VersaoGNRe );
@@ -2239,6 +2261,15 @@ begin
       IdContribuinte             := Ini.ReadString( CSecReinf,    CKeyIdContribuinte,  IdContribuinte  );
       IdTransmissor              := Ini.ReadString( CSecReinf,    CKeyIdTransmissor,  IdTransmissor  );
       TipoContribuinte           := Ini.ReadString( CSecReinf,    CKeyTipoContribuinte,  CValueTipoContribuinte  );
+    end;
+
+    with DFe.DeRE do
+    begin
+      IdContribuinte             := Ini.ReadString( CSecDeRE, CKeyIdContribuinte, IdContribuinte );
+      ClientID                   := Ini.ReadString( CSecDeRE, CKeyDeREClientID, ClientID );
+      ClientSecret               := LeINICrypt( Ini, CSecDeRE, CKeyDeREClientSecret, _C );
+      Token                      := LeINICrypt( Ini, CSecDeRE, CKeyDeREToken, _C );
+      TokenExpira                := Ini.ReadString( CSecDeRE, CKeyDeRETokenExpira, TokenExpira );
     end;
 
     with DFe.CIOT do
@@ -2853,6 +2884,7 @@ begin
     VersaoMDFe                := '3.00';
     VersaoeSocial             := 'S01_00_00';
     VersaoReinf               := '1_03_02';
+    VersaoDeRE                := VersaoDeREToStr(High(TVersaoDeRE)); // sempre a versao mais recente
     VersaoQRCode              := '0';
     VersaoBPe                 := '1.00';
     VersaoGNRe                := '1.00';
@@ -3055,6 +3087,15 @@ begin
     IdContribuinte             := '';
     IdTransmissor              := '';
     TipoContribuinte           := 'tcPessoaJuridica';
+  end;
+
+  with DFe.DeRE do
+  begin
+    IdContribuinte             := '';
+    ClientID                   := '';
+    ClientSecret               := '';
+    Token                      := '';
+    TokenExpira                := '';
   end;
 
   with DFe.CIOT do

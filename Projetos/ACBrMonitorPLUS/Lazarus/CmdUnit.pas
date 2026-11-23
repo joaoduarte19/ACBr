@@ -39,7 +39,7 @@ Uses
 Const
    Objetos = '"ECF","CHQ","GAV","DIS","LCB","ACBR","BAL","ETQ","BOLETO","CEP","IBGE","EMAIL","SEDEX","NCM"' +
              ',"NFE","CTE","MDFE","SAT","ESCPOS","GNRE","ESOCIAL","REINF","BPE","CNPJ","CPF","GTIN","NFSE"' +
-             ',"EXTRATOAPI","CIOT"';
+             ',"EXTRATOAPI","CIOT","DERE"';
    TIME_EXPIRES = 60;
 type
 

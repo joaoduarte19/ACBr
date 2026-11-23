@@ -47,6 +47,9 @@ Símbolo : Significado
 -- ACBrMonitor1 --
 [*] ACBR-10270 - A opção "Exibir Código GTIN" ([DANFE] ExibirEAN) passa a valer também para o DANFE da Reforma Tributária. Texto da opção alterado para "Exibir Código GTIN(Paisagem/RTC)".
    Por: Daniel de Morais InfoCotidiano
+--- Diversos ---
+[+] ACBR-10073 - Implementação do DeRE no Monitor (DeRE - Declaracao de Regimes Especificos, IBS/CBS).
+   Por: Renato Rubinho
 
 19/11/2026
 -- ACBrMonitor1, ACBrMonitorConfig, ACBrMonitorConsts --

@@ -99,6 +99,7 @@ Source: {#ACBrDIR}\Fontes\ACBrDFe\ACBrMDFe\ACBrMDFeServicos.ini; DestDir: {app};
 Source: {#ACBrDIR}\Fontes\ACBrDFe\ACBreSocial\ACBreSocialServicos.ini; DestDir: {app}; Flags: ignoreversion; Components: programa
 Source: {#ACBrDIR}\Fontes\ACBrDFe\ACBrReinf\ACBrReinfServicos.ini; DestDir: {app}; Flags: ignoreversion; Components: programa
 Source: {#ACBrDIR}\Fontes\ACBrDFe\ACBrBPe\ACBrBPeServicos.ini; DestDir: {app}; Flags: ignoreversion; Components: programa
+Source: {#ACBrDIR}\Fontes\ACBrDFe\ACBrDeRE\ACBrDeREServicos.ini; DestDir: {app}; Flags: ignoreversion; Components: programa
 Source: {#ACBrDIR}\Fontes\ACBrDFe\ACBrGNRE\ACBrGNREServicos.ini; DestDir: {app}; Flags: ignoreversion; Components: programa
 Source: {#ACBrDIR}\Fontes\ACBrDFe\ACBrNFSeX\ACBrNFSeXServicos.ini; DestDir: {app}; Flags: ignoreversion; Components: programa
 
@@ -115,6 +116,7 @@ Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\NFe\*.*; DestDir: {app}\Schemas\NFe;
 Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\eSocial\*.*; DestDir: {app}\Schemas\eSocial; Components: programa;
 Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\Reinf\*.*; DestDir: {app}\Schemas\Reinf; Components: programa;
 Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\BPe\*.*; DestDir: {app}\Schemas\BPe; Components: programa;
+Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\DeRE\*.*; DestDir: {app}\Schemas\DeRE; Components: programa;
 Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\GNRe\*.*; DestDir: {app}\Schemas\GNRe; Components: programa;
 Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\GTIN\*.*; DestDir: {app}\Schemas\GTIN; Components: programa;
 Source: {#ACBrDIR}\Exemplos\ACBrDFe\Schemas\NFSe\*; DestDir: {app}\Schemas\NFSe; Components: programa; Flags: recursesubdirs 

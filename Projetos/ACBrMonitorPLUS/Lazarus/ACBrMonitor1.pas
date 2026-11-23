@@ -64,7 +64,7 @@ uses
   ACBrBoletoFPDF, FormConsultaCNPJ, ACBrMonitorMenu, ACBrDFeReport, ACBrNFSeX,
   ACBrNFSeXDANFSeRLClass, DoACBrNFSeUnit, ACBrGTIN, DoACBrGTINUnit, ACBrPIXBase,
   ACBrLibConfig, ACBrExtratoAPI, ACBrExtratoAPIBB, ACBrExtratoAPIInter,
-  ACBrCIOT, DoACBrCIOTUnit, ACBrCIOTConversao,
+  ACBrCIOT, DoACBrCIOTUnit, ACBrCIOTConversao, ACBrDeRE, DoACBrDeREUnit,
   ACBrExtratoAPISicoob, DoACBrExtratoAPIUnit, ACBrDFeUtil;
 
 const
@@ -117,6 +117,7 @@ type
     ACBrBoletoFPDF1: TACBrBoletoFPDF;
     ACBrBPe1: TACBrBPe;
     ACBrBPeDABPeESCPOS1: TACBrBPeDABPeESCPOS;
+    ACBrDeRE1: TACBrDeRE;
     ACBrCEP1: TACBrCEP;
     ACBrCIOT1: TACBrCIOT;
     ACBrConsultaCNPJ1: TACBrConsultaCNPJ;
@@ -687,6 +688,23 @@ type
     edtIdToken: TEdit;
     edtIDTransmissor: TEdit;
     edtIDTransmissorReinf: TEdit;
+    edtIDContribuinteDeRE: TEdit;
+    edtClientIdDeRE: TEdit;
+    edtClientSecretDeRE: TEdit;
+    edtTokenDeRE: TEdit;
+    edtTokenExpiraDeRE: TEdit;
+    lblTokenDeRE: TLabel;
+    lblTokenExpiraDeRE: TLabel;
+    cbVersaoWSDeRE: TComboBox;
+    edtArquivoWebServicesDeRE: TEdit;
+    gbxConfDeRE: TGroupBox;
+    gbxWSDeRE: TTabSheet;
+    lblArquivoWebServicesDeRE: TLabel;
+    lblVersaoWSDeRE: TLabel;
+    lblIDContribuinteDeRE: TLabel;
+    lblClientIdDeRE: TLabel;
+    lblClientSecretDeRE: TLabel;
+    sbArquivoWebServicesDeRE: TSpeedButton;
     edTimeOutTCP: TEdit;
     edTimeZoneStr: TEdit;
     edtIntervalo: TEdit;
@@ -1853,6 +1871,7 @@ type
     procedure sbArquivoWebServicesBPeClick(Sender: TObject);
     procedure sbArquivoWebServicesNFSeClick(Sender: TObject);
     procedure sbArquivoWebServicesReinfClick(Sender: TObject);
+    procedure sbArquivoWebServicesDeREClick(Sender: TObject);
     procedure sbBALSerialClick(Sender: TObject);
     procedure sbConsCNPJVerSenhaClick(Sender: TObject);
     procedure sbConsCNPJVerUsuarioClick(Sender: TObject);
@@ -2052,6 +2071,7 @@ type
     FDoBoleto: TACBrObjetoBoleto;
     FDoeSocial: TACBrObjetoeSocial;
     FDoReinf: TACBrObjetoReinf;
+    FDoDeRE: TACBrObjetoDeRE;
     FDoBAL: TACBrObjetoBAL;
     FDoEmail: TACBrObjetoEmail;
     FDoCEP: TACBrObjetoCEP;
@@ -2212,6 +2232,7 @@ uses
   ACBrNFeConfiguracoes, ACBrNFeDANFEClass, ACBrCTeConfiguracoes,
   ACBrMDFeConfiguracoes, ACBrGNREConfiguracoes, ACBreSocialConfiguracoes,
   ACBrReinfConfiguracoes, ACBrGTINConfiguracoes, ACBrBPeConfiguracoes,
+  ACBrDeREConfiguracoes, ACBrDeRE.Conversao,
   ACBrNFSeXConfiguracoes, ACBrCIOTConfiguracoes,
   ACBrDFeDANFeReport, ACBrETQClass, ACBrUtil.Base, ACBrUtil.FilesIO,
   ACBrUtil.Strings, ACBrUtil.DateTime, ACBrUtil.Math;
@@ -2243,6 +2264,7 @@ var
   iREI: TVersaoReinf;
   iGNR: TVersaoGNRE;
   iBPE: TVersaoBPe;
+  iDeRE: TVersaoDeRE;
   iMDF: TVersaoMDFe;
   iCTE: TVersaoCTe;
   iNFe: TpcnVersaoDF;
@@ -2331,6 +2353,7 @@ begin
 
   FDoeSocial := TACBrObjetoeSocial.Create(MonitorConfig, ACBreSocial1);
   FDoReinf   := TACBrObjetoReinf.Create(MonitorConfig, ACBrReinf1);
+  FDoDeRE    := TACBrObjetoDeRE.Create(MonitorConfig, ACBrDeRE1);
   FDoBAL     := TACBrObjetoBAL.Create(MonitorConfig, ACBrBAL1);
   FDoEmail   := TACBrObjetoEmail.Create(MonitorConfig, ACBrMail1);
   FDoCEP     := TACBrObjetoCEP.Create(MonitorConfig, ACBrCEP1);
@@ -2533,6 +2556,11 @@ begin
                               , vFormatSettings ) );
     Inc(iBPE);
   end;
+
+  { Criando lista versões DeRE disponiveis }
+  cbVersaoWSDeRE.Items.Clear;
+  for iDeRE := Low(TVersaoDeRE) to High(TVersaoDeRE) do
+    cbVersaoWSDeRE.Items.Add(VersaoDeREToStr(iDeRE));
 
   { Criando lista versões MDFe disponiveis }
   cbVersaoWSMDFe.Items.Clear;
@@ -4678,6 +4706,7 @@ begin
       ACBrBlocoX1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBreSocial1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBrReinf1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
+      ACBrDeRE1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
       ACBrCIOT1.Configuracoes.Geral.SSLXmlSignLib := TSSLXmlSignLib(cbXmlSignLib.ItemIndex);
@@ -4798,6 +4827,7 @@ begin
   ACBrCTe1.Configuracoes.Arquivos.SepararPorCNPJ := cbxSepararPorCNPJ.Checked;
   ACBrMDFe1.Configuracoes.Arquivos.SepararPorCNPJ := cbxSepararPorCNPJ.Checked;
   ACBrBPe1.Configuracoes.Arquivos.SepararPorCNPJ := cbxSepararPorCNPJ.Checked;
+  ACBrDeRE1.Configuracoes.Arquivos.SepararPorCNPJ := cbxSepararPorCNPJ.Checked;
   ACBrNFSeX1.Configuracoes.Arquivos.SepararPorCNPJ := cbxSepararPorCNPJ.Checked;
 end;
 
@@ -4815,6 +4845,7 @@ begin
   ACBrGNRE1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBreSocial1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBrReinf1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
+  ACBrDeRE1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBrBPe1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBrGTIN1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
   ACBrCIOT1.Configuracoes.WebServices.TimeZoneConf.Assign( ACBrNFe1.Configuracoes.WebServices.TimeZoneConf );
@@ -5311,6 +5342,7 @@ begin
   FDoCIOT.Free;
   FDoeSocial.Free;
   FDoReinf.Free;
+  FDoDeRE.Free;
   FDoBAL.Free;
   FDoEmail.Free;
   FDoCEP.Free;
@@ -6103,6 +6135,7 @@ begin
     edtArquivoWebServicesCTe.Text      := ValidaArquivo(ArquivoWebServicesCTe, CACBrCTeServicosIni);
     edtArquivoWebServicesMDFe.Text     := ValidaArquivo(ArquivoWebServicesMDFe, CACBrMDFeServicosIni);
     edtArquivoWebServicesBPe.Text      := ValidaArquivo(ArquivoWebServicesBPe, CACBrBPeServicosIni);
+    edtArquivoWebServicesDeRE.Text     := ValidaArquivo(ArquivoWebServicesDeRE, CACBrDeREServicosIni);
     edtArquivoWebServicesGNRe.Text     := ValidaArquivo(ArquivoWebServicesGNRe, CACBrGNREServicosIni);
     edtArquivoWebServiceseSocial.Text  := ValidaArquivo(ArquivoWebServiceseSocial, CACBreSocialServicosIni);
     edtArquivoWebServicesReinf.Text    := ValidaArquivo(ArquivoWebServicesReinf, CACBrReinfServicosIni);
@@ -6162,6 +6195,10 @@ begin
       cbVersaoWSCTe.ItemIndex          := cbVersaoWSCTe.Items.IndexOf(VersaoCTe);
       cbVersaoWSMDFe.ItemIndex         := cbVersaoWSMDFe.Items.IndexOf(VersaoMDFe);
       cbVersaoWSBPe.ItemIndex          := cbVersaoWSBPe.Items.IndexOf(VersaoBPe);
+      cbVersaoWSDeRE.ItemIndex         := cbVersaoWSDeRE.Items.IndexOf(
+        VersaoDeREToStr(StrToVersaoDeREDef(VersaoDeRE, High(TVersaoDeRE))));
+      if cbVersaoWSDeRE.ItemIndex < 0 then
+        cbVersaoWSDeRE.ItemIndex := cbVersaoWSDeRE.Items.Count - 1;
       cbVersaoWSGNRE.ItemIndex         := cbVersaoWSGNRE.Items.IndexOf(VersaoGNRe);
       cbVersaoWSCIOT.ItemIndex         := cbVersaoWSCIOT.Items.IndexOf(VersaoCIOT);
       if cbVersaoWSCIOT.ItemIndex < 0 then
@@ -6188,6 +6225,15 @@ begin
       edtIDContribuinte.Text             := IdContribuinte;
       edtIDTransmissorReinf.Text         := IdTransmissor;
       cbTipoContribuinte.ItemIndex       := cbTipoContribuinte.Items.IndexOf(TipoContribuinte);
+    end;
+
+    with DeRE do
+    begin
+      edtIDContribuinteDeRE.Text         := IdContribuinte;
+      edtClientIdDeRE.Text               := ClientId;
+      edtClientSecretDeRE.Text           := ClientSecret;
+      edtTokenDeRE.Text                  := Token;
+      edtTokenExpiraDeRE.Text            := TokenExpira;
     end;
 
     with CIOT do
@@ -6377,6 +6423,7 @@ begin
     SetComumConfig(ACBreSocial1.Configuracoes);
     SetComumConfig(ACBrReinf1.Configuracoes);
     SetComumConfig(ACBrBPe1.Configuracoes);
+    SetComumConfig(ACBrDeRE1.Configuracoes);
     SetComumConfig(ACBrGTIN1.Configuracoes);
     SetComumConfig(ACBrNFSeX1.Configuracoes);
 
@@ -7505,6 +7552,7 @@ begin
       ArquivoWebServicesCTe     := edtArquivoWebServicesCTe.Text;
       ArquivoWebServicesMDFe    := edtArquivoWebServicesMDFe.Text;
       ArquivoWebServicesBPe     := edtArquivoWebServicesBPe.Text;
+      ArquivoWebServicesDeRE    := edtArquivoWebServicesDeRE.Text;
       ArquivoWebServicesGNRe    := edtArquivoWebServicesGNRe.Text;
       ArquivoWebServiceseSocial := edtArquivoWebServiceseSocial.Text;
       ArquivoWebServicesReinf   := edtArquivoWebServicesReinf.Text;
@@ -7548,6 +7596,7 @@ begin
         VersaoCTe                := cbVersaoWSCTe.Text;
         VersaoMDFe               := cbVersaoWSMDFe.Text;
         VersaoBPe                := cbVersaoWSBPe.Text;
+        VersaoDeRE               := cbVersaoWSDeRE.Text;
         VersaoGNRe               := cbVersaoWSGNRE.Text;
         VersaoCIOT               := cbVersaoWSCIOT.Text;
         VersaoeSocial          := cbVersaoWSeSocial.Text;
@@ -7580,6 +7629,15 @@ begin
         IdContribuinte           := edtIDContribuinte.Text;
         IdTransmissor            := edtIDTransmissorReinf.Text;
         TipoContribuinte         := cbTipoContribuinte.Text;
+      end;
+
+      with DeRE do
+      begin
+        IdContribuinte           := edtIDContribuinteDeRE.Text;
+        ClientId                 := edtClientIdDeRE.Text;
+        ClientSecret             := edtClientSecretDeRE.Text;
+        Token                    := Trim(edtTokenDeRE.Text);
+        TokenExpira              := Trim(edtTokenExpiraDeRE.Text);
       end;
 
       with CIOT do
@@ -8276,6 +8334,7 @@ begin
        (UpperCase(Copy(Objeto, 1, 7)) = 'ESOCIAL') or
        (UpperCase(Copy(Objeto, 1, 5)) = 'REINF') or
        (UpperCase(Copy(Objeto, 1, 3)) = 'BPE') or
+       (UpperCase(Copy(Objeto, 1, 4)) = 'DERE') or
        (UpperCase(Copy(Objeto, 1, 3)) = 'CTE') or
        (UpperCase(Copy(Objeto, 1, 4)) = 'CNPJ') or
        (UpperCase(Copy(Objeto, 1, 4)) = 'NFSE') or
@@ -8405,6 +8464,8 @@ begin
           FDoSAT.Executar(fsCmd)
         else if fsCmd.Objeto = 'BPE' then
           FDoBPe.Executar(fsCmd)
+        else if fsCmd.Objeto = 'DERE' then
+          FDoDeRE.Executar(fsCmd)
         else if fsCmd.Objeto = 'ESCPOS' then
           FDoPosPrinter.Executar(fsCmd)
         else if fsCmd.Objeto = 'GTIN' then
@@ -9144,6 +9205,19 @@ begin
   if OpenDialog1.Execute then
   begin
     edtArquivoWebServicesNFSe.Text := OpenDialog1.FileName;
+  end;
+end;
+
+procedure TFrmACBrMonitor.sbArquivoWebServicesDeREClick(Sender: TObject);
+begin
+  OpenDialog1.Title := 'Selecione o arquivo';
+  OpenDialog1.DefaultExt := '*.ini';
+  OpenDialog1.Filter :=
+    'Arquivos INI (*.ini)|*.ini|Todos os Arquivos (*.*)|*.*';
+  OpenDialog1.InitialDir := ExtractFileDir(application.ExeName);
+  if OpenDialog1.Execute then
+  begin
+    edtArquivoWebServicesDeRE.Text := OpenDialog1.FileName;
   end;
 end;
 
@@ -10609,6 +10683,7 @@ begin
   AtualizarHomologacaoDFe(ACBrMDFe1.Configuracoes);
   AtualizarHomologacaoDFe(ACBrGNRE1.Configuracoes);
   AtualizarHomologacaoDFe(ACBrBPe1.Configuracoes);
+  AtualizarHomologacaoDFe(ACBrDeRE1.Configuracoes);
   AtualizarHomologacaoDFe(ACBrBlocoX1.Configuracoes);
   AtualizarHomologacaoDFe(ACBreSocial1.Configuracoes);
   AtualizarHomologacaoDFe(ACBrReinf1.Configuracoes);
@@ -10856,6 +10931,7 @@ begin
      or (AfsCmd.Objeto = 'REINF')
      or (AfsCmd.Objeto = 'GNRE')
      or (AfsCmd.Objeto = 'BPE')
+     or (AfsCmd.Objeto = 'DERE')
      or (AfsCmd.Objeto = 'NFSE')
      or (AfsCmd.Objeto = 'GTIN') then
        MsgErro :=  VerificarErrosConfiguracaoDFe;
@@ -12472,6 +12548,23 @@ begin
       TConfiguracoesBPe(Configuracoes).Arquivos.PathSchemas:= PathSchemaDFe ;
 
   end
+  else if Configuracoes is TConfiguracoesDeRE then
+  begin
+    TConfiguracoesDeRE(Configuracoes).Geral.VersaoDF      := StrToVersaoDeREDef(cbVersaoWSDeRE.Text, High(TVersaoDeRE));
+    TConfiguracoesDeRE(Configuracoes).Geral.IdContribuinte := edtIDContribuinteDeRE.Text;
+    TConfiguracoesDeRE(Configuracoes).Geral.ClientId       := edtClientIdDeRE.Text;
+    TConfiguracoesDeRE(Configuracoes).Geral.ClientSecret   := edtClientSecretDeRE.Text;
+    TConfiguracoesDeRE(Configuracoes).Geral.Token          := Trim(edtTokenDeRE.Text);
+    TConfiguracoesDeRE(Configuracoes).Geral.TokenExpira    := DeREStrToDataHora(edtTokenExpiraDeRE.Text);
+
+    TConfiguracoesDeRE(Configuracoes).Arquivos.IniServicos := edtArquivoWebServicesDeRE.Text;
+    TConfiguracoesDeRE(Configuracoes).Arquivos.EmissaoPathDeRE := cbxEmissaoPathNFe.Checked;
+    TConfiguracoesDeRE(Configuracoes).Arquivos.PathDeRE    := edtPathNFe.Text;
+
+    PathSchemaDFe := edtPathSchemasDFe.Text + PathDelim + 'DeRE';
+    if DirectoryExists(PathSchemaDFe) then
+      TConfiguracoesDeRE(Configuracoes).Arquivos.PathSchemas := PathSchemaDFe;
+  end
   else if Configuracoes is TConfiguracoesNFSe then
   begin
     // Italo
@@ -12930,6 +13023,7 @@ begin
       ACBrBlocoX1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBreSocial1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBrReinf1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
+      ACBrDeRE1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
       ACBrCIOT1.Configuracoes.Geral.SSLCryptLib := TSSLCryptLib(cbCryptLib.ItemIndex);
@@ -12952,6 +13046,7 @@ begin
       ACBrBlocox1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBreSocial1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBrReinf1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
+      ACBrDeRE1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
       ACBrCIOT1.Configuracoes.Geral.SSLHttpLib := TSSLHttpLib(cbHttpLib.ItemIndex);
@@ -13066,6 +13161,7 @@ begin
       ACBrBlocoX1.Configuracoes.Geral.SSLLib := TSSLLib(cbSSLLib.ItemIndex);
       ACBreSocial1.Configuracoes.Geral.SSLLib:= TSSLLib(cbSSLLib.ItemIndex);
       ACBrReinf1.Configuracoes.Geral.SSLLib  := TSSLLib(cbSSLLib.ItemIndex);
+      ACBrDeRE1.Configuracoes.Geral.SSLLib  := TSSLLib(cbSSLLib.ItemIndex);
       ACBrBPe1.Configuracoes.Geral.SSLLib    := TSSLLib(cbSSLLib.ItemIndex);
       ACBrGTIN1.Configuracoes.Geral.SSLLib   := TSSLLib(cbSSLLib.ItemIndex);
       ACBrCIOT1.Configuracoes.Geral.SSLLib   := TSSLLib(cbSSLLib.ItemIndex);
@@ -13441,6 +13537,7 @@ begin
   ACBrBlocoX1.SSL.SSLType := TSSLType( cbSSLType.ItemIndex );
   ACBreSocial1.SSL.SSLType:= TSSLType( cbSSLType.ItemIndex );
   ACBrReinf1.SSL.SSLType  := TSSLType( cbSSLType.ItemIndex );
+  ACBrDeRE1.SSL.SSLType  := TSSLType( cbSSLType.ItemIndex );
   ACBrBPe1.SSL.SSLType    := TSSLType( cbSSLType.ItemIndex );
   ACBrGTIN1.SSL.SSLType   := TSSLType( cbSSLType.ItemIndex );
   ACBrCIOT1.SSL.SSLType   := TSSLType( cbSSLType.ItemIndex );

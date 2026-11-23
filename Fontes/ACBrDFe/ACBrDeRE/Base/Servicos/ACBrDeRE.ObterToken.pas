@@ -1,0 +1,76 @@
+{******************************************************************************}
+{ Projeto: Componentes ACBr                                                    }
+{  Biblioteca multiplataforma de componentes Delphi para interação com equipa- }
+{ mentos de Automação Comercial utilizados no Brasil                           }
+{                                                                              }
+{ Direitos Autorais Reservados (c) 2026 Daniel Simoes de Almeida               }
+{                                                                              }
+{ Colaboradores nesse arquivo: Renato Rubinho                                  }
+{                                                                              }
+{  Você pode obter a última versão desse arquivo na pagina do  Projeto ACBr    }
+{ Componentes localizado em      http://www.sourceforge.net/projects/acbr      }
+{                                                                              }
+{  Esta biblioteca é software livre; você pode redistribuí-la e/ou modificá-la }
+{ sob os termos da Licença Pública Geral Menor do GNU conforme publicada pela  }
+{ Free Software Foundation; tanto a versão 2.1 da Licença, ou (a seu critério) }
+{ qualquer versão posterior.                                                   }
+{                                                                              }
+{  Esta biblioteca é distribuída na expectativa de que seja útil, porém, SEM   }
+{ NENHUMA GARANTIA; nem mesmo a garantia implícita de COMERCIABILIDADE OU      }
+{ ADEQUAÇÃO A UMA FINALIDADE ESPECÍFICA. Consulte a Licença Pública Geral Menor}
+{ do GNU para mais detalhes. (Arquivo LICENÇA.TXT ou LICENSE.TXT)              }
+{                                                                              }
+{  Você deve ter recebido uma cópia da Licença Pública Geral Menor do GNU junto}
+{ com esta biblioteca; se não, escreva para a Free Software Foundation, Inc.,  }
+{ no endereço 59 Temple Street, Suite 330, Boston, MA 02111-1307 USA.          }
+{ Você também pode obter uma copia da licença em:                              }
+{ http://www.opensource.org/licenses/lgpl-license.php                          }
+{                                                                              }
+{ Daniel Simões de Almeida - daniel@projetoacbr.com.br - www.projetoacbr.com.br}
+{       Rua Coronel Aureliano de Camargo, 963 - Tatuí - SP - 18270-170         }
+{******************************************************************************}
+
+{$I ACBr.inc}
+
+unit ACBrDeRE.ObterToken;
+
+interface
+
+uses
+  SysUtils, Classes;
+
+type
+  { TObterTokenDeRE - pedido do servico de Token (OAuth2 client_credentials) }
+
+  TObterTokenDeRE = class(TObject)
+  private
+    FClientId: string;
+    FClientSecret: string;
+  public
+    // Corpo do POST (application/x-www-form-urlencoded)
+    function GerarCorpo: string;
+    // Valor do cabecalho Authorization (Basic <base64(ClientId:ClientSecret)>)
+    function GerarAutorizacao: string;
+
+    property ClientId: string read FClientId write FClientId;
+    property ClientSecret: string read FClientSecret write FClientSecret;
+  end;
+
+implementation
+
+uses
+  synacode;
+
+{ TObterTokenDeRE }
+
+function TObterTokenDeRE.GerarCorpo: string;
+begin
+  Result := 'grant_type=client_credentials';
+end;
+
+function TObterTokenDeRE.GerarAutorizacao: string;
+begin
+  Result := 'Basic ' + string(EncodeBase64(AnsiString(FClientId + ':' + FClientSecret)));
+end;
+
+end.
