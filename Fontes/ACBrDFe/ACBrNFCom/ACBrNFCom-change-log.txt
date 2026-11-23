@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/10/2026
+-- ACBrNFComXmlReader --
+[-] Trocado todos os Find por FindAnyNs, criado a procedure LerICMSSN para realizar a leitura do grupo ICMSSN.
+    Removido da procedure LerICMS as linhas que se referem ao grupo ICMSSN e ao grupo gICMSPrevistoPagtoAntecip.
+   Por: Italo Giurizzato Junior
+
 18/10/2026
 -- ACBrNFComXmlReader/ACBrNFComXmlWriter --
 [-] Ajustes na geração e leitura do grupo <impostos>
