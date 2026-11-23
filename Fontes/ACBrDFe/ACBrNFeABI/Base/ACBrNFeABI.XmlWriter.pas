@@ -328,9 +328,9 @@ begin
      (NFeABI.pag.detPagIncorpLote.Count > 0) then
     Result.AppendChild(Gerar_pag(NFeABI.pag));
 
-  if (not (NFeABI.infOper.gIncorpLote.indIncorpLote in [iilIncorporacao, iilLoteamento])) and
-     (NFeABI.total.vNF <> 0) then
+  if not (NFeABI.infOper.gIncorpLote.indIncorpLote in [iilIncorporacao, iilLoteamento]) then
     Result.AppendChild(Gerar_Total(NFeABI.total));
+
   Result.AppendChild(Gerar_InfAdic(NFeABI.infAdic));
   Result.AppendChild(Gerar_infRespTec(NFeABI.infRespTec));
 end;
@@ -444,11 +444,12 @@ begin
 
   Result.AppendChild(AddNodeCNPJCPF('C02', 'C02a', Emit.CNPJCPF));
 
-  if NFeABI.Ide.tpAmb = taHomologacao then
-    Emit.xNome := HOM_NOME;
-
-  Result.AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
-                                                        Emit.xNome, DSC_XNOME));
+  if NFeABI.Ide.tpAmb = taProducao then
+    Result.AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
+                                                        Emit.xNome, DSC_XNOME))
+  else
+    Result.AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
+                                                        HOM_NOME, DSC_XNOME));
 
   Result.AppendChild(AddNode(tcStr, 'C03', 'xFant', 1, 60, 0,
                                                         Emit.xFant, DSC_XFANT));
@@ -530,11 +531,12 @@ begin
 
     Result[i].AppendChild(AddNodeCNPJCPF('F02', 'F03', transmit[i].CNPJCPF));
 
-    if NFeABI.Ide.tpAmb = taHomologacao then
-      transmit[i].xNome := HOM_NOME;
-
-    Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
-                                                 transmit[i].xNome, DSC_XNOME));
+    if NFeABI.Ide.tpAmb = taProducao then
+      Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
+                                                 transmit[i].xNome, DSC_XNOME))
+    else
+      Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
+                                                 HOM_NOME, DSC_XNOME));
 
     if transmit[i].enderTransmit.xLgr <> '' then
       Result[i].AppendChild(Gerar_Endereco('enderTransmit', transmit[i].enderTransmit));
@@ -569,11 +571,12 @@ begin
 
     Result[i].AppendChild(AddNodeCNPJCPF('F02', 'F03', adquirente[i].CNPJCPF));
 
-    if NFeABI.Ide.tpAmb = taHomologacao then
-      adquirente[i].xNome := HOM_NOME;
-
-    Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
-                                               adquirente[i].xNome, DSC_XNOME));
+    if NFeABI.Ide.tpAmb = taProducao then
+      Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
+                                               adquirente[i].xNome, DSC_XNOME))
+    else
+      Result[i].AppendChild(AddNode(tcStr, 'C03', 'xNome', 2, 70, 1,
+                                               HOM_NOME, DSC_XNOME));
 
     Result[i].AppendChild(Gerar_Endereco('enderAdquirente',
                                                 adquirente[i].enderAdquirente));
