@@ -41,6 +41,10 @@ Símbolo : Significado
 
 23/11/2026
 -- ACBrDFe.RTC.XmlWriter --
+[*] O grupo gIBSCBS agora só é gerado se o valor da tag vBC for diferente de zero.
+   Por: Italo Giurizzato Junior
+
+-- ACBrDFe.RTC.XmlWriter --
 [*] Ajustado o tamanho da tag vIBSSN para 15 em vez de 7 dentro da function gTribSNTot.
    Por: Renato Ricci
 

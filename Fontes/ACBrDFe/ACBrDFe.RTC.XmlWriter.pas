@@ -428,6 +428,11 @@ end;
 
 function TDFeRTCXmlWriter.Gerar_gIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode;
 begin
+  Result := nil;
+
+  if gIBSCBS.vBC = 0 then
+    Exit;
+
   Result := CreateElement('gIBSCBS');
 
   Result.AppendChild(AddNode(tcDe2, '#4', 'vBC', 1, 15, 1,
