@@ -45,11 +45,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 23/11/2026
+-- ACBrNFe.Classes --
+[*] Removido o comentário do IBSCBSTot.Assign na procedure TTotal.Assign.
+   Por: Italo Giurizzato Junior
 -- ACBrNFeDANFeRLClass, ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
 [+] ACBR-10270 - A propriedade ExibeEAN passa a imprimir o EAN no DANFE da Reforma Tributária (Fortes, retrato e paisagem). O DANFE padrão não foi alterado.
    Por: Daniel de Morais InfoCotidiano
-
-23/11/2026
 -- ACBrNFe.XmlWriter --
 [*] Acrescentado as linhas if not FpGerarGrupoPIS then Exit; e if not FpGerarGrupoCOFINS then Exit; dentro das procedures GerarDetImpostoPIS e
     GerarDetImpostoCOFINS e removendo do segundo IF a condição: FpGerarGrupoPIS e FpGerarGrupoCOFINS das procedures mencionadas.

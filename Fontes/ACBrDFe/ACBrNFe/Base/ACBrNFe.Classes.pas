@@ -3186,7 +3186,7 @@ begin
   ISSQNtot.Assign(Source.ISSQNtot);
   retTrib.Assign(Source.retTrib);
   ISTot.Assign(Source.ISTot);
-//  IBSCBSTot.Assign(Source.IBSCBSTot);
+  IBSCBSTot.Assign(Source.IBSCBSTot);
   vNFTot := Source.vNFTot;
   vProdLiqTot := Source.vProdLiqTot;
 end;
