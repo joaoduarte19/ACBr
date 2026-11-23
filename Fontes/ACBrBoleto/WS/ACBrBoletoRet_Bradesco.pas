@@ -196,21 +196,40 @@ begin
         begin
           if (LTipoOperacao = tpInclui) then
           begin
-            ARetornoWS.DadosRet.TituloRet.NossoNumero                 := LJsonObject.AsString['ctitloCobrCdent'];
-            ARetornoWS.DadosRet.TituloRet.CodBarras                   := ConverterEBCDICToCodigoBarras(LJsonObject.AsString['codBarras10']);
-            ARetornoWS.DadosRet.TituloRet.LinhaDig                    := OnlyNumber(LJsonObject.AsString['linhaDig10']);
-            ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca        := LJsonObject.AsString['codStatus10'];//Ex. A Vencer/Vencido
-            ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca  := LJsonObject.AsString['codStatus10'];//Ex 01.
-            ARetornoWS.DadosRet.TituloRet.SeuNumero                   := LJsonObject.AsString['snumero10'];
-            ARetornoWS.DadosRet.TituloRet.DataRegistro                := DateBradescoToDateTime(LJsonObject.AsString['dataReg10']);
-            ARetornoWS.DadosRet.TituloRet.DataProcessamento           := DateBradescoToDateTime(LJsonObject.AsString['dataImpressao10']);
-            ARetornoWS.DadosRet.TituloRet.DataDocumento               := DateBradescoToDateTime(LJsonObject.AsString['dataEmis10']);
-            ARetornoWS.DadosRet.TituloRet.ValorDocumento              := LJsonObject.AsCurrency['valMoeda10'];
-            if ACBrBoleto.Configuracoes.WebService.UseCertificateHTTP then // Portal Developers
-              ARetornoWS.DadosRet.TituloRet.ValorDocumento            := ARetornoWS.DadosRet.TituloRet.ValorDocumento / 100;
-            ARetornoWS.DadosRet.TituloRet.Vencimento                  := DateBradescoToDateTime(LJsonObject.AsString['dataVencto10']);
-            ARetornoWS.DadosRet.TituloRet.TxId                        := LJsonObject.AsString['iconcPgtoSpi'];
-            ARetornoWS.DadosRet.TituloRet.EMV                         := LJsonObject.AsString['wqrcdPdraoMercd'];
+            if ACBrBoleto.Configuracoes.WebService.UseCertificateHTTP and
+               (not ACBrBoleto.Cedente.CedenteWS.IndicadorPix) then
+            begin
+              // Portal Developers - Boleto sem QRCode
+              ARetornoWS.DadosRet.TituloRet.NossoNumero                 := LJsonObject.AsString['nuTituloGerado'];
+              ARetornoWS.DadosRet.TituloRet.CodBarras                   := ConverterEBCDICToCodigoBarras(LJsonObject.AsString['cdBarras']);
+              ARetornoWS.DadosRet.TituloRet.LinhaDig                    := OnlyNumber(LJsonObject.AsString['linhaDigitavel']);
+              ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca        := CodigoStatusTituloToDescricao(LJsonObject.AsInteger['codStatus10']);
+              ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca  := LJsonObject.AsString['codStatus10'];
+              ARetornoWS.DadosRet.TituloRet.SeuNumero                   := LJsonObject.AsString['seuNumeroTitulo'];
+              ARetornoWS.DadosRet.TituloRet.DataRegistro                := DateBradescoToDateTime(LJsonObject.AsString['dtRegistro']);
+              ARetornoWS.DadosRet.TituloRet.DataProcessamento           := DateBradescoToDateTime(LJsonObject.AsString['dtRegistro']);
+              ARetornoWS.DadosRet.TituloRet.DataDocumento               := DateBradescoToDateTime(LJsonObject.AsString['dtEmissao']);
+              ARetornoWS.DadosRet.TituloRet.ValorDocumento              := LJsonObject.AsCurrency['vlTitulo'] / 100;
+              ARetornoWS.DadosRet.TituloRet.Vencimento                  := DateBradescoToDateTime(LJsonObject.AsString['dtVencimento']);
+            end
+            else
+            begin
+              ARetornoWS.DadosRet.TituloRet.NossoNumero                 := LJsonObject.AsString['ctitloCobrCdent'];
+              ARetornoWS.DadosRet.TituloRet.CodBarras                   := ConverterEBCDICToCodigoBarras(LJsonObject.AsString['codBarras10']);
+              ARetornoWS.DadosRet.TituloRet.LinhaDig                    := OnlyNumber(LJsonObject.AsString['linhaDig10']);
+              ARetornoWS.DadosRet.TituloRet.EstadoTituloCobranca        := LJsonObject.AsString['codStatus10'];//Ex. A Vencer/Vencido
+              ARetornoWS.DadosRet.TituloRet.CodigoEstadoTituloCobranca  := LJsonObject.AsString['codStatus10'];//Ex 01.
+              ARetornoWS.DadosRet.TituloRet.SeuNumero                   := LJsonObject.AsString['snumero10'];
+              ARetornoWS.DadosRet.TituloRet.DataRegistro                := DateBradescoToDateTime(LJsonObject.AsString['dataReg10']);
+              ARetornoWS.DadosRet.TituloRet.DataProcessamento           := DateBradescoToDateTime(LJsonObject.AsString['dataImpressao10']);
+              ARetornoWS.DadosRet.TituloRet.DataDocumento               := DateBradescoToDateTime(LJsonObject.AsString['dataEmis10']);
+              ARetornoWS.DadosRet.TituloRet.ValorDocumento              := LJsonObject.AsCurrency['valMoeda10'];
+              if ACBrBoleto.Configuracoes.WebService.UseCertificateHTTP then // Portal Developers
+                ARetornoWS.DadosRet.TituloRet.ValorDocumento            := ARetornoWS.DadosRet.TituloRet.ValorDocumento / 100;
+              ARetornoWS.DadosRet.TituloRet.Vencimento                  := DateBradescoToDateTime(LJsonObject.AsString['dataVencto10']);
+              ARetornoWS.DadosRet.TituloRet.TxId                        := LJsonObject.AsString['iconcPgtoSpi'];
+              ARetornoWS.DadosRet.TituloRet.EMV                         := LJsonObject.AsString['wqrcdPdraoMercd'];
+            end;
           end
           else
           if (LTipoOperacao = tpConsultaDetalhe) then

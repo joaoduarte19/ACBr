@@ -48,6 +48,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+23/11/2026
+-- ACBrBoletoW_Bradesco.pas, ACBrBoletoRet_Bradesco.pas --
+[-] Portal Developers: ajustados desconto, abatimento, sacador avalista e retorno do registro do boleto sem QRCode, e data do desconto do boleto híbrido.
+	[ACBR-10241] https://www.projetoacbr.com.br/forum/topic/96018-api-boleto-comum-%E2%80%94-http-422-e-ejsonparserexception/
+	Por: Daniel de Morais InfoCotidiano
 
 17/11/2026
 -- ACBrBoletoRet_Bradesco.pas --
