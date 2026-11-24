@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/11/2026
+-- ACBrCTe --
+[*] ACBr-10277: Conforme consta na NT 2026/004 versão 1.01 a contingência Offline também
+    exige o parâmetro "sign" na URL do QR-Code.
+   Por: Hélio Neto
 -- ACBrCTeDACTeRLRetrato --
 [*] ACBr-9871: Para o CTe Simplificado alterado a distribuição dos componentes de frete,
     quando tem uma quantidade grande ficam todos na primeira coluna, agora é distribuído

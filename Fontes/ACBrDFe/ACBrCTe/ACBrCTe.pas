@@ -329,7 +329,8 @@ begin
   sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TipoAmbienteToStr(TipoAmbiente);
 
   // Passo 2 calcular o SHA-1 da string idCTe se o Tipo de Emissão for EPEC ou FSDA
-  if TipoEmissao in [teDPEC, teFSDA] then
+  // NT 2026.004: Contingencia Offline (tpEmis=2) tambem exige o sign (rej. 853/855)
+  if TipoEmissao in [teDPEC, teFSDA, teContingencia] then
   begin
     // Tipo de Emissão em Contingência
     SSL.CarregarCertificadoSeNecessario;
@@ -361,7 +362,8 @@ begin
   sEntrada := 'chCTe=' + idCTe + '&tpAmb=' + TipoAmbienteToStr(FCTe.Ide.tpAmb);
 
   // Passo 2 calcular o SHA-1 da string idCTe se o Tipo de Emissão for EPEC ou FSDA
-  if FCTe.ide.tpEmis in [teDPEC, teFSDA] then
+  // NT 2026.004: Contingencia Offline (tpEmis=2) tambem exige o sign (rej. 853/855)
+  if FCTe.ide.tpEmis in [teDPEC, teFSDA, teContingencia] then
   begin
     // Tipo de Emissão em Contingência
     SSL.CarregarCertificadoSeNecessario;
