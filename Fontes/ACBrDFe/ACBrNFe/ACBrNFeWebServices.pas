@@ -4143,15 +4143,15 @@ begin
                       '-procEventoNFe.xml';
       end;
 
-      aPath := GerarPathDistribuicao(FretDistDFeInt.docZip.Items[I]);
-
-      if NaoEstaVazio(NomeArq) then
-        FlistaArqs.Add(aPath + PathDelim + FNomeArq);
-
-      FretDistDFeInt.docZip.Items[I].NomeArq := aPath + PathDelim + FNomeArq;
-
       if (FPConfiguracoesNFe.Arquivos.Salvar) and NaoEstaVazio(NomeArq) then
       begin
+        aPath := GerarPathDistribuicao(FretDistDFeInt.docZip.Items[I]);
+
+        if NaoEstaVazio(NomeArq) then
+          FlistaArqs.Add(aPath + PathDelim + FNomeArq);
+
+        FretDistDFeInt.docZip.Items[I].NomeArq := aPath + PathDelim + FNomeArq;
+
         if FPConfiguracoesNFe.Arquivos.SalvarEvento then
           if (FretDistDFeInt.docZip.Items[I].schema in [schresEvento, schprocEventoNFe]) then
             FPDFeOwner.Gravar(NomeArq, AXML, aPath);
