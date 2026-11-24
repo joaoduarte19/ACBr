@@ -545,14 +545,16 @@ begin
     LDeRE := FLista[i];
     LNomeArq := LDeRE.Evento.id + '-dere.xml';
 
-    if TACBrDeRE(Owner).Configuracoes.Geral.Salvar then
-      TACBrDeRE(Owner).Gravar(LNomeArq, LDeRE.Evento.XML, LPath);
-
     LItem := FGerados.New;
     LItem.TipoEvento := LDeRE.Evento.TipoEvento;
     LItem.IdEvento := LDeRE.Evento.id;
-    LItem.PathNome := LPath + LNomeArq;
     LItem.XML := LDeRE.Evento.XML;
+
+    if TACBrDeRE(Owner).Configuracoes.Geral.Salvar then
+    begin
+      TACBrDeRE(Owner).Gravar(LNomeArq, LDeRE.Evento.XML, LPath);
+      LItem.PathNome := PathWithDelim(LPath) + LNomeArq;
+    end;
   end;
 end;
 

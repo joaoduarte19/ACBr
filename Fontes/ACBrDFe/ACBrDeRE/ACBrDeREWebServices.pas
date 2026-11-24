@@ -1064,7 +1064,7 @@ begin
      (FPConfiguracoes.Certificados.ArquivoPFX <> '') then
     if FPConfiguracoes.Certificados.VerificarValidade then
       if (FPDFeOwner.SSL.CertDataVenc < Now) then
-        raise EACBrDFeException.Create('Data de Validade do Certificado já expirou: ' +
+        raise EACBrDFeException.Create(ACBrStr('Data de Validade do Certificado já expirou: ') +
                                        FormatDateBr(FPDFeOwner.SSL.CertDataVenc));
 
   Tentar := True;
