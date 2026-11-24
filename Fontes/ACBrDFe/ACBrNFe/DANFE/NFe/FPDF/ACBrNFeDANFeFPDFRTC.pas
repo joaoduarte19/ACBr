@@ -61,6 +61,7 @@ type
     FLogo: TMemoryStream;
     FInicializado: Boolean;
     FMensagemRodape: String;
+    FExibeEAN: Boolean;
     FPaisagem: Boolean;
     FAlturaLinha: Double;
     FAlturaTitulo: Double;
@@ -87,6 +88,7 @@ type
     property RTC: TACBrNFeDANFeRTC read FRTC;
     property Logo: TMemoryStream read FLogo;
     property MensagemRodape: String read FMensagemRodape write FMensagemRodape;
+    property ExibeEAN: Boolean read FExibeEAN write FExibeEAN;
     property Paisagem: Boolean read FPaisagem;
     property AlturaLinha: Double read FAlturaLinha;
     property AlturaTitulo: Double read FAlturaTitulo;
@@ -1283,7 +1285,7 @@ procedure TBlocoItensRTC.PrepararItem(const APDF: IFPDF; AIndex: Integer; out AI
 var
   LDet: TDetCollectionItem;
   LOwner: TACBrNFeDANFEClass;
-  LAdicional, LQuantidades, LUnidades, LValoresUnitarios: String;
+  LAdicional, LQuantidades, LUnidades, LValoresUnitarios, LDescricao, LEAN: String;
   LWDescricao, LAltura7, LAltura6, LAltura55: Double;
   LAlturaDescricao, LAlturaQuantidade, LAlturaTributos: Double;
 begin
@@ -1292,7 +1294,13 @@ begin
   LWDescricao := FX[1] - FX[0] - 1;
 
   LAltura7 := AlturaLinhaTexto(APDF, 7);
-  AItem.Descricao := LinhasTexto(APDF, NativeStringToAnsi(LDet.Prod.xProd), LWDescricao);
+  LDescricao := LDet.Prod.xProd;
+  LEAN := Trim(LDet.Prod.cEAN);
+  if Report.ExibeEAN and (LEAN <> '') and (LEAN <> 'SEM GTIN') then
+    LDescricao := LEAN + ' - ' + LDescricao;
+  LDescricao := LOwner.ManterCodigoXProd(LDet.Prod.cProd, LDescricao);
+
+  AItem.Descricao := LinhasTexto(APDF, NativeStringToAnsi(LDescricao), LWDescricao);
 
   LAdicional := Trim(LOwner.ManterinfAdProd(NFe, AIndex) + LOwner.ManterXPedNItemPed(NFe, AIndex));
   if Copy(LAdicional, 1, 1) = '-' then

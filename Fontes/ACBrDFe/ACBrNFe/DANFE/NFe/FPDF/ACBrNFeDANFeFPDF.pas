@@ -101,6 +101,7 @@ type
     FFPDFReport: TNFeDANFeFPDF;
     FDANFEClassOwner: TACBrNFeDANFEClass;
     FStream : TStream;
+    FExibeEAN: Boolean;
     function UsarLeiauteRTC(ANFe: TNFe): Boolean;
   public
     constructor Create(AOwner: TComponent); override;
@@ -118,6 +119,7 @@ type
     procedure ImprimirINUTILIZACAOPDF(AStream: TStream; ANFe: TNFe = nil); override;
   published
     // Declare propriedades publicamente acessíveis aqui
+    property ExibeEAN: Boolean read FExibeEAN write FExibeEAN default False;
   end;
 implementation
 
@@ -2785,6 +2787,7 @@ begin
     begin
       Report := TNFeDANFeFPDFRTC.Create(LNFe, Self);
       TNFeDANFeFPDFRTC(Report).MensagemRodape := Self.Sistema;
+      TNFeDANFeFPDFRTC(Report).ExibeEAN := Self.ExibeEAN;
     end
     else
     begin

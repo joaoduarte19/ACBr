@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/11/2026
+-- ACBrLibNFeConfig --
+[*] ACBR-10270 - A chave [DANFENFe] ExibeEAN passa a ser aplicada também ao DANFE FPDF, para imprimir o EAN no DANFE da Reforma Tributária (FPDF).
+   Por: Daniel de Morais InfoCotidiano
+
 19/11/2026
 -- ACBrLibNFeConsts, ACBrLibNFeConfig --
 [+] ACBR-10250 - Nova chave [DANFE] ImprimeCodigoProduto (padrão 1) que define a propriedade ImprimeCodigoProduto do DANFE, para imprimir o código do produto antes da descrição no DANFE da Reforma Tributária (Fortes).

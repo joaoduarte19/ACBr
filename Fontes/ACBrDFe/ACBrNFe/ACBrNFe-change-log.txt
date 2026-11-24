@@ -45,6 +45,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/11/2026
+-- ACBrNFeDANFeFPDF, ACBrNFeDANFeFPDFRTC --
+[+] ACBR-10270 - Nova propriedade ExibeEAN (padrão False) no ACBrNFeDANFeFPDF. 
+   O DANFE da Reforma Tributária (FPDF) passa a imprimir o código do produto (ImprimeCodigoProduto) e o EAN (ExibeEAN) antes da descrição, no formato "código - EAN - descrição".
+   Por: Daniel de Morais InfoCotidiano
+
+24/11/2026
 -- ACBrNFeWebServices --
 [*] ACBr-9807: Movido para dentro do IF a chamada a função GerarPathDistribuicao para
     não criar as pastas quando o valor da propriedade Arquivos.Salvar for False.

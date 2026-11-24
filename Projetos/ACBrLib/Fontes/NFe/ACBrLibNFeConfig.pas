@@ -304,7 +304,7 @@ uses
   {$IfNDef NOREPORT}
   ACBrDANFCeFortesFr,
   {$EndIf}
-  ACBrNFeDANFeESCPOS, ACBrDFeConfiguracoes,
+  ACBrNFeDANFeESCPOS, ACBrDFeConfiguracoes, ACBrNFeDANFeFPDF,
   ACBrUtil.FilesIO, ACBrUtil.Strings;
 
 { TDANFeNFeConfig }
@@ -847,6 +847,9 @@ begin
   if DFeReport is TACBrNFeDANFeRL then
     NFe.Apply(TACBrNFeDANFeRL(DFeReport));
   {$EndIf}
+
+  if DFeReport is TACBrNFeDANFeFPDF then
+    TACBrNFeDANFeFPDF(DFeReport).ExibeEAN := NFe.ExibeEAN;
 
   if DFeReport is TACBrNFeDANFCEClass then
     NFCe.Apply(TACBrNFeDANFCEClass(DFeReport));
