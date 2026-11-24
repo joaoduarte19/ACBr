@@ -18,6 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
+      <BuildNr Value="1"/>
       <Language Value="0416"/>
       <StringTable CompanyName="Projeto ACBr" FileDescription="ACBrDeRE - Biblioteca para envio e consulta da DeRE (Declaracao de Regimes Especificos - IBS/CBS)" InternalName="ACBrLibDeRE" LegalCopyright="Projeto ACBr" LegalTrademarks="Projeto ACBr" ProductName="DeRE" ProductVersion="1.0.0.0"/>
     </VersionInfo>
