@@ -203,7 +203,7 @@ type
     function PossuiDestinatario: Boolean;
     function DestinatarioEhTomador: Boolean;
     function PossuiIntermediario: Boolean;
-    function PossuiISSQN: Boolean;
+    function OperacaoSujeitaISSQN: Boolean;
 
     procedure DesenharBordaPagina(PDF: IFPDF);
     procedure DesenharRetanguloSombreado(PDF: IFPDF; X, Y, W, H: Double);
@@ -722,9 +722,14 @@ begin
                   FNFSe.Intermediario.RazaoSocial) <> '');
 end;
 
-function TACBrDANFSeFPDFPadraoNacional.PossuiISSQN: Boolean;
+function TACBrDANFSeFPDFPadraoNacional.OperacaoSujeitaISSQN: Boolean;
 begin
-  Result := (FNFSe <> nil) and (FNFSe.Servico <> nil);
+  // NT 008, item 2.3.1 e nota 4 do item 2.4.5: o bloco "Tributacao Municipal (ISSQN)"
+  // so se reduz a "Operacao nao sujeita ao ISSQN" quando nao ha incidencia do ISSQN.
+  // Na operacao tributavel (inclusive Simples Nacional, com o ISSQN no DAS e sem
+  // vISSQN) o bloco e impresso completo, entao a condicao e o tribISSQN, nao o ValorIss.
+  Result := (FNFSe <> nil) and (FNFSe.Servico <> nil) and
+            (FNFSe.Servico.Valores.tribMun.tribISSQN <> tiNaoIncidencia);
 end;
 
 procedure TACBrDANFSeFPDFPadraoNacional.DesenharBordaPagina(PDF: IFPDF);
@@ -858,7 +863,7 @@ end;
 
 function TACBrDANFSeFPDFPadraoNacional.CalcAlturaTributacaoMunicipal: Double;
 begin
-  if not PossuiISSQN then
+  if not OperacaoSujeitaISSQN then
     Result := cAlturaLinhaVazia
   else
     Result := 4 * 6.3;
@@ -1333,6 +1338,14 @@ begin
   LineH := 6.3;
   V := FNFSe.Servico.Valores;
 
+  // Mesma condicao de CalcAlturaTributacaoMunicipal: desenho e altura da banda
+  // precisam concordar, senao as linhas invadem os blocos seguintes
+  if not OperacaoSujeitaISSQN then
+  begin
+    DesenharLinhaVazia(PDF, X, Y, W, cMsgISSQNVazio);
+    DesenharLinhaSeparadora(PDF, W);
+    Exit;
+  end;
   // Linha 1: Titulo do bloco (1a celula) | Tipo Tributacao | Municipio/UF/Pais Incidencia (2 col)
   DesenharTituloBlocoInline(PDF, X, Y, ColW, LineH, 'Tributacao Municipal (ISSQN)');
   DesenharCampo(PDF, X + 1 * ColW, Y, ColW, LineH,

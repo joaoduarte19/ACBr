@@ -44,6 +44,10 @@ Símbolo : Significado
 
 24/11/2026
 -- ACBr.DANFSeX.FPDFPadraoNacional --
+[*] ACBR-10287 - Excluída a função PossuiISSQN no lugar incluída a função OperacaoSujeitaISSQN, alterada a função
+    CalcAlturaTributacaoMunicipal que agora passa a usar a função OperacaoSujeitaISSQN para definir a altura do quadro.
+    Na procedure BandaTributacaoMunicipal passa a verificar se a Operação é sujeita de ISSQN.
+   Por: Dinarte Moscon
 [*] ACBR-10265 - Remoção das linhas comentadas e correção na altura do quadro referente a Tributação Municipal.
     O uso do campo NaturezaOperacaoDescricao esta errada pois Natureza da Operação é uma coisa e Tributação do ISSQN é outra.
    Por: Italo Giurizzato Junior
