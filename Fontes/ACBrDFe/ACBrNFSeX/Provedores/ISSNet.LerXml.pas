@@ -38,6 +38,7 @@ interface
 
 uses
   SysUtils, Classes, StrUtils,
+  ACBrXmlDocument,
   ACBrNFSeXLerXml_ABRASFv1,
   ACBrNFSeXLerXml_ABRASFv2,
   PadraoNacional.LerXml;
@@ -67,6 +68,10 @@ type
 
   TNFSeR_ISSNetAPIPropria = class(TNFSeR_PadraoNacional)
   protected
+    procedure LerXMLEnderecoObra(const ANode: TACBrXmlNode); override;
+    procedure LerXMLEnderecoExteriorObra(const ANode: TACBrXmlNode); override;
+    procedure LerXMLEnderecoEvento(const ANode: TACBrXmlNode); override;
+    procedure LerXMLEnderecoExteriorEvento(const ANode: TACBrXmlNode); override;
 
     function NormatizarXml(const aXml: string): string; override;
   public
@@ -78,7 +83,9 @@ implementation
 uses
   ACBrXmlBase,
   ACBrUtil.Strings,
-  ACBrUtil.XMLHTML;
+  ACBrUtil.XMLHTML,
+  ACBrDFe.Conversao,
+  ACBrNFSeXConversao;
 
 //==============================================================================
 // Essa unit tem por finalidade exclusiva ler o XML do provedor:
@@ -118,6 +125,83 @@ begin
   Result := RemoverPrefixosDesnecessarios(Result);
   Result := RemoverDeclaracaoXML(Result);
   Result := RemoverCaracteresDesnecessarios(Result);
+end;
+
+procedure TNFSeR_ISSNetAPIPropria.LerXMLEnderecoObra(const ANode: TACBrXmlNode);
+var
+  AuxNode, NacNode: TACBrXmlNode;
+begin
+  inherited LerXMLEnderecoObra(ANode);
+
+  AuxNode := ANode.Childrens.FindAnyNs('end');
+
+  if AuxNode <> nil then
+  begin
+    NacNode := AuxNode.Childrens.FindAnyNs('endNac');
+
+    if NacNode <> nil then
+    begin
+      with NFSe.ConstrucaoCivil.Endereco do
+      begin
+        CodigoMunicipio := ObterConteudo(NacNode.Childrens.FindAnyNs('cMun'), tcStr);
+        CEP := ObterConteudo(NacNode.Childrens.FindAnyNs('CEP'), tcStr);
+      end;
+    end;
+  end;
+end;
+
+procedure TNFSeR_ISSNetAPIPropria.LerXMLEnderecoExteriorObra(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  AuxNode := ANode.Childrens.FindAnyNs('endExt');
+
+  if AuxNode <> nil then
+  begin
+    with NFSe.ConstrucaoCivil.Endereco do
+    begin
+      CodigoPais := SiglaISO2ToCodIBGEPais(ObterConteudo(AuxNode.Childrens.FindAnyNs('cPais'), tcStr));
+      CEP := ObterConteudo(AuxNode.Childrens.FindAnyNs('cEndPost'), tcStr);
+      xMunicipio := ObterConteudo(AuxNode.Childrens.FindAnyNs('xCidade'), tcStr);
+      UF := ObterConteudo(AuxNode.Childrens.FindAnyNs('xEstProvReg'), tcStr);
+    end;
+  end;
+end;
+
+procedure TNFSeR_ISSNetAPIPropria.LerXMLEnderecoEvento(const ANode: TACBrXmlNode);
+var
+  AuxNode, NacNode: TACBrXmlNode;
+begin
+  inherited LerXMLEnderecoEvento(ANode);
+
+  AuxNode := ANode.Childrens.FindAnyNs('end');
+
+  if AuxNode <> nil then
+  begin
+    NacNode := AuxNode.Childrens.FindAnyNs('endNac');
+
+    if NacNode <> nil then
+    begin
+      with NFSe.Servico.Evento.Endereco do
+      begin
+        CodigoMunicipio := ObterConteudo(NacNode.Childrens.FindAnyNs('cMun'), tcStr);
+        CEP := ObterConteudo(NacNode.Childrens.FindAnyNs('CEP'), tcStr);
+      end;
+    end;
+  end;
+end;
+
+procedure TNFSeR_ISSNetAPIPropria.LerXMLEnderecoExteriorEvento(const ANode: TACBrXmlNode);
+var
+  AuxNode: TACBrXmlNode;
+begin
+  inherited LerXMLEnderecoExteriorEvento(ANode);
+
+  AuxNode := ANode.Childrens.FindAnyNs('endExt');
+
+  if AuxNode <> nil then
+    NFSe.Servico.Evento.Endereco.CodigoPais :=
+      SiglaISO2ToCodIBGEPais(ObterConteudo(AuxNode.Childrens.FindAnyNs('cPais'), tcStr));
 end;
 
 end.

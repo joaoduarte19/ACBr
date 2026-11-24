@@ -51,7 +51,6 @@ type
   TNFSeR_PadraoNacional = class(TNFSeRClass)
   protected
     FpTipoXML: string;
-//    FpVersaoNT: TVersaoNTPadraoNacional;
 
     procedure LerXMLinfNFSe(const ANode: TACBrXmlNode);
     procedure LerXMLEmitente(const ANode: TACBrXmlNode);
@@ -88,11 +87,11 @@ type
     procedure LerXMLComercioExterior(const ANode: TACBrXmlNode);
     procedure LerXMLLocacaoSubLocacao(const ANode: TACBrXmlNode);
     procedure LerXMLObra(const ANode: TACBrXmlNode);
-    procedure LerXMLEnderecoObra(const ANode: TACBrXmlNode);
-    procedure LerXMLEnderecoExteriorObra(const ANode: TACBrXmlNode);
+    procedure LerXMLEnderecoObra(const ANode: TACBrXmlNode); virtual;
+    procedure LerXMLEnderecoExteriorObra(const ANode: TACBrXmlNode); virtual;
     procedure LerXMLAtividadeEvento(const ANode: TACBrXmlNode);
-    procedure LerXMLEnderecoEvento(const ANode: TACBrXmlNode);
-    procedure LerXMLEnderecoExteriorEvento(const ANode: TACBrXmlNode);
+    procedure LerXMLEnderecoEvento(const ANode: TACBrXmlNode); virtual;
+    procedure LerXMLEnderecoExteriorEvento(const ANode: TACBrXmlNode); virtual;
     procedure LerXMLExploracaoRodoviaria(const ANode: TACBrXmlNode);
     procedure LerXMLInformacoesComplementares(const ANode: TACBrXmlNode);
     procedure LerXMLInformacoesComplementaresgItemPed(const ANode: TACBrXMLNode);

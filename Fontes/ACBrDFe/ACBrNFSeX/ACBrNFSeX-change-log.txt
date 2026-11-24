@@ -43,6 +43,14 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/11/2026
+-- ISSNet.LerXml --
+[*] ACBR-10114 - Sobreescritas as procedures: LerXMLEnderecoObra, LerXMLEnderecoExteriorObra, LerXMLEnderecoEvento e
+    LerXMLEnderecoExteriorEvento uma vez que existem algumas diferenças visto que o provedor não segue a risca o 
+    layout do Padrão Nacional.
+-- PadraoNacional.LerXml --
+[*] ACBR-10114 - As procedures: LerXMLEnderecoObra, LerXMLEnderecoExteriorObra, LerXMLEnderecoEvento e
+    LerXMLEnderecoExteriorEvento agora são vituais para que em outros provedores elas podem ser sobrescritas.
+   Por: kauajuno
 -- ACBr.DANFSeX.FPDFPadraoNacional --
 [*] ACBR-10287 - Excluída a função PossuiISSQN no lugar incluída a função OperacaoSujeitaISSQN, alterada a função
     CalcAlturaTributacaoMunicipal que agora passa a usar a função OperacaoSujeitaISSQN para definir a altura do quadro.
