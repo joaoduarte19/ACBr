@@ -73,6 +73,7 @@ type
     function GetIncorporarFontesPdf: Boolean;
     function GetOtimizaImpressaoPdf :Boolean;
     function GetThreadSafe: Boolean;
+    function GetExibeEAN: Boolean;
 
     procedure SetFastFile(const Value: String);
     procedure SetFastFileEvento(const Value: String);
@@ -88,6 +89,7 @@ type
     procedure SetIncorporarFontesPdf(const Value: Boolean);
     procedure SetOtimizaImpressaoPdf(const Value: Boolean);
     procedure SetThreadSafe(const Value: Boolean);
+    procedure SetExibeEAN(const Value: Boolean);
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -125,6 +127,7 @@ type
     property ExibeCaptionButton: Boolean read GetExibeCaptionButton write SetExibeCaptionButton default False;
     property ZoomModePadrao: TfrxZoomMode read GetZoomModePadrao write SetZoomModePadrao default ZMDEFAULT;
     property ThreadSafe: Boolean read GetThreadSafe write SetThreadSafe;
+    property ExibeEAN: Boolean read GetExibeEAN write SetExibeEAN default False;
   end;
 
   {$IFDEF RTL230_UP}
@@ -297,6 +300,11 @@ function TACBrNFeDANFEFR.GetThreadSafe: Boolean;
 begin
   Result := FdmDanfe.ThreadSafe;
 end;
+
+function TACBrNFeDANFEFR.GetExibeEAN: Boolean;
+begin
+  Result := FdmDanfe.ExibeEAN;
+end;
 {$IFNDEF FMX}
 procedure TACBrNFeDANFEFR.SetBorderIcon(const Value: TBorderIcons);
 begin
@@ -356,6 +364,11 @@ end;
 procedure TACBrNFeDANFEFR.SetThreadSafe(const Value: Boolean);
 begin
   FdmDanfe.ThreadSafe := Value;
+end;
+
+procedure TACBrNFeDANFEFR.SetExibeEAN(const Value: Boolean);
+begin
+  FdmDanfe.ExibeEAN := Value;
 end;
 
 procedure TACBrNFeDANFEFR.ImprimirDANFE(NFE: TNFe);

@@ -45,6 +45,12 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/11/2026
+-- ACBrNFeDANFEFR, ACBrNFeDANFEFRDM --
+[+] ACBR-10250 / ACBR-10270 - DANFE RTC (Fast): imprime o código do produto (ImprimeCodigoProduto) e o EAN (nova propriedade ExibeEAN) antes da descrição.
+   FR3 RTC retrato e paisagem atualizados.
+   Por: Daniel de Morais InfoCotidiano
+
+24/11/2026
 -- ACBrNFeDANFeFPDF, ACBrNFeDANFeFPDFRTC --
 [+] ACBR-10270 - Nova propriedade ExibeEAN (padrão False) no ACBrNFeDANFeFPDF. 
    O DANFE da Reforma Tributária (FPDF) passa a imprimir o código do produto (ImprimeCodigoProduto) e o EAN (ExibeEAN) antes da descrição, no formato "código - EAN - descrição".
