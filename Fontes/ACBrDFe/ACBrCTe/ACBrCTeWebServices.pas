@@ -3813,11 +3813,11 @@ begin
       if NaoEstaVazio(NomeArq) then
         FlistaArqs.Add( FNomeArq );
 
-      aPath := GerarPathDistribuicao(FretDistDFeInt.docZip.Items[I]);
-      FretDistDFeInt.docZip.Items[I].NomeArq := PathWithDelim(aPath) + FNomeArq;
-
       if (FPConfiguracoesCTe.Arquivos.Salvar) and NaoEstaVazio(FNomeArq) then
       begin
+        aPath := GerarPathDistribuicao(FretDistDFeInt.docZip.Items[I]);
+        FretDistDFeInt.docZip.Items[I].NomeArq := PathWithDelim(aPath) + FNomeArq;
+
         if (FretDistDFeInt.docZip.Items[I].schema in [schprocEventoCTe]) then
           FPDFeOwner.Gravar(FNomeArq, AXML, aPath);
 

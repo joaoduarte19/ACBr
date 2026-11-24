@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+24/11/2026
+-- ACBrCTeWebServices --
+[*] ACBr-9807: Movido para dentro do IF a chamada a função GerarPathDistribuicao para
+    não criar as pastas quando o valor da propriedade Arquivos.Salvar for False.
+   Por: Alex Heinen
+
 23/11/2026
 -- ACBrCTeWebServices --
 [-] ACBR-10263 - O XML de um CT-e simplificado estava sendo montado como se fosse um CT-e
