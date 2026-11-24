@@ -1358,7 +1358,7 @@ end;
 procedure TfrmDACTeRLRetrato.rlb_03_DadosDACTeBeforePrint(Sender: TObject;
   var PrintIt: boolean);
 var
-  i, j, Altura: integer;
+  i, j, Altura, contador, coluna: integer;
   infCarga: TInfCarga;
 begin
   rlb_03_DadosDACTe.Enabled := not (fpCTe.ide.modelo = 67) and not
@@ -1624,27 +1624,36 @@ begin
 
   if fpCTe.ide.tpCTe in [tcCTeSimp, tcSubstCTeSimpl] then
   begin
+    contador := 0;
     for i := 0 to (fpCTe.det.Count - 1) do
     begin
       for j := 0 to (fpCTe.det[i].Comp.Count - 1) do
       begin
-        case j of
-          0, 3, 6, 9:
-          begin
-            rlmCompNome1.Lines.Add(fpCTe.det[i].comp[j].xNome);
-            rlmCompValor1.Lines.Add(FormatFloatBr(msk10x2, fpCTe.det[i].comp[j].vComp));
-          end;
-          1, 4, 7, 10:
-          begin
-            rlmCompNome2.Lines.Add(fpCTe.det[i].comp[j].xNome);
-            rlmCompValor2.Lines.Add(FormatFloatBr(msk10x2, fpCTe.det[i].comp[j].vComp));
-          end;
-          2, 5, 8, 11:
-          begin
-            rlmCompNome3.Lines.Add(fpCTe.det[i].comp[j].xNome);
-            rlmCompValor3.Lines.Add(FormatFloatBr(msk10x2, fpCTe.det[i].comp[j].vComp));
-          end;
+        // Se já atingiu 12 itens, sai dos loops
+        if contador >= 12 then
+          Exit;
+
+        coluna := contador mod 3;   // distribui entre 3 colunas
+
+        case coluna of
+          0:
+            begin
+              rlmCompNome1.Lines.Add(fpCTe.det[i].comp[j].xNome);
+              rlmCompValor1.Lines.Add(FormatFloatBr(msk10x2, fpCTe.det[i].comp[j].vComp));
+            end;
+          1:
+            begin
+              rlmCompNome2.Lines.Add(fpCTe.det[i].comp[j].xNome);
+              rlmCompValor2.Lines.Add(FormatFloatBr(msk10x2, fpCTe.det[i].comp[j].vComp));
+            end;
+          2:
+            begin
+              rlmCompNome3.Lines.Add(fpCTe.det[i].comp[j].xNome);
+              rlmCompValor3.Lines.Add(FormatFloatBr(msk10x2, fpCTe.det[i].comp[j].vComp));
+            end;
         end;
+
+        Inc(contador);
       end;
     end;
 

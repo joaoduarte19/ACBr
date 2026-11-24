@@ -45,6 +45,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 24/11/2026
+-- ACBrCTeDACTeRLRetrato --
+[*] ACBr-9871: Para o CTe Simplificado alterado a distribuição dos componentes de frete,
+    quando tem uma quantidade grande ficam todos na primeira coluna, agora é distribuído
+    nas 3 colunas.
+   Por: CS Time Com
 -- ACBrCTeWebServices --
 [*] ACBr-9807: Movido para dentro do IF a chamada a função GerarPathDistribuicao para
     não criar as pastas quando o valor da propriedade Arquivos.Salvar for False.
