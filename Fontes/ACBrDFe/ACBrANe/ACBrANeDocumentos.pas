@@ -385,16 +385,8 @@ function TDocumentos.LoadFromFile(const CaminhoArquivo: string;
 var
   XmlUTF8: AnsiString;
   i, l: integer;
-  MS: TMemoryStream;
 begin
-  MS := TMemoryStream.Create;
-  try
-    MS.LoadFromFile(CaminhoArquivo);
-
-    XmlUTF8 := ReadStrFromStream(MS, MS.Size);
-  finally
-    MS.Free;
-  end;
+  XMLUTF8 := CarregarArquivo(CaminhoArquivo);
 
   l := Self.Count; // Indice da última nota já existente
 
@@ -423,10 +415,16 @@ end;
 
 function TDocumentos.LoadFromString(const AXMLString: string;
   AGerarANe: Boolean = True): Boolean;
+var
+  XMLStr: AnsiString;
 begin
+  XMLStr := RemoverUTF8Bom(AXMLString);
+  XMLStr := ConverteXMLtoNativeString(XMLStr);
+  XMLStr := RemoverDeclaracaoXML(XMLStr);
+
   with Self.New do
   begin
-    LerXML(AXMLString);
+    LerXML(XMLStr);
 
     if AGerarANe then
       GerarXML;

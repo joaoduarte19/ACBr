@@ -46,6 +46,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+25/11/2026
+-- ACBrANeDocumentos --
+[*] ACBr-8220 No método LoadFromFile passou a utilizar a função CarregarArquivo para
+    realizar a leitura do XML. No método LoadFromString incluído as linhas com as chamadas
+    as funções: RemoverUTF8Bom, ConverteXMLtoNativeString e RemoverDeclaracaoXML.
+  Por: Italo Giurizzato Junior
+
 06/07/2026
 -- pcaANeW.pas  --
 [*] Ajuste no cnpj alfanumérico
