@@ -42,6 +42,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+23/11/2026
+-- ACBrDFeComum.RetDistDFeInt --
+[-] ACBr-10279 Imposta uma condição para a leitura da tag tpNF uma vez que ela não existe no CT-e e MDF-e.
+   Por: Vitor Cortinovis
+
 22/10/2026
 -- ACBrDFeComum.Inut/ACBrDFeComum.RetInut --
 [+] Implementação de novas units para enviar o pedido de inutilização e leitura do retorno genérica

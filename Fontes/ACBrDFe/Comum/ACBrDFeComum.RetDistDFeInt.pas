@@ -518,7 +518,8 @@ begin
   docZip[Indice].resDFe.xNome := ObterConteudoTag(ANode.Childrens.FindAnyNs('xNome'), tcStr);
   docZip[Indice].resDFe.IE := ObterConteudoTag(ANode.Childrens.FindAnyNs('IE'), tcStr);
   docZip[Indice].resDFe.dhEmi := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhEmi'), tcDatHor);
-  docZip[Indice].resDFe.tpNF := StrToTpNF(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpNF'), tcStr));
+  if ObterConteudoTag(ANode.Childrens.FindAnyNs('tpNF'), tcStr) <> '' then
+    docZip[Indice].resDFe.tpNF := StrToTpNF(ObterConteudoTag(ANode.Childrens.FindAnyNs('tpNF'), tcStr));
   docZip[Indice].resDFe.vNF := ObterConteudoTag(ANode.Childrens.FindAnyNs('vNF'), tcDe2);
   docZip[Indice].resDFe.digVal := ObterConteudoTag(ANode.Childrens.FindAnyNs('digVal'), tcStr);
   docZip[Indice].resDFe.dhRecbto := ObterConteudoTag(ANode.Childrens.FindAnyNs('dhRecbto'), tcDatHor);
