@@ -876,7 +876,11 @@ begin
   I := 1;
   while true do
   begin
-    sSecao := 'infNF'+IntToStrZero(I,3);
+    //Pode ter até 2000 ocorrências, mas só mudar o índice de 3 para 4 causaria problemas indesejados...
+    if I > 999 then
+      sSecao := 'infNF'+IntToStrZero(I,4)
+    else
+      sSecao := 'infNF'+IntToStrZero(I,3);
     sFim   := AINIRec.ReadString(sSecao,'mod','FIM');
     if FimLoop(sFim) then
       break;
@@ -1139,7 +1143,11 @@ begin
   I := 1;
   while true do
   begin
-    sSecao := 'infOutros'+IntToStrZero(I,3);
+    //Pode ter até 2000 ocorrências, mas só mudar o índice de 3 para 4 causaria problemas indesejados...
+    if I > 999 then
+      sSecao := 'infOutros'+IntToStrZero(I,4)
+    else
+      sSecao := 'infOutros'+IntToStrZero(I,3);
     sFim   := AINIRec.ReadString(sSecao,'tpDoc','FIM');
     if FimLoop(sFim) then
       break;
@@ -1250,7 +1258,11 @@ begin
   I := 1;
   while true do
   begin
-    sSecao := 'infDCe'+IntToStrZero(I,3);
+    //Pode ter até 2000 ocorrências, mas só mudar o índice de 3 para 4 causaria problemas indesejados...
+    if I > 999 then
+      sSecao := 'infDCe'+IntToStrZero(I,4)
+    else
+      sSecao := 'infDCe'+IntToStrZero(I,3);
     sFim   := AINIRec.ReadString(sSecao, 'chave', 'FIM');
     if FimLoop(sFim) then
       break;

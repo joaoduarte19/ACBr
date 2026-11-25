@@ -814,7 +814,11 @@ var
 begin
   for i := 0 to infNF.Count -1 do
   begin
-    sSecao := 'infNF' + IntToStrZero(I+1, 3);
+    //Pode ter até 2000 ocorrências, mas só mudar o índice de 3 para 4 causaria problemas indesejados...
+    if I >= 999 then
+      sSecao := 'infNF' +  IntToStrZero(I+1, 4)
+    else
+      sSecao := 'infNF' + IntToStrZero(I+1, 3);
 
     with infNF.Items[i] do
     begin
@@ -983,7 +987,11 @@ var
 begin
   for i:= 0 to infOutros.Count - 1 do
   begin
-    sSecao := 'infOutros' + IntToStrZero(i+1, 3);
+    //Pode ter até 2000 ocorrências, mas só mudar o índice de 3 para 4 causaria problemas indesejados...
+    if I >= 999 then
+      sSecao := 'infOutros' +  IntToStrZero(I+1, 4)
+    else
+      sSecao := 'infOutros' + IntToStrZero(I+1, 3);
 
     with infOutros[i] do
     begin
@@ -1062,7 +1070,11 @@ var
 begin
   for i := 0 to infDCe.Count -1 do
   begin
-    sSecao := 'infDCe' + IntToStrZero(I+1, 3);
+    //Pode ter até 2000 ocorrências, mas só mudar o índice de 3 para 4 causaria problemas indesejados...
+    if I >= 999 then
+      sSecao := 'infDCe' +  IntToStrZero(I+1, 4)
+    else
+      sSecao := 'infDCe' + IntToStrZero(I+1, 3);
 
     with infDCe.Items[i] do
     begin

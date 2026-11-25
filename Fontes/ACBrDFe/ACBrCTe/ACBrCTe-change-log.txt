@@ -44,6 +44,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2026
+-- ACBrCTe.IniReader/ACBrCTe.IniWriter --
+[*] ACBr-9224: Alteração visando tanto a leitura quanto a escrita de uma lista de
+    NF (Nota Fiscal comum), Outros (outros tipos de documentos) e DCe (Declaração de
+    Conteúdo Eletrônica) com mais de 999, sendo que conforme as regras de validações
+    essas listas podem conter até 2000 itens.
+   Por: Italo Giurizzato Junior
+
 24/11/2026
 -- ACBrCTe --
 [*] ACBr-10277: Conforme consta na NT 2026/004 versão 1.01 a contingência Offline também
