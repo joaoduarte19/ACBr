@@ -393,7 +393,7 @@ begin
   if (fpNFCom.gFat.CompetFat > 0) then
   begin
     sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
-    sTemp := Copy(sTemp, 4, 2) + '/' + RightStr(sTemp, 4);
+    sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
     rllReferencia.Caption := sTemp;
   end
   else
@@ -432,7 +432,6 @@ begin
     rllValorFUST.Caption := FormatFloatBr(vFUST);
     rllValorFUNTTEL.Caption := FormatFloatBr(vFUNTTEL);
   end;
-  rlmDadosFisco.Lines.Text := StringReplace(fpNFCom.infAdic.infAdFisco, fpDANFCom.CaractereQuebraDeLinha, #13, [rfReplaceAll]);
 end;
 
 procedure TfrlDANFComRLRetrato.rlbDivisao05BeforePrint(Sender: TObject;
@@ -450,7 +449,7 @@ begin
   if (fpNFCom.gFat.CompetFat > 0) then
   begin
     sTemp := FormatDateBr(fpNFCom.gFat.CompetFat);
-    sTemp := Copy(sTemp, 4, 2) + '/' + RightStr(sTemp, 4);
+    sTemp := RightStr(sTemp, 4) + '/' + Copy(sTemp, 4, 2);
     rllMesRef.Caption := sTemp;
   end
   else
@@ -459,7 +458,7 @@ begin
   if (fpNFCom.gFat.dVencFat > 0) then
     rllVencimento2.Caption := FormatDateBr(fpNFCom.gFat.dVencFat)
   else
-    rllVencimento2.Caption := ACBrStr('CONTRA APRESENTAÇÃO');
+    rllVencimento2.Caption := '';  
 
   rllTotPagar.Caption := 'R$ ' + FormatFloatBr(fpNFCom.Total.vNF);
   rllNumFat.Caption := ACBrStr('Número da Fatura: ') +
@@ -472,10 +471,24 @@ begin
   end;
 
   sTemp := fpNFCom.gFat.codBarras;
-  rllLinhaDig.Caption := Copy(sTemp, 01, 12) + ' ' + Copy(sTemp, 13, 12) + ' ' +
-                         Copy(sTemp, 25, 12) + ' ' + Copy(sTemp, 37, 12);
-  rlbCodBarLinhaDig.Visible := True;
-  rlbCodBarLinhaDig.Caption := OnlyNumber(fpNFCom.gFat.codBarras);
+  if (sTemp <> '') and (StrToIntDef(OnlyNumber(sTemp), 0) > 0) then
+  begin
+    rllLinhaDig.Caption :=
+      Copy(sTemp, 01, 12) + ' ' +
+      Copy(sTemp, 13, 12) + ' ' +
+      Copy(sTemp, 25, 12) + ' ' +
+      Copy(sTemp, 37, 12);
+
+    rlbCodBarLinhaDig.Visible := True;
+    rlbCodBarLinhaDig.Caption := OnlyNumber(sTemp);
+  end
+  else
+  begin
+    // Se for "0" ou zeros, esconde os componentes
+    rlbCodBarLinhaDig.Visible := False;
+    rllLinhaDig.Caption := '';
+    rlbCodBarLinhaDig.Caption := '';
+  end;
 end;
 
 procedure TfrlDANFComRLRetrato.rlbDivisao07BeforePrint(Sender: TObject;
