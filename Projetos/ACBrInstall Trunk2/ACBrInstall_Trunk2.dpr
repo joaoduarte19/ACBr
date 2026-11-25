@@ -12,7 +12,8 @@ uses
   ACBr.PlataformaInstalacaoAlvo in 'ACBr.PlataformaInstalacaoAlvo.pas',
   SysUtils,
   Dialogs,
-  Windows;
+  Windows,
+  Winapi.UIAutomation in 'Terceiros\Winapi.UIAutomation.pas';
 
 {$R *.res}
 

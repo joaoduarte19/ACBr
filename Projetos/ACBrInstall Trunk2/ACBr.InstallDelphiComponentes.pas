@@ -115,6 +115,8 @@ type
     FUmaPlataformaDestino: TACBrPlataformaInstalacaoAlvo;
 
     FPacoteAtual: TFileName;
+    // parametros da ultima chamada ao compilador; vao para o log so em caso de erro
+    FUltimosParametrosCompilador: string;
 
     FArquivoLog: string;
     FNivelLog: TNivelLog;
@@ -577,9 +579,13 @@ begin
 
     end;
 
+    FUltimosParametrosCompilador := Sender.Options.Text;
+
     if (OpcoesInstall.UsarUsarArquivoConfig) then
     begin
       LArquivoCfg := ChangeFileExt(FPacoteAtual, '.cfg');
+      FUltimosParametrosCompilador := '(gravados em ' + LArquivoCfg + ')' + sLineBreak +
+                                      FUltimosParametrosCompilador;
       Sender.Options.SaveToFile(LArquivoCfg);
       Sender.Options.Clear;
     end;
@@ -1317,20 +1323,45 @@ end;
 procedure TACBrInstallComponentes.CompilaPacotePorNomeArquivo(const NomePacote: string);
 var
   LDirLibrary: string;
+  LCompilou: Boolean;
 begin
   LDirLibrary := DirLibraryAtual;
+  FUltimosParametrosCompilador := '';
 
-  if FUmaPlataformaDestino.InstalacaoAtual.RadToolKind = brBorlandDevStudio then
-  begin
-    FUmaPlataformaDestino.LimparPackageCache(BinaryFileName(LDirLibrary, FPacoteAtual));
+  // Qualquer excecao aqui (gravar o .cfg, criar o processo do dcc, limpar o
+  // package cache...) subia direto ate a tela e o log terminava em
+  // "Compiling package ...", sem dizer o motivo. Agora ela vai para o log.
+  try
+    if FUmaPlataformaDestino.InstalacaoAtual.RadToolKind = brBorlandDevStudio then
+    begin
+      FUmaPlataformaDestino.LimparPackageCache(BinaryFileName(LDirLibrary, FPacoteAtual));
+    end;
+    LCompilou := FUmaPlataformaDestino.InstalacaoAtual.CompilePackage(FPacoteAtual, LDirLibrary, LDirLibrary);
+  except
+    on E: Exception do
+    begin
+      LCompilou := False;
+      FazLog(Format('EXCECAO ao compilar o pacote "%s": [%s] %s',
+                    [FPacoteAtual, E.ClassName, E.Message]), nlMinimo);
+    end;
   end;
-  if FUmaPlataformaDestino.InstalacaoAtual.CompilePackage(FPacoteAtual, LDirLibrary, LDirLibrary) then
+
+  if LCompilou then
   begin
     InformaSituacao(Format('Pacote "%s" compilado com sucesso.', [NomePacote]), nmSucesso)
   end
   else
   begin
     Inc(FCountErros);
+    FazLog('--- Detalhes da falha ---', nlMinimo);
+    FazLog('Pacote.........: ' + FPacoteAtual, nlMinimo);
+    FazLog('Pacote existe..: ' + BoolToStr(FileExists(FPacoteAtual), True), nlMinimo);
+    FazLog('Dir. Library...: ' + LDirLibrary, nlMinimo);
+    if FUltimosParametrosCompilador = '' then
+      FazLog('Parametros.....: (o compilador nao chegou a ser chamado)', nlMinimo)
+    else
+      FazLog('Parametros.....:' + sLineBreak + FUltimosParametrosCompilador, nlMinimo);
+    FazLog('-------------------------', nlMinimo);
     InformaSituacao(Format('Erro ao compilar o pacote "%s".', [NomePacote]), nmErro);
     Exit;
   end;
