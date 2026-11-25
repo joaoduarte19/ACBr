@@ -39,6 +39,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2026
+-- ACBrDFe.RTC.XmlWriter --
+[*] Removido a condição que fazia o grupo gIBSCBS não ser gerado se vBC fosse zero.
+    Existem situações onde tem que gerar mesmo com o valores zerados.
+   Por: Italo Giurizzato Junior
+
 23/11/2026
 -- ACBrDFe.RTC.XmlWriter --
 [*] O grupo gIBSCBS agora só é gerado se o valor da tag vBC for diferente de zero.
