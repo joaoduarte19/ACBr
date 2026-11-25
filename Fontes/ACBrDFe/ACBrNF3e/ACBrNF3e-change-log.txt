@@ -42,6 +42,15 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2026
+-- ACBrNF3eWebServices/ACBrNF3eXmlWriter --
+[-] ACBr-10223: Incluído a condição para cStat = 100 para saber se a nota foi autorizada
+    se a chave vier vazia no retorno pegar no protocolo.
+    Correção para destacar os totais com redução de 100% e ajustado a quantidade de casas
+    decimais das tags: vItem, pPISEfet e pCOFINSEfet, corrigido a nomenclatura da tag raiz 
+    que é: nf3eProc
+   Por: Welliton Hideki Tachibana
+
 23/11/2026
 -- ACBrNF3eServicos --
 [-] ACBr-10274: Para as UF: MA e PA o campo Usar estava apontando para NF3e_SVAN 

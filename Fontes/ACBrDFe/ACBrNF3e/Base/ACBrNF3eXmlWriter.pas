@@ -257,6 +257,8 @@ begin
   FpGerarGrupoIBSCBSTot := False;
   ModelosDFe := mdfNF3e;
   tpNFDebito := tdNenhum;
+  NrOcorrgIBSTot := 1;
+  NrOcorrgCBSTot := 1;
 
   ListaDeAlertas.Clear;
 
@@ -283,7 +285,7 @@ begin
 
   if NF3e.procNF3e.nProt <> '' then
   begin
-    xmlNode := FDocument.CreateElement('NF3eProc', 'http://www.portalfiscal.inf.br/nf3e');
+    xmlNode := FDocument.CreateElement('nf3eProc', 'http://www.portalfiscal.inf.br/nf3e');
     xmlNode.SetAttribute('versao', FloatToString(NF3e.infNF3e.Versao, '.', '#0.00'));
     xmlNode.AppendChild(NF3eNode);
     FDocument.Root := xmlNode;
@@ -1344,7 +1346,7 @@ begin
       NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.qFaturada, DSC_QFATURADA));
 
   // pode ter 2 ou 8 casas decimais
-  Result.AppendChild(AddNode(tcDe2, '#168', 'vItem', 1, 15, 1,
+  Result.AppendChild(AddNode(tcDe10, '#168', 'vItem', 1, 15, 1,
     NF3e.NFDet[aNFdet].Det[aDet].detItem.Prod.vItem, DSC_VITEM));
 
   // pode ter 2 ou 8 casas decimais
@@ -1713,7 +1715,7 @@ begin
 
       Result.AppendChild(AddNode(tcDe2, '#216', 'vBCPISEfet', 1, 15, 1, vBCPISEfet, DSC_VBC));
 
-      Result.AppendChild(AddNode(tcDe2, '#217', 'pPISEfet', 1, 5, 1, pPISEfet, DSC_PPIS));
+      Result.AppendChild(AddNode(tcDe4, '#217', 'pPISEfet', 1, 5, 1, pPISEfet, DSC_PPIS));
 
       Result.AppendChild(AddNode(tcDe2, '#218', 'vPISEfet', 1, 15, 1, vPISEfet, DSC_VPIS));
     end;
@@ -1755,7 +1757,7 @@ begin
 
       Result.AppendChild(AddNode(tcDe2, '#225', 'vBCCOFINSEfet', 1, 15, 1, vBCCOFINSEfet, DSC_VBC));
 
-      Result.AppendChild(AddNode(tcDe2, '#226', 'pCOFINSEfet', 1, 5, 1, pCOFINSEfet, DSC_PCOFINS));
+      Result.AppendChild(AddNode(tcDe4, '#226', 'pCOFINSEfet', 1, 5, 1, pCOFINSEfet, DSC_PCOFINS));
 
       Result.AppendChild(AddNode(tcDe2, '#227', 'vCOFINSEfet', 1, 15, 1, vCOFINSEfet, DSC_VCOFINS));
     end;

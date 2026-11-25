@@ -953,7 +953,7 @@ begin
     end;
 
     // Verificar se a NF3-e foi autorizada com sucesso
-    Result := (FNF3eRetornoSincrono.cStat = 104) and
+    Result := ((FNF3eRetornoSincrono.cStat = 104) or (FNF3eRetornoSincrono.cStat = 100)) and
       (TACBrNF3e(FPDFeOwner).CstatProcessado(FNF3eRetornoSincrono.protNF3e.cStat));
 
     if Result then
@@ -2046,7 +2046,12 @@ begin
                 begin
                   NF3e.procNF3e.tpAmb := NF3eRetorno.tpAmb;
                   NF3e.procNF3e.verAplic := NF3eRetorno.verAplic;
-                  NF3e.procNF3e.chDFe := NF3eRetorno.chNF3e;
+
+                  if (NF3eRetorno.chNF3e = '') then
+                    NF3e.procNF3e.chDFe := NF3eRetorno.protNF3e.chDFe
+                  else
+                    NF3e.procNF3e.chDFe := NF3eRetorno.chNF3e;
+
                   NF3e.procNF3e.dhRecbto := FDhRecbto;
                   NF3e.procNF3e.nProt := FProtocolo;
                   NF3e.procNF3e.digVal := NF3eRetorno.protNF3e.digVal;
