@@ -1013,7 +1013,10 @@ begin
   Result.AppendChild(AddNode(tcInt, 'HP15', 'nSeqEvento', 1, 2, 1,
                                             Evento[Idx].FInfEvento.nSeqEvento));
 
-  Result.AppendChild(AddNode(tcStr, 'HP16', 'verEvento', 1, 4, 1, Versao));
+  if Versao <> EmptyStr then
+    Result.AppendChild(AddNode(tcStr, 'HP16', 'verEvento', 1, 4, 1, Versao))
+  else
+    Result.AppendChild(AddNode(tcStr, 'HP16', 'verEvento', 1, 4, 1, Evento[Idx].FInfEvento.versaoEvento));
 
 
   if DescricaoEventoPrecisaDeAcentos(Evento[Idx].InfEvento.tpEvento) then

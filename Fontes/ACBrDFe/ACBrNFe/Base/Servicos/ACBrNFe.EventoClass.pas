@@ -787,6 +787,7 @@ begin
     teManifPedTransfCredIBSSucessao : Result := ACBrStr('Manifestação sobre Pedido de Transferência de Crédito de IBS em Operação de Sucessão');
     teManifPedTransfCredCBSSucessao : Result := ACBrStr('Manifestação sobre Pedido de Transferência de Crédito de CBS em Operação de Sucessão');
     teAtualizacaoDataPrevisaoEntrega : Result := ACBrStr('Atualização da Data de Previsão de Entrega');
+    teVinculoPgto : Result := ACBrStr('Vinculação Pagamento');
   else
     Result := '';
   end;

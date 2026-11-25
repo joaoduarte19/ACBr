@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2026
+-- ACBrNFe.EnvEvento, ACBrNFe.EventoClass, ACBrNFe.RetEnvEvento --
+[-] Ajuste visando a correta geração do XML do evento quando alimentado a partir de outro XML.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/96179-erro-ao-enviar-o-evento-110300-vincula%C3%A7%C3%A3o-da-transa%C3%A7%C3%A3o-de-pagamento-do-df-e/
+
 24/11/2026
 -- ACBrNFeDANFEFR, ACBrNFeDANFEFRDM --
 [+] ACBR-10250 / ACBR-10270 - DANFE RTC (Fast): imprime o código do produto (ImprimeCodigoProduto) e o EAN (nova propriedade ExibeEAN) antes da descrição.

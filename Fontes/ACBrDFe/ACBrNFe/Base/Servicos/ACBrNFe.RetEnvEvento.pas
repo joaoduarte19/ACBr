@@ -444,6 +444,7 @@ var
   i: Integer;
   ANodes: TACBrXmlNodeArray;
   aValor: string;
+  lAuxNode: TACBrXmlNode;
 begin
   if not Assigned(ANode) then Exit;
 
@@ -594,6 +595,19 @@ begin
     teCancSubst:
       begin
          infEvento.DetEvento.chNFeRef := ObterConteudoTag(ANode.Childrens.FindAnyNs('chNFeRef'), tcStr);
+      end;
+
+    teVinculoPgto:
+      begin
+        lAuxNode := ANode.Childrens.FindAnyNs('gPgto');
+        if Assigned(lAuxNode) then
+        begin
+          infEvento.detEvento.pgto.tpMeioPgto := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('tpMeioPgto'), tcStr);
+          infEvento.detEvento.pgto.CNPJReceb := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('CNPJReceb'), tcStr);
+          infEvento.detEvento.pgto.CNPJBasePSP := ObterConteudoTag(lAuxNode.Childrens.FindAnyNs('CNPJBasePSP'), tcStr);
+          if lAuxNode.Attributes.Count > 0 then          
+            infEvento.detEvento.pgto.idTransacao := ObterConteudoTag(lAuxNode.Attributes.Items['idTransacao']);
+        end;
       end;
   end;
 end;
