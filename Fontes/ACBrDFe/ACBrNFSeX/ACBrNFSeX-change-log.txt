@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2026
+-- Equiplano.GravarXml --
+[-] Altera o parâmetro da cardinalidade do elemento dsComplemento para coincidir com o schema.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/96155-erro-de-valida%C3%A7%C3%A3o-provedor-equiplano-campo-dscomplemento-sendo-obrigat%C3%B3rio-1-caractere/
+
 24/11/2026
 -- ISSNet.LerXml --
 [*] ACBR-10114 - Sobreescritas as procedures: LerXMLEnderecoObra, LerXMLEnderecoExteriorObra, LerXMLEnderecoEvento e

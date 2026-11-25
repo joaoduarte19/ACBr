@@ -382,7 +382,7 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'nrEndereco', 1, 10, 1,
                                              NFSe.Tomador.Endereco.Numero, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'dsComplemento', 1, 40, 1,
+    Result.AppendChild(AddNode(tcStr, '#1', 'dsComplemento', 1, 40, 0,
                                         NFSe.Tomador.Endereco.Complemento, ''));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'nmBairro', 1, 50, 1,
