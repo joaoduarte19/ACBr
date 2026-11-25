@@ -45,6 +45,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 25/11/2026
+-- ACBrNFe.EnvEvento --
+[-] ACBR-10238: Correção nos tamanhos mínimos e máximos dos campos: dPrevEntrega e indAceitacao,
+    imposta uma condição para executar o Gerar_DFeReferenciado e correção na geração da tag indAceitacao
+    da função: Gerar_Evento_AceiteDebitoApuracaoNotaCredito
+   Por: Franklin
 -- ACBrNFe.EnvEvento, ACBrNFe.EventoClass, ACBrNFe.RetEnvEvento --
 [-] Ajuste visando a correta geração do XML do evento quando alimentado a partir de outro XML.
    Por: Diego Folieni
