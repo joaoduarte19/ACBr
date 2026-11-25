@@ -1442,7 +1442,7 @@ begin
   begin
     Result.AppendChild(Gerar_IBSCBSTot(BPe.total.IBSCBSTot));
 
-    Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 0,
+    Result.AppendChild(AddNode(tcDe2, '#250', 'vTotDFe', 1, 15, 1,
                                                BPe.total.vTotDFe, DSC_VTOTDFE));
   end;
 end;

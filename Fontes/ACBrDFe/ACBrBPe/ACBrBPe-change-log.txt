@@ -45,6 +45,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2026
+-- ACBrBPeXmlWriter --
+[*] ACBR-10278 - No BPe TM a tag vTotDFe tem que ser gerada mesmo com o valor zero,
+    para a situação de gratuidade.
+   Por: Paulo Alves N. Júnior
+
 12/11/2026
 -- ACBrBPeIniWriter/ACBrBPeXmlWriter --
 [*] Alterações visando não gerar o grupo gMultaJuros se for BPe TM.
