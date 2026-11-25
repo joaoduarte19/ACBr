@@ -681,6 +681,7 @@ procedure TfrlXDANFSeRLPadraoNacional.rlbBanda07_ServicoPrestadoBeforePrint(
   Sender: TObject; var PrintIt: Boolean);
 var
   Codigo, Desc: string;
+  LPos: Integer;
 begin
   inherited;
 
@@ -715,6 +716,16 @@ begin
 
   if Detalhar then
     rlbBanda07_ServicoPrestado.Height := 76;
+
+  LPos := (rlmCodTribNac.Top + rlmCodTribNac.Height);
+
+  if LPos > RLLabel96.Top then
+  begin
+    LPos := LPos - RLLabel96.Top;
+    RLLabel96.Top := RLLabel96.Top + LPos;
+    rlmDescServico.Top := rlmDescServico.Top + LPos;
+    rlbBanda07_ServicoPrestado.Height := rlbBanda07_ServicoPrestado.Height + LPos;
+  end;
 end;
 
 procedure TfrlXDANFSeRLPadraoNacional.rlbBanda09_SubItensDataRecord(Sender: TObject;

@@ -47,6 +47,9 @@ Símbolo : Significado
 [-] Altera o parâmetro da cardinalidade do elemento dsComplemento para coincidir com o schema.
    Por: Diego Folieni
    Veja: https://www.projetoacbr.com.br/forum/topic/96155-erro-de-valida%C3%A7%C3%A3o-provedor-equiplano-campo-dscomplemento-sendo-obrigat%C3%B3rio-1-caractere/
+-- ACBrNFSeXDANFSeRLPadraoNacional.pas, ACBrNFSeXDANFSeRLPadraoNacional.pas --
+[-] Corrigido DANFSe em Fortes do Padrão Nacional, onde xTribNac com 3 linhas sobrepunha o título Descrição do Serviço, conforme exemplo cTribNac = 070202
+   Por: Renato Rubinho
 
 24/11/2026
 -- ISSNet.LerXml --
