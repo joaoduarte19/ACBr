@@ -1604,7 +1604,7 @@ begin
       Servico.comExt.mdPrestacao := StrTomdPrestacao(Ok, AINIRec.ReadString(sSecao, 'mdPrestacao', ''));
       Servico.comExt.vincPrest := StrToVincPrest(Ok, AINIRec.ReadString(sSecao, 'vincPrest', ''));
       Servico.comExt.tpMoeda := AINIRec.ReadInteger(sSecao, 'tpMoeda', 0);
-      Servico.comExt.vServMoeda := AINIRec.ReadFloat(sSecao, 'vServMoeda', 0);
+      Servico.comExt.vServMoeda := StringToFloatDef(AINIRec.ReadString(sSecao, 'vServMoeda', ''), 0);
       Servico.comExt.mecAFComexP := StrTomecAFComexP(Ok, AINIRec.ReadString(sSecao, 'mecAFComexP', ''));
       Servico.comExt.mecAFComexT := StrTomecAFComexT(Ok, AINIRec.ReadString(sSecao, 'mecAFComexT', ''));
       Servico.comExt.movTempBens := StrToMovTempBens(Ok, AINIRec.ReadString(sSecao, 'movTempBens', ''));

@@ -203,12 +203,12 @@ begin
   lSecao := 'IBSCBSValores';
   if AINIRec.SectionExists(lSecao) then
   begin
-    NFSe.IBSCBS.valores.IbsMunicipal := AINIRec.ReadFloat(lSecao, 'IbsMunicipal', 0);
-    NFSe.IBSCBS.valores.ValorIbsMunicipal := AINIRec.ReadFloat(lSecao, 'ValorIbsMunicipal', 0);
-    NFSe.IBSCBS.valores.IbsEstadual := AINIRec.ReadFloat(lSecao, 'IbsEstadual', 0);
-    NFSe.IBSCBS.valores.ValorIbsEstadual := AINIRec.ReadFloat(lSecao, 'ValorIbsEstadual', 0);
-    NFSe.IBSCBS.valores.Cbs := AINIRec.ReadFloat(lSecao, 'Cbs', 0);
-    NFSe.IBSCBS.valores.ValorCbs := AINIRec.ReadFloat(lSecao, 'ValorCbs', 0);
+    NFSe.IBSCBS.valores.IbsMunicipal := StringToFloatDef(AINIRec.ReadString(lSecao, 'IbsMunicipal', ''), 0);
+    NFSe.IBSCBS.valores.ValorIbsMunicipal := StringToFloatDef(AINIRec.ReadString(lSecao, 'ValorIbsMunicipal', ''), 0);
+    NFSe.IBSCBS.valores.IbsEstadual := StringToFloatDef(AINIRec.ReadString(lSecao, 'IbsEstadual', ''), 0);
+    NFSe.IBSCBS.valores.ValorIbsEstadual := StringToFloatDef(AINIRec.ReadString(lSecao, 'ValorIbsEstadual', ''), 0);
+    NFSe.IBSCBS.valores.Cbs := StringToFloatDef(AINIRec.ReadString(lSecao, 'Cbs', ''), 0);
+    NFSe.IBSCBS.valores.ValorCbs := StringToFloatDef(AINIRec.ReadString(lSecao, 'ValorCbs', ''), 0);
   end;
 
   inherited LerINIIBSCBSValores(AINIRec, Valores);
