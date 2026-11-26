@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/11/2026
+-- ACBrNFe.EnvEvento --
+[*] ACBr 9563 - Trocado o ReadFloat por StringToFloatDef ao ler do INI um campo do tipo Float.
+  Por: Italo Giurizzato Junior
 -- ACBrNFeWebServices --
 [-] Ajuste visando a correta geração da tag nProt no evento de vinculação de pagamento.
    Por: Diego Folieni

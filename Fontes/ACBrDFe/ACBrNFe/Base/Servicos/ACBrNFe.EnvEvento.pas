@@ -1685,11 +1685,11 @@ begin
 
                 infEvento.detEvento.gConsumoZFM.New;
                 infEvento.detEvento.gConsumoZFM[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gConsumoZFM[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gConsumoZFM[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gConsumoZFM[J].vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gConsumoZFM[J].vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
 
                 sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gConsumoZFM[J].gControleEstoque.qtde := INIRec.ReadFloat(sSecao, 'qtde', 0);
+                infEvento.detEvento.gConsumoZFM[J].gControleEstoque.qtde := StringToFloatDef(INIRec.ReadString(sSecao, 'qtde', ''), 0);
                 infEvento.detEvento.gConsumoZFM[J].gControleEstoque.unidade := INIRec.ReadString(sSecao, 'unidade', '');
                 Inc(J);
               end;
@@ -1709,14 +1709,14 @@ begin
 
                 infEvento.detEvento.gPerecimentoForn.New;
                 infEvento.detEvento.gPerecimentoForn[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gPerecimentoForn[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gPerecimentoForn[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gPerecimentoForn[J].vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gPerecimentoForn[J].vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
 
                 sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.qPerecimento := INIRec.ReadFloat(sSecao, 'qPerecimento', 0);
+                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.qPerecimento := StringToFloatDef(INIRec.ReadString(sSecao, 'qPerecimento', ''), 0);
                 infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.uPerecimento := INIRec.ReadString(sSecao, 'uPerecimento', '');
-                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gPerecimentoForn[J].gControleEstoque.vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
                 Inc(J);
               end;
             end;
@@ -1735,11 +1735,11 @@ begin
 
                 infEvento.detEvento.gItemNaoFornecido.New;
                 infEvento.detEvento.gItemNaoFornecido[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gItemNaoFornecido[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gItemNaoFornecido[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gItemNaoFornecido[J].vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gItemNaoFornecido[J].vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
 
                 sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gItemNaoFornecido[J].gControleEstoque.qNaoFornecida := INIRec.ReadFloat(sSecao, 'qNaoFornecida', 0);
+                infEvento.detEvento.gItemNaoFornecido[J].gControleEstoque.qNaoFornecida := StringToFloatDef(INIRec.ReadString(sSecao, 'qNaoFornecida', ''), 0);
                 infEvento.detEvento.gItemNaoFornecido[J].gControleEstoque.uNaoFornecida := INIRec.ReadString(sSecao, 'uNaoFornecida', '');
                 Inc(J);
               end;
@@ -1777,20 +1777,20 @@ begin
 
                 infEvento.detEvento.gCredPres.New;
                 infEvento.detEvento.gCredPres[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gCredPres[J].vBCCredPres := INIRec.ReadFloat(sSecao, 'vBCCredPres', 0);
+                infEvento.detEvento.gCredPres[J].vBCCredPres := StringToFloatDef(INIRec.ReadString(sSecao, 'vBCCredPres', ''), 0);
                 infEvento.detEvento.gCredPres[J].cCredPres := StrTocCredPres(INIRec.ReadString(sSecao, 'cCredPres', ''));
 
                 sSecao := 'gIBSCredPres' + IntToStrZero(J+1, 3);
                 if INIRec.SectionExists(sSecao) then
                 begin
-                  infEvento.detEvento.gCredPres[J].gIBSCredPres.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
-                  infEvento.detEvento.gCredPres[J].gIBSCredPres.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gIBSCredPres.pCredPres := StringToFloatDef(INIRec.ReadString(sSecao, 'pCredPres', ''), 0);
+                  infEvento.detEvento.gCredPres[J].gIBSCredPres.vCredPres := StringToFloatDef(INIRec.ReadString(sSecao, 'vCredPres', ''), 0);
                 end;
                 sSecao := 'gCBSCredPres' + IntToStrZero(J+1, 3);
                 if INIRec.SectionExists(sSecao) then
                 begin
-                  infEvento.detEvento.gCredPres[J].gCBSCredPres.pCredPres := INIRec.ReadFloat(sSecao, 'pCredPres', 0);
-                  infEvento.detEvento.gCredPres[J].gCBSCredPres.vCredPres := INIRec.ReadFloat(sSecao, 'vCredPres', 0);
+                  infEvento.detEvento.gCredPres[J].gCBSCredPres.pCredPres := StringToFloatDef(INIRec.ReadString(sSecao, 'pCredPres', ''), 0);
+                  infEvento.detEvento.gCredPres[J].gCBSCredPres.vCredPres := StringToFloatDef(INIRec.ReadString(sSecao, 'vCredPres', ''), 0);
                 end;
 
                 Inc(J);
@@ -1810,11 +1810,11 @@ begin
 
                 infEvento.detEvento.gConsumo.New;
                 infEvento.detEvento.gConsumo[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gConsumo[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gConsumo[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gConsumo[J].vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gConsumo[J].vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
 
                 sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gConsumo[J].gControleEstoque.qConsumo := INIRec.ReadFloat(sSecao, 'qConsumo', 0);
+                infEvento.detEvento.gConsumo[J].gControleEstoque.qConsumo := StringToFloatDef(INIRec.ReadString(sSecao, 'qConsumo', ''), 0);
                 infEvento.detEvento.gConsumo[J].gControleEstoque.uConsumo := INIRec.ReadString(sSecao, 'uConsumo', '');
 
                 sSecao := 'DFeReferenciado' + IntToStrZero(J+1, 3);
@@ -1839,11 +1839,11 @@ begin
 
                 infEvento.detEvento.gPerecimento.New;
                 infEvento.detEvento.gPerecimento[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gPerecimento[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gPerecimento[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gPerecimento[J].vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gPerecimento[J].vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
 
                 sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gPerecimento[J].gControleEstoque.qPerecimento := INIRec.ReadFloat(sSecao, 'qPerecimento', 0);
+                infEvento.detEvento.gPerecimento[J].gControleEstoque.qPerecimento := StringToFloatDef(INIRec.ReadString(sSecao, 'qPerecimento', ''), 0);
                 infEvento.detEvento.gPerecimento[J].gControleEstoque.uPerecimento := INIRec.ReadString(sSecao, 'uPerecimento', '');
                 Inc(J);
               end;
@@ -1868,11 +1868,11 @@ begin
 
                 infEvento.detEvento.gImobilizacao.New;
                 infEvento.detEvento.gImobilizacao[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gImobilizacao[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gImobilizacao[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gImobilizacao[J].vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gImobilizacao[J].vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
 
                 sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gImobilizacao[J].gControleEstoque.qImobilizado := INIRec.ReadFloat(sSecao, 'qImobilizado', 0);
+                infEvento.detEvento.gImobilizacao[J].gControleEstoque.qImobilizado := StringToFloatDef(INIRec.ReadString(sSecao, 'qImobilizado', ''), 0);
                 infEvento.detEvento.gImobilizacao[J].gControleEstoque.uImobilizado := INIRec.ReadString(sSecao, 'uImobilizado', '');
                 Inc(J);
               end;
@@ -1891,11 +1891,11 @@ begin
 
                 infEvento.detEvento.gConsumoComb.New;
                 infEvento.detEvento.gConsumoComb[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gConsumoComb[J].vIBS := INIRec.ReadFloat(sSecao, 'vIBS', 0);
-                infEvento.detEvento.gConsumoComb[J].vCBS := INIRec.ReadFloat(sSecao, 'vCBS', 0);
+                infEvento.detEvento.gConsumoComb[J].vIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vIBS', ''), 0);
+                infEvento.detEvento.gConsumoComb[J].vCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCBS', ''), 0);
 
                 sSecao := 'gControleEstoque' + IntToStrZero(J+1, 3);
-                infEvento.detEvento.gConsumoComb[J].gControleEstoque.qComb := INIRec.ReadFloat(sSecao, 'qComb', 0);
+                infEvento.detEvento.gConsumoComb[J].gControleEstoque.qComb := StringToFloatDef(INIRec.ReadString(sSecao, 'qComb', ''), 0);
                 infEvento.detEvento.gConsumoComb[J].gControleEstoque.uComb := INIRec.ReadString(sSecao, 'uComb', '');
                 Inc(J);
               end;
@@ -1914,8 +1914,8 @@ begin
 
                 infEvento.detEvento.gCredito.New;
                 infEvento.detEvento.gCredito[J].nItem := StrToIntDef(sFim, 0);
-                infEvento.detEvento.gCredito[J].vCredIBS := INIRec.ReadFloat(sSecao, 'vCredIBS', 0);
-                infEvento.detEvento.gCredito[J].vCredCBS := INIRec.ReadFloat(sSecao, 'vCredCBS', 0);
+                infEvento.detEvento.gCredito[J].vCredIBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCredIBS', ''), 0);
+                infEvento.detEvento.gCredito[J].vCredCBS := StringToFloatDef(INIRec.ReadString(sSecao, 'vCredCBS', ''), 0);
 
                 Inc(J);
               end;
