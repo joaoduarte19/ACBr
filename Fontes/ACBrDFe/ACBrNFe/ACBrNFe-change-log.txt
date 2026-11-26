@@ -44,6 +44,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/11/2026
+-- ACBrNFeWebServices --
+[-] Ajuste visando a correta geração da tag nProt no evento de vinculação de pagamento.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/96179-erro-ao-enviar-o-evento-110300-vincula%C3%A7%C3%A3o-da-transa%C3%A7%C3%A3o-de-pagamento-do-df-e/#comment-629574 
+
 25/11/2026
 -- ACBrNFe.EnvEvento --
 [-] ACBR-10238: Correção nos tamanhos mínimos e máximos dos campos: dPrevEntrega e indAceitacao,

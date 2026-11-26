@@ -3663,6 +3663,8 @@ begin
           begin
             SchemaEventoNFe := schevVincPgto;
 
+            infEvento.detEvento.nProt := FEvento.Evento[I].InfEvento.detEvento.nProt;
+
             infEvento.detEvento.pgto.idTransacao := FEvento.Evento[I].InfEvento.detEvento.pgto.idTransacao;
             infEvento.detEvento.pgto.tpMeioPgto := FEvento.Evento[I].InfEvento.detEvento.pgto.tpMeioPgto;
             infEvento.detEvento.pgto.CNPJReceb := FEvento.Evento[I].InfEvento.detEvento.pgto.CNPJReceb;
