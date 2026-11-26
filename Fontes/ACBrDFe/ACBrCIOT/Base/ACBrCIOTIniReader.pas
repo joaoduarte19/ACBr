@@ -334,19 +334,19 @@ begin
   FCIOT.AdicionarOperacao.DataInicioViagem := StringToDateTime(AINIRec.ReadString(LSecao, 'DataInicioViagem', '0'));
   FCIOT.AdicionarOperacao.DataFimViagem := StringToDateTime(AINIRec.ReadString(LSecao, 'DataFimViagem', '0'));
   FCIOT.AdicionarOperacao.CodigoNCMNaturezaCarga := AINIRec.ReadInteger(LSecao, 'CodigoNCMNaturezaCarga', 0);
-  FCIOT.AdicionarOperacao.PesoCarga := AINIRec.ReadFloat(LSecao, 'PesoCarga', 0);
+  FCIOT.AdicionarOperacao.PesoCarga := StringToFloatDef(AINIRec.ReadString(LSecao, 'PesoCarga', ''), 0);
   FCIOT.AdicionarOperacao.TipoEmbalagem := EnumStrTotpTipoEmbalagem(ok, AINIRec.ReadString(LSecao, 'TipoEmbalagem', '0'));
   FCIOT.AdicionarOperacao.CodigoIdentificacaoOperacaoPrincipal := AINIRec.ReadString(LSecao, 'CodigoIdentificacaoOperacaoPrincipal', '');
   FCIOT.AdicionarOperacao.EntregaDocumentacao := EnumStrToTpEntregaDocumentacao(ok, AINIRec.ReadString(LSecao, 'EntregaDocumentacao', '0'));
   FCIOT.AdicionarOperacao.QuantidadeSaques := AINIRec.ReadInteger(LSecao, 'QuantidadeSaques', 0);
   FCIOT.AdicionarOperacao.QuantidadeTransferencias := AINIRec.ReadInteger(LSecao, 'QuantidadeTransferencias', 0);
-  FCIOT.AdicionarOperacao.ValorSaques := AINIRec.ReadFloat(LSecao, 'ValorSaques', 0);
-  FCIOT.AdicionarOperacao.ValorTransferencias := AINIRec.ReadFloat(LSecao, 'ValorTransferencias', 0);
+  FCIOT.AdicionarOperacao.ValorSaques := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorSaques', ''), 0);
+  FCIOT.AdicionarOperacao.ValorTransferencias := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorTransferencias', ''), 0);
   FCIOT.AdicionarOperacao.CodigoTipoCarga := EnumStrTotpTipoCarga(ok, AINIRec.ReadString(LSecao, 'CodigoTipoCarga', '0'));
   FCIOT.AdicionarOperacao.AltoDesempenho := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'AltoDesempenho', '0'), 0));
   FCIOT.AdicionarOperacao.ComposicaoVeicular := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'ComposicaoVeicular', '0'), 0));
   FCIOT.AdicionarOperacao.RetornoVazio := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'RetornoVazio', '0'), 0));
-  FCIOT.AdicionarOperacao.ValorFrete := AINIRec.ReadFloat(LSecao, 'ValorFrete', 0);
+  FCIOT.AdicionarOperacao.ValorFrete := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorFrete', ''), 0);
   FCIOT.AdicionarOperacao.DataDeclaracao := StringToDateTime(AINIRec.ReadString(LSecao, 'DataDeclaracao', '0'));
   FCIOT.AdicionarOperacao.IndContingencia := Boolean(StrToIntDef(AINIRec.ReadString(LSecao, 'IndContingencia', '0'), 0));
   FCIOT.AdicionarOperacao.JustificativaContingencia := AINIRec.ReadString(LSecao, 'JustificativaContingencia', '');
@@ -433,7 +433,7 @@ begin
   LSecao := TpOperacaoToNome(FCIOT.Integradora.Operacao);
 
   FCIOT.EncerrarOperacao.CodigoIdentificacaoOperacao := AINIRec.ReadString(LSecao, 'CodigoIdentificacaoOperacao', '');
-  FCIOT.EncerrarOperacao.PesoCarga := AINIRec.ReadFloat(LSecao, 'PesoCarga', 0);
+  FCIOT.EncerrarOperacao.PesoCarga := StringToFloatDef(AINIRec.ReadString(LSecao, 'PesoCarga', ''), 0);
   FCIOT.EncerrarOperacao.QuantidadeSaques := AINIRec.ReadInteger(LSecao, 'QuantidadeSaques', 0);
   FCIOT.EncerrarOperacao.QuantidadeTransferencias := AINIRec.ReadInteger(LSecao, 'QuantidadeTransferencias', 0);
 
@@ -552,23 +552,23 @@ begin
   FCIOT.RetificarOperacao.DataInicioViagem := StringToDateTime(AINIRec.ReadString(LSecao, 'DataInicioViagem', '0'));
   FCIOT.RetificarOperacao.DataFimViagem := StringToDateTime(AINIRec.ReadString(LSecao, 'DataFimViagem', '0'));
   FCIOT.RetificarOperacao.CodigoNCMNaturezaCarga := AINIRec.ReadInteger(LSecao, 'CodigoNCMNaturezaCarga', 0);
-  FCIOT.RetificarOperacao.PesoCarga := AINIRec.ReadFloat(LSecao, 'PesoCarga', 0);
+  FCIOT.RetificarOperacao.PesoCarga := StringToFloatDef(AINIRec.ReadString(LSecao, 'PesoCarga', ''), 0);
   FCIOT.RetificarOperacao.CodigoMunicipioOrigem := AINIRec.ReadInteger(LSecao, 'CodigoMunicipioOrigem', 0);
   FCIOT.RetificarOperacao.CodigoMunicipioDestino := AINIRec.ReadInteger(LSecao, 'CodigoMunicipioDestino', 0);
   FCIOT.RetificarOperacao.QuantidadeSaques := AINIRec.ReadInteger(LSecao, 'QuantidadeSaques', 0);
   FCIOT.RetificarOperacao.QuantidadeTransferencias := AINIRec.ReadInteger(LSecao, 'QuantidadeTransferencias', 0);
-  FCIOT.RetificarOperacao.ValorSaques := AINIRec.ReadFloat(LSecao, 'ValorSaques', 0);
-  FCIOT.RetificarOperacao.ValorTransferencias := AINIRec.ReadFloat(LSecao, 'ValorTransferencias', 0);
+  FCIOT.RetificarOperacao.ValorSaques := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorSaques', ''), 0);
+  FCIOT.RetificarOperacao.ValorTransferencias := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorTransferencias', ''), 0);
   FCIOT.RetificarOperacao.CodigoTipoCarga := EnumStrTotpTipoCarga(ok, AINIRec.ReadString(LSecao, 'CodigoTipoCarga', '0'));
   FCIOT.RetificarOperacao.CepOrigem := AINIRec.ReadString(LSecao, 'CepOrigem', '0');
   FCIOT.RetificarOperacao.CepDestino := AINIRec.ReadString(LSecao, 'CepDestino', '0');
   FCIOT.RetificarOperacao.DistanciaPercorrida := AINIRec.ReadInteger(LSecao, 'DistanciaPercorrida', 0);
-  FCIOT.RetificarOperacao.ValorFrete := AINIRec.ReadFloat(LSecao, 'ValorFrete', 0);
-  FCIOT.RetificarOperacao.LatitudeOrigem := AINIRec.ReadFloat(LSecao, 'LatitudeOrigem', 0);
-  FCIOT.RetificarOperacao.LongitudeOrigem := AINIRec.ReadFloat(LSecao, 'LongitudeOrigem', 0);
-  FCIOT.RetificarOperacao.LatitudeDestino := AINIRec.ReadFloat(LSecao, 'LatitudeDestino', 0);
-  FCIOT.RetificarOperacao.LongitudeDestino := AINIRec.ReadFloat(LSecao, 'LongitudeDestino', 0);
-  FCIOT.RetificarOperacao.ValorFrete := AINIRec.ReadFloat(LSecao, 'ValorFrete', 0);
+  FCIOT.RetificarOperacao.ValorFrete := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorFrete', ''), 0);
+  FCIOT.RetificarOperacao.LatitudeOrigem := StringToFloatDef(AINIRec.ReadString(LSecao, 'LatitudeOrigem', ''), 0);
+  FCIOT.RetificarOperacao.LongitudeOrigem := StringToFloatDef(AINIRec.ReadString(LSecao, 'LongitudeOrigem', ''), 0);
+  FCIOT.RetificarOperacao.LatitudeDestino := StringToFloatDef(AINIRec.ReadString(LSecao, 'LatitudeDestino', ''), 0);
+  FCIOT.RetificarOperacao.LongitudeDestino := StringToFloatDef(AINIRec.ReadString(LSecao, 'LongitudeDestino', ''), 0);
+  FCIOT.RetificarOperacao.ValorFrete := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorFrete', ''), 0);
 
   Ler_Veiculos(AINIRec, FCIOT.RetificarOperacao.Veiculos);
 end;
@@ -604,11 +604,11 @@ var
 begin
   LSecao := 'Impostos';
 
-  AImpostos.IRRF := AINIRec.ReadFloat(LSecao, 'IRRF', 0);
-  AImpostos.SestSenat := AINIRec.ReadFloat(LSecao, 'SestSenat', 0);
-  AImpostos.INSS := AINIRec.ReadFloat(LSecao, 'INSS', 0);
-  AImpostos.ISSQN := AINIRec.ReadFloat(LSecao, 'ISSQN', 0);
-  AImpostos.OutrosImpostos := AINIRec.ReadFloat(LSecao, 'OutrosImpostos', 0);
+  AImpostos.IRRF := StringToFloatDef(AINIRec.ReadString(LSecao, 'IRRF', ''), 0);
+  AImpostos.SestSenat := StringToFloatDef(AINIRec.ReadString(LSecao, 'SestSenat', ''), 0);
+  AImpostos.INSS := StringToFloatDef(AINIRec.ReadString(LSecao, 'INSS', ''), 0);
+  AImpostos.ISSQN := StringToFloatDef(AINIRec.ReadString(LSecao, 'ISSQN', ''), 0);
+  AImpostos.OutrosImpostos := StringToFloatDef(AINIRec.ReadString(LSecao, 'OutrosImpostos', ''), 0);
   AImpostos.DescricaoOutrosImpostos := AINIRec.ReadString(LSecao, 'DescricaoOutrosImpostos', '');
 end;
 
@@ -688,24 +688,24 @@ begin
     LNotaFiscal.Serie := AINIRec.ReadString(LSecao, 'Serie', '');
     LNotaFiscal.CnpjEmissor := AINIRec.ReadString(LSecao, 'CnpjEmissor', '');
     LNotaFiscal.Data := StringToDateTime(AINIRec.ReadString(LSecao, 'Data', '0'));
-    LNotaFiscal.ValorTotal := AINIRec.ReadFloat(LSecao, 'ValorTotal', 0);
-    LNotaFiscal.ValorDaMercadoriaPorUnidade := AINIRec.ReadFloat(LSecao, 'ValorDaMercadoriaPorUnidade', 0);
+    LNotaFiscal.ValorTotal := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorTotal', ''), 0);
+    LNotaFiscal.ValorDaMercadoriaPorUnidade := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorDaMercadoriaPorUnidade', ''), 0);
     LNotaFiscal.CodigoNCMNaturezaCarga := AINIRec.ReadInteger(LSecao, 'CodigoNCMNaturezaCarga', 0);
     LNotaFiscal.DescricaoDaMercadoria := AINIRec.ReadString(LSecao, 'DescricaoDaMercadoria', '');
     LNotaFiscal.UnidadeDeMedidaDaMercadoria := EnumStrToTpUnidDeMedMerc(ok, AINIRec.ReadString(LSecao, 'UnidadeDeMedidaDaMercadoria', '0'));
     LNotaFiscal.TipoDeCalculo := EnumStrToTpViagemTipoDeCalculo(ok, AINIRec.ReadString(LSecao, 'TipoDeCalculo', '1'));
-    LNotaFiscal.ValorDoFretePorUnidadeDeMercadoria := AINIRec.ReadFloat(LSecao, 'ValorDoFretePorUnidadeDeMercadoria', 0);
-    LNotaFiscal.QuantidadeDaMercadoriaNoEmbarque := AINIRec.ReadFloat(LSecao, 'QuantidadeDaMercadoriaNoEmbarque', 0);
+    LNotaFiscal.ValorDoFretePorUnidadeDeMercadoria := StringToFloatDef(AINIRec.ReadString(LSecao, 'ValorDoFretePorUnidadeDeMercadoria', ''), 0);
+    LNotaFiscal.QuantidadeDaMercadoriaNoEmbarque := StringToFloatDef(AINIRec.ReadString(LSecao, 'QuantidadeDaMercadoriaNoEmbarque', ''), 0);
     LNotaFiscal.ToleranciaDePerdaDeMercadoria.Tipo := EnumStrToTpTipoProporcao(ok, AINIRec.ReadString(LSecao, 'ToleranciaDePerdaDeMercadoria.Tipo', '0'));
-    LNotaFiscal.ToleranciaDePerdaDeMercadoria.Valor := AINIRec.ReadFloat(LSecao, 'ToleranciaDePerdaDeMercadoria.Valor', 0);
+    LNotaFiscal.ToleranciaDePerdaDeMercadoria.Valor := StringToFloatDef(AINIRec.ReadString(LSecao, 'ToleranciaDePerdaDeMercadoria.Valor', ''), 0);
     LNotaFiscal.DiferencaDeFrete.Tipo := EnumStrToTpDiferencaFrete(ok, AINIRec.ReadString(LSecao, 'DiferencaDeFrete.Tipo', '1'));
     LNotaFiscal.DiferencaDeFrete.Base := EnumStrToTpDiferencaFreteBaseCalculo(ok, AINIRec.ReadString(LSecao, 'DiferencaDeFrete.Base', '1'));
     LNotaFiscal.DiferencaDeFrete.Tolerancia.Tipo := EnumStrToTpTipoProporcao(ok, AINIRec.ReadString(LSecao, 'Tolerancia.Tipo', '0'));
-    LNotaFiscal.DiferencaDeFrete.Tolerancia.Valor := AINIRec.ReadFloat(LSecao, 'Tolerancia.Valor', 0);
+    LNotaFiscal.DiferencaDeFrete.Tolerancia.Valor := StringToFloatDef(AINIRec.ReadString(LSecao, 'Tolerancia.Valor', ''), 0);
     LNotaFiscal.DiferencaDeFrete.MargemGanho.Tipo := EnumStrToTpTipoProporcao(ok, AINIRec.ReadString(LSecao, 'MargemGanho.Tipo', '0'));
-    LNotaFiscal.DiferencaDeFrete.MargemGanho.Valor := AINIRec.ReadFloat(LSecao, 'MargemGanho.Valor', 0);
+    LNotaFiscal.DiferencaDeFrete.MargemGanho.Valor := StringToFloatDef(AINIRec.ReadString(LSecao, 'MargemGanho.Valor', ''), 0);
     LNotaFiscal.DiferencaDeFrete.MargemPerda.Tipo := EnumStrToTpTipoProporcao(ok, AINIRec.ReadString(LSecao, 'MargemPerda.Tipo', '0'));
-    LNotaFiscal.DiferencaDeFrete.MargemPerda.Valor := AINIRec.ReadFloat(LSecao, 'MargemPerda.Valor', 0);
+    LNotaFiscal.DiferencaDeFrete.MargemPerda.Valor := StringToFloatDef(AINIRec.ReadString(LSecao, 'MargemPerda.Valor', ''), 0);
 
     Inc(i);
   end;
@@ -731,7 +731,7 @@ begin
 
     LNotaFiscal.Numero := LFim;
     LNotaFiscal.Serie := AINIRec.ReadString(LSecao, 'Serie', '');
-    LNotaFiscal.QuantidadeDaMercadoriaNoDesembarque := AINIRec.ReadFloat(LSecao, 'QuantidadeDaMercadoriaNoDesembarque', 0);
+    LNotaFiscal.QuantidadeDaMercadoriaNoDesembarque := StringToFloatDef(AINIRec.ReadString(LSecao, 'QuantidadeDaMercadoriaNoDesembarque', ''), 0);
 
     Inc(i);
   end;
@@ -811,7 +811,7 @@ begin
     LPagamento.IdPagamentoCliente := LFim;
 
     LPagamento.DataDeLiberacao := StringToDateTime(AINIRec.ReadString(LSecao, 'DataDeLiberacao', '0'));
-    LPagamento.Valor := AINIRec.ReadFloat(LSecao, 'Valor', 0);
+    LPagamento.Valor := StringToFloatDef(AINIRec.ReadString(LSecao, 'Valor', ''), 0);
     LPagamento.TipoPagamento := EnumStrToTpTipoPagamento(ok, AINIRec.ReadString(LSecao, 'TipoPagamento', '1'));
     LPagamento.Categoria := EnumStrToTpTipoCategoriaPagamento(ok, AINIRec.ReadString(LSecao, 'Categoria', '1'));
     LPagamento.Documento := AINIRec.ReadString(LSecao, 'Documento', '');
@@ -958,22 +958,22 @@ begin
     LViagem.CepOrigem := AINIRec.ReadString(LSecao, 'CepOrigem', '');
     LViagem.CepDestino := AINIRec.ReadString(LSecao, 'CepDestino', '');
     LViagem.DistanciaPercorrida := AINIRec.ReadInteger(LSecao, 'DistanciaPercorrida', 0);
-    LViagem.LatitudeOrigem := AINIRec.ReadFloat(LSecao, 'LatitudeOrigem', 0);
-    LViagem.LongitudeOrigem := AINIRec.ReadFloat(LSecao, 'LongitudeOrigem', 0);
-    LViagem.LatitudeDestino := AINIRec.ReadFloat(LSecao, 'LatitudeDestino', 0);
-    LViagem.LongitudeDestino := AINIRec.ReadFloat(LSecao, 'LongitudeDestino', 0);
+    LViagem.LatitudeOrigem := StringToFloatDef(AINIRec.ReadString(LSecao, 'LatitudeOrigem', ''), 0);
+    LViagem.LongitudeOrigem := StringToFloatDef(AINIRec.ReadString(LSecao, 'LongitudeOrigem', ''), 0);
+    LViagem.LatitudeDestino := StringToFloatDef(AINIRec.ReadString(LSecao, 'LatitudeDestino', ''), 0);
+    LViagem.LongitudeDestino := StringToFloatDef(AINIRec.ReadString(LSecao, 'LongitudeDestino', ''), 0);
     LViagem.QtdViagens := AINIRec.ReadInteger(LSecao, 'QtdViagens', 0);
 
-    LViagem.Valores.TotalOperacao := AINIRec.ReadFloat(LSecao, 'TotalOperacao', 0);
-    LViagem.Valores.TotalViagem := AINIRec.ReadFloat(LSecao, 'TotalViagem', 0);
-    LViagem.Valores.TotalDeAdiantamento := AINIRec.ReadFloat(LSecao, 'TotalDeAdiantamento', 0);
-    LViagem.Valores.TotalDeQuitacao := AINIRec.ReadFloat(LSecao, 'TotalDeQuitacao', 0);
-    LViagem.Valores.Combustivel := AINIRec.ReadFloat(LSecao, 'Combustivel', 0);
-    LViagem.Valores.Pedagio := AINIRec.ReadFloat(LSecao, 'Pedagio', 0);
-    LViagem.Valores.OutrosCreditos := AINIRec.ReadFloat(LSecao, 'OutrosCreditos', 0);
+    LViagem.Valores.TotalOperacao := StringToFloatDef(AINIRec.ReadString(LSecao, 'TotalOperacao', ''), 0);
+    LViagem.Valores.TotalViagem := StringToFloatDef(AINIRec.ReadString(LSecao, 'TotalViagem', ''), 0);
+    LViagem.Valores.TotalDeAdiantamento := StringToFloatDef(AINIRec.ReadString(LSecao, 'TotalDeAdiantamento', ''), 0);
+    LViagem.Valores.TotalDeQuitacao := StringToFloatDef(AINIRec.ReadString(LSecao, 'TotalDeQuitacao', ''), 0);
+    LViagem.Valores.Combustivel := StringToFloatDef(AINIRec.ReadString(LSecao, 'Combustivel', ''), 0);
+    LViagem.Valores.Pedagio := StringToFloatDef(AINIRec.ReadString(LSecao, 'Pedagio', ''), 0);
+    LViagem.Valores.OutrosCreditos := StringToFloatDef(AINIRec.ReadString(LSecao, 'OutrosCreditos', ''), 0);
     LViagem.Valores.JustificativaOutrosCreditos := AINIRec.ReadString(LSecao, 'JustificativaOutrosCreditos', '');
-    LViagem.Valores.Seguro := AINIRec.ReadFloat(LSecao, 'Seguro', 0);
-    LViagem.Valores.OutrosDebitos := AINIRec.ReadFloat(LSecao, 'OutrosDebitos', 0);
+    LViagem.Valores.Seguro := StringToFloatDef(AINIRec.ReadString(LSecao, 'Seguro', ''), 0);
+    LViagem.Valores.OutrosDebitos := StringToFloatDef(AINIRec.ReadString(LSecao, 'OutrosDebitos', ''), 0);
     LViagem.Valores.JustificativaOutrosDebitos := AINIRec.ReadString(LSecao, 'JustificativaOutrosDebitos', '');
 
     Ler_InformacoesBancarias(AINIRec, LViagem.InformacoesBancarias, LSecao);
