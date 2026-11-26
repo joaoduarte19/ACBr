@@ -45,6 +45,9 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/11/2026
+-- ACBrNFe.RetEnvEvento --
+[-] ACBr 10068 - Ajustes para a leitura correta do atributo nItem de vários eventos.
+  Por: Vanessa Vicente
 -- ACBrNFeDANFeRLRetrato --
 [*] ACBr 10017 - Trocado o FormatarCNPJ por FormatarCNPJouCPF uma vez que o emitente pode ser uma pessoa
     fisca.

@@ -260,7 +260,7 @@ begin
   if not Assigned(ANode) then
     exit;
   lItem := InfEvento.detEvento.gConsumo.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
   lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
   lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
@@ -285,7 +285,7 @@ begin
   if not Assigned(ANode) then
     exit;
   lItem := InfEvento.detEvento.gConsumoComb.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
   lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
 
@@ -305,7 +305,7 @@ begin
   if not Assigned(ANode) then
     exit;
   lItem := InfEvento.detEvento.gConsumoZFM.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
   lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
 
@@ -324,7 +324,7 @@ begin
   if not Assigned(ANode) then
     exit;
   lItem := infEvento.detEvento.gCredito.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vCredIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCredIBS'), tcDe2);
   lItem.vCredCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCredCBS'), tcDe2);
 end;
@@ -337,7 +337,7 @@ begin
   if not Assigned(ANode) then
     exit;
   lItem := infEvento.detEvento.gCredPres.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vBCCredPres := ObterConteudoTag(ANode.Childrens.FindAnyNs('vBCCredPres'), tcDe2);
   lItem.cCredPres := StrTocCredPres(ObterConteudoTag(ANode.Childrens.FindAnyNs('cCredPres'), tcStr));
 
@@ -364,7 +364,7 @@ begin
     exit;
 
   lItem := infEvento.detEvento.gImobilizacao.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
   lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
   lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
@@ -384,7 +384,7 @@ begin
     exit;
 
   lItem := infEvento.detEvento.gItemNaoFornecido.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
   lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
   lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
@@ -405,7 +405,7 @@ begin
     exit;
 
   lItem := infEvento.detEvento.gPerecimento.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
   lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
   lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
@@ -425,7 +425,7 @@ begin
     exit;
 
   lItem := infEvento.detEvento.gPerecimentoForn.New;
-  lItem.nItem := AIndice;
+  lItem.nItem := StrToIntDef(ObterConteudoTag(ANode.Attributes.Items['nItem']), AIndice);
   lItem.vIBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vIBS'), tcDe2);
   lItem.vCBS := ObterConteudoTag(ANode.Childrens.FindAnyNs('vCBS'), tcDe2);
   lAuxNode := ANode.Childrens.FindAnyNs('gControleEstoque');
