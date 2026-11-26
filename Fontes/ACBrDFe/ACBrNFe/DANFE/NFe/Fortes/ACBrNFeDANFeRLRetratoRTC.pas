@@ -870,6 +870,12 @@ begin
       rlmEndereco.Visible := False;
       rliLogo.SetBounds(2, 2, rlpEmitente.Width - 4, rlpEmitente.Height - 4);
       TDFeReportFortes.AjustarLogo(rliLogo, fpDANFe.ExpandeLogoMarcaConfig);
+    end
+    else if fpDANFe.LogoemCima then
+    begin
+      rliLogo.SetBounds(4, 2, rlpEmitente.Width - 8, 28);
+      rlmEmitente.SetBounds(4, rliLogo.Top + rliLogo.Height + 1, rlpEmitente.Width - 8, rlmEmitente.Height);
+      rlmEndereco.SetBounds(4, rlmEmitente.Top + 16, rlpEmitente.Width - 8, rlmEndereco.Height);
     end;
   end
   else
@@ -880,6 +886,12 @@ begin
     rlmEndereco.Left := rlmEmitente.Left;
     rlmEndereco.Width := rlmEmitente.Width;
   end;
+
+  { Limita a altura do texto ao quadro do emitente }
+  rlmEmitente.AutoSize := False;
+  rlmEmitente.Height := rlmEndereco.Top - rlmEmitente.Top - 2;
+  rlmEndereco.AutoSize := False;
+  rlmEndereco.Height := rlpEmitente.Height - rlmEndereco.Top - 4;
 end;
 
 procedure TfrlDANFeRLRetratoRTC.DefinirAvisos;
@@ -1031,7 +1043,7 @@ begin
   LTitulo.ParentFont := False;
   LTitulo.Font.Name := 'Arial';
   LTitulo.Font.Height := -7;
-  LTitulo.Font.Color := clGray;
+  LTitulo.Font.Color := clBlack;
   LTitulo.Caption := ATitulo;
 
   LValor := TRLLabel.Create(Self);

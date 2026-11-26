@@ -73,7 +73,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'IDENTIFICA'#199#195'O E ASSINATURA DO RECEBEDOR'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -96,7 +96,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'DATA DE RECEBIMENTO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -388,7 +388,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CHAVE DE ACESSO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -461,7 +461,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'NATUREZA DA OPERA'#199#195'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -495,7 +495,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'PROTOCOLO DE AUTORIZA'#199#195'O DE USO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -530,7 +530,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INSCRI'#199#195'O ESTADUAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -564,7 +564,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INSCRI'#199#195'O ESTADUAL DO SUBSTITUTO TRIBUT'#193'RIO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -598,7 +598,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CNPJ / CPF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -633,7 +633,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'C'#211'DIGO DO REGIME TRIBUT'#193'RIO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -667,7 +667,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'TIPO DE REGIME DE APURA'#199#195'O DO IBS E DA CBS'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -730,7 +730,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'NOME / RAZ'#195'O SOCIAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -764,7 +764,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CNPJ / CPF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -798,7 +798,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'DATA DE EMISS'#195'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -832,7 +832,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'ENDERE'#199'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -866,7 +866,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BAIRRO / DISTRITO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -900,7 +900,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CEP'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -934,7 +934,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'DATA DE ENTRADA / SA'#205'DA'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -968,7 +968,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'MUNIC'#205'PIO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1002,7 +1002,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'FONE / FAX'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1036,7 +1036,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'UF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1070,7 +1070,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INSCRI'#199#195'O ESTADUAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1104,7 +1104,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'HORA DE SA'#205'DA'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1167,7 +1167,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'NOME / RAZ'#195'O SOCIAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1201,7 +1201,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CNPJ / CPF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1235,7 +1235,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INSCRI'#199#195'O ESTADUAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1269,7 +1269,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'ENDERE'#199'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1303,7 +1303,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BAIRRO / DISTRITO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1337,7 +1337,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CEP'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1371,7 +1371,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'MUNIC'#205'PIO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1405,7 +1405,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'FONE / FAX'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1439,7 +1439,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'UF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1502,7 +1502,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'NOME / RAZ'#195'O SOCIAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1536,7 +1536,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CNPJ / CPF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1570,7 +1570,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INSCRI'#199#195'O ESTADUAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1604,7 +1604,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'ENDERE'#199'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1638,7 +1638,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BAIRRO / DISTRITO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1672,7 +1672,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CEP'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1706,7 +1706,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'MUNIC'#205'PIO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1740,7 +1740,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'FONE / FAX'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1774,7 +1774,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'UF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1866,7 +1866,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR TOTAL DOS PRODUTOS'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1900,7 +1900,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO FRETE'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1934,7 +1934,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO SEGURO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -1968,7 +1968,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'DESCONTO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2002,7 +2002,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'OUTRAS DESPESAS ACESS'#211'RIAS'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2036,7 +2036,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR TOTAL DA NOTA'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2099,7 +2099,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BASE DE C'#193'LCULO DO ICMS'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2133,7 +2133,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO ICMS'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2167,7 +2167,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BASE DE C'#193'LCULO DO ICMS ST'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2201,7 +2201,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO ICMS ST'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2235,7 +2235,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO IPI'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2284,7 +2284,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO FCP'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2326,7 +2326,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO FCP RETIDO POR ST'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2368,7 +2368,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO DIFAL NA UF DE DESTINO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2410,7 +2410,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO FCP NA UF DE DESTINO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2459,7 +2459,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BC DO ICMS MONOF'#193'SICO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2501,7 +2501,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO ICMS MONOF'#193'SICO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2543,7 +2543,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BC DO ICMS MONOF'#193'SICO POR RETEN'#199#195'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2585,7 +2585,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO ICMS MONOF'#193'SICO POR RETEN'#199#195'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2648,7 +2648,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DA CBS'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2682,7 +2682,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO IBS UF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2716,7 +2716,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO IBS MUNIC'#205'PIO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2750,7 +2750,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO IMPOSTO SELETIVO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2799,7 +2799,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO IBS MONOF'#193'SICO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2841,7 +2841,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DA CBS MONOF'#193'SICA'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2883,7 +2883,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO IBS MONOF'#193'SICO POR RETEN'#199#195'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2925,7 +2925,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DA CBS MONOF'#193'SICA POR RETEN'#199#195'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -2988,7 +2988,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INSCRI'#199#195'O MUNICIPAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3022,7 +3022,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR TOTAL DOS SERVI'#199'OS'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3056,7 +3056,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'BASE DE C'#193'LCULO DO ISSQN'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3090,7 +3090,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'VALOR DO ISSQN'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3153,7 +3153,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'RAZ'#195'O SOCIAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3187,7 +3187,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'FRETE POR CONTA'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3221,7 +3221,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'C'#211'DIGO ANTT'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3255,7 +3255,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'PLACA DO VE'#205'CULO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3289,7 +3289,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'UF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3323,7 +3323,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'CNPJ / CPF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3357,7 +3357,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'ENDERE'#199'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3391,7 +3391,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'MUNIC'#205'PIO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3425,7 +3425,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'UF'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3459,7 +3459,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INSCRI'#199#195'O ESTADUAL'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3493,7 +3493,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'QUANTIDADE'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3527,7 +3527,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'ESP'#201'CIE'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3560,7 +3560,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'MARCA'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3593,7 +3593,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'NUMERA'#199#195'O'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3626,7 +3626,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'PESO BRUTO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -3660,7 +3660,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'PESO L'#205'QUIDO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -4090,7 +4090,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           Height = 9
           AutoSize = True
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -4104,7 +4104,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           Alignment = taRightJustify
           AutoSize = False
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -4726,7 +4726,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'INFORMA'#199#213'ES COMPLEMENTARES'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -4759,7 +4759,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
           AutoSize = False
           Caption = 'RESERVADO AO FISCO'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           Font.Style = []
@@ -4840,7 +4840,7 @@ inherited frlDANFeRLPaisagemRTC: TfrlDANFeRLPaisagemRTC
         Alignment = taCenter
         AutoSize = False
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGray
+        Font.Color = clBlack
         Font.Height = -19
         Font.Name = 'Arial'
         Font.Style = [fsBold]

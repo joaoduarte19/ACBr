@@ -62,7 +62,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 172
           AutoSize = False
           Caption = 'DATA DE RECEBIMENTO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -81,7 +81,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 442
           AutoSize = False
           Caption = 'IDENTIFICAÇÃO E ASSINATURA DO RECEBEDOR'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -346,7 +346,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 386
           AutoSize = False
           Caption = 'CHAVE DE ACESSO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -413,7 +413,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 349
           AutoSize = False
           Caption = 'NATUREZA DA OPERAÇÃO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -443,7 +443,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 386
           AutoSize = False
           Caption = 'PROTOCOLO DE AUTORIZAÇÃO DE USO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -474,7 +474,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 287
           AutoSize = False
           Caption = 'INSCRIÇÃO ESTADUAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -504,7 +504,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 241
           AutoSize = False
           Caption = 'INSCRIÇÃO ESTADUAL DO SUBSTITUTO TRIBUTÁRIO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -534,7 +534,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 204
           AutoSize = False
           Caption = 'CNPJ / CPF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -565,7 +565,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 399
           AutoSize = False
           Caption = 'CÓDIGO DO REGIME TRIBUTÁRIO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -595,7 +595,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 336
           AutoSize = False
           Caption = 'TIPO DE REGIME DE APURAÇÃO DO IBS E DA CBS'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -649,7 +649,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 416
           AutoSize = False
           Caption = 'NOME / RAZÃO SOCIAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -679,7 +679,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 176
           AutoSize = False
           Caption = 'CNPJ / CPF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -709,7 +709,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 140
           AutoSize = False
           Caption = 'DATA DE EMISSÃO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -739,7 +739,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 356
           AutoSize = False
           Caption = 'ENDEREÇO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -769,7 +769,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 156
           AutoSize = False
           Caption = 'BAIRRO / DISTRITO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -799,7 +799,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 77
           AutoSize = False
           Caption = 'CEP'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -829,7 +829,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 140
           AutoSize = False
           Caption = 'DATA DE ENTRADA / SAÍDA'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -859,7 +859,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 221
           AutoSize = False
           Caption = 'MUNICÍPIO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -889,7 +889,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 121
           AutoSize = False
           Caption = 'FONE / FAX'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -919,7 +919,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 36
           AutoSize = False
           Caption = 'UF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -949,7 +949,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 208
           AutoSize = False
           Caption = 'INSCRIÇÃO ESTADUAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -979,7 +979,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 140
           AutoSize = False
           Caption = 'HORA DE SAÍDA'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1033,7 +1033,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 416
           AutoSize = False
           Caption = 'NOME / RAZÃO SOCIAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1063,7 +1063,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 176
           AutoSize = False
           Caption = 'CNPJ / CPF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1093,7 +1093,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 140
           AutoSize = False
           Caption = 'INSCRIÇÃO ESTADUAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1123,7 +1123,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 356
           AutoSize = False
           Caption = 'ENDEREÇO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1153,7 +1153,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 236
           AutoSize = False
           Caption = 'BAIRRO / DISTRITO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1183,7 +1183,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 140
           AutoSize = False
           Caption = 'CEP'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1213,7 +1213,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 356
           AutoSize = False
           Caption = 'MUNICÍPIO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1243,7 +1243,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 176
           AutoSize = False
           Caption = 'FONE / FAX'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1273,7 +1273,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 200
           AutoSize = False
           Caption = 'UF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1327,7 +1327,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 416
           AutoSize = False
           Caption = 'NOME / RAZÃO SOCIAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1357,7 +1357,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 176
           AutoSize = False
           Caption = 'CNPJ / CPF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1387,7 +1387,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 140
           AutoSize = False
           Caption = 'INSCRIÇÃO ESTADUAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1417,7 +1417,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 356
           AutoSize = False
           Caption = 'ENDEREÇO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1447,7 +1447,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 236
           AutoSize = False
           Caption = 'BAIRRO / DISTRITO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1477,7 +1477,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 140
           AutoSize = False
           Caption = 'CEP'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1507,7 +1507,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 356
           AutoSize = False
           Caption = 'MUNICÍPIO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1537,7 +1537,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 176
           AutoSize = False
           Caption = 'FONE / FAX'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1567,7 +1567,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 200
           AutoSize = False
           Caption = 'UF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1645,7 +1645,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 161
           AutoSize = False
           Caption = 'VALOR TOTAL DOS PRODUTOS'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1675,7 +1675,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 143
           AutoSize = False
           Caption = 'VALOR DO FRETE'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1705,7 +1705,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 143
           AutoSize = False
           Caption = 'VALOR DO SEGURO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1735,7 +1735,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 133
           AutoSize = False
           Caption = 'DESCONTO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1765,7 +1765,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 146
           AutoSize = False
           Caption = 'OUTRAS DESPESAS'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1795,7 +1795,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 738
           AutoSize = False
           Caption = 'VALOR TOTAL DA NOTA'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1849,7 +1849,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 161
           AutoSize = False
           Caption = 'BASE DE CÁLCULO DO ICMS'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1879,7 +1879,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 143
           AutoSize = False
           Caption = 'VALOR DO ICMS'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1909,7 +1909,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 143
           AutoSize = False
           Caption = 'BASE DE CÁLCULO DO ICMS ST'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1939,7 +1939,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 133
           AutoSize = False
           Caption = 'VALOR DO ICMS ST'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -1969,7 +1969,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 146
           AutoSize = False
           Caption = 'VALOR DO IPI'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2010,7 +2010,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 181
           AutoSize = False
           Caption = 'VALOR DO FCP'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2044,7 +2044,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 162
           AutoSize = False
           Caption = 'VALOR DO FCP RETIDO POR ST'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2078,7 +2078,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 181
           AutoSize = False
           Caption = 'VALOR DO DIFAL NA UF DE DESTINO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2112,7 +2112,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 205
           AutoSize = False
           Caption = 'VALOR DO FCP NA UF DE DESTINO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2153,7 +2153,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 181
           AutoSize = False
           Caption = 'BC DO ICMS MONOFÁSICO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2187,7 +2187,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 162
           AutoSize = False
           Caption = 'VALOR DO ICMS MONOFÁSICO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2221,7 +2221,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 181
           AutoSize = False
           Caption = 'BC DO ICMS MONOFÁSICO POR RETENÇÃO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2255,7 +2255,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 205
           AutoSize = False
           Caption = 'VALOR DO ICMS MONOFÁSICO POR RETENÇÃO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2309,7 +2309,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 196
           AutoSize = False
           Caption = 'VALOR DA CBS'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2339,7 +2339,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 177
           AutoSize = False
           Caption = 'VALOR DO IBS UF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2369,7 +2369,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 180
           AutoSize = False
           Caption = 'VALOR DO IBS MUNICÍPIO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2399,7 +2399,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 176
           AutoSize = False
           Caption = 'VALOR DO IMPOSTO SELETIVO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2440,7 +2440,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 181
           AutoSize = False
           Caption = 'VALOR DO IBS MONOFÁSICO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2474,7 +2474,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 124
           AutoSize = False
           Caption = 'VALOR DA CBS MONOFÁSICA'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2508,7 +2508,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 240
           AutoSize = False
           Caption = 'VALOR DO IBS MONOFÁSICO POR RETENÇÃO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2542,7 +2542,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 184
           AutoSize = False
           Caption = 'VALOR DA CBS MONOFÁSICA POR RETENÇÃO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2596,7 +2596,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 204
           AutoSize = False
           Caption = 'INSCRIÇÃO MUNICIPAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2626,7 +2626,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 174
           AutoSize = False
           Caption = 'VALOR TOTAL DOS SERVIÇOS'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2656,7 +2656,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 174
           AutoSize = False
           Caption = 'BASE DE CÁLCULO DO ISSQN'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2686,7 +2686,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 177
           AutoSize = False
           Caption = 'VALOR DO ISSQN'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2740,7 +2740,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 219
           AutoSize = False
           Caption = 'RAZÃO SOCIAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2770,7 +2770,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 99
           AutoSize = False
           Caption = 'FRETE POR CONTA'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2800,7 +2800,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 100
           AutoSize = False
           Caption = 'CÓDIGO ANTT'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2830,7 +2830,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 99
           AutoSize = False
           Caption = 'PLACA DO VEÍCULO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2860,7 +2860,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 57
           AutoSize = False
           Caption = 'UF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2890,7 +2890,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 149
           AutoSize = False
           Caption = 'CNPJ / CPF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2920,7 +2920,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 293
           AutoSize = False
           Caption = 'ENDEREÇO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2950,7 +2950,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 175
           AutoSize = False
           Caption = 'MUNICÍPIO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -2980,7 +2980,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 54
           AutoSize = False
           Caption = 'UF'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3010,7 +3010,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 207
           AutoSize = False
           Caption = 'INSCRIÇÃO ESTADUAL'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3040,7 +3040,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 115
           AutoSize = False
           Caption = 'QUANTIDADE'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3070,7 +3070,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 144
           AutoSize = False
           Caption = 'ESPÉCIE'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3099,7 +3099,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 115
           AutoSize = False
           Caption = 'MARCA'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3128,7 +3128,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 129
           AutoSize = False
           Caption = 'NUMERAÇÃO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3157,7 +3157,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 107
           AutoSize = False
           Caption = 'PESO BRUTO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3187,7 +3187,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 113
           AutoSize = False
           Caption = 'PESO LÍQUIDO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3594,7 +3594,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Top = 10
           Width = 140
           AutoSize = True
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -3606,7 +3606,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 146
           Alignment = taRightJustify
           AutoSize = False
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -4139,7 +4139,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 329
           AutoSize = False
           Caption = 'INFORMAÇÕES COMPLEMENTARES'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -4168,7 +4168,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
           Width = 275
           AutoSize = False
           Caption = 'RESERVADO AO FISCO'
-          Font.Color = clGray
+          Font.Color = clBlack
           Font.Height = -7
           Font.Name = 'Arial'
           ParentFont = False
@@ -4242,7 +4242,7 @@ inherited frlDANFeRLRetratoRTC: TfrlDANFeRLRetratoRTC
         Width = 742
         Alignment = taCenter
         AutoSize = False
-        Font.Color = clGray
+        Font.Color = clBlack
         Font.Height = -19
         Font.Name = 'Arial'
         Font.Style = [fsBold]

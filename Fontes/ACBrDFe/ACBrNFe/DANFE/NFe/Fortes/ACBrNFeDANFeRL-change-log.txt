@@ -45,6 +45,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+26/11/2026
+-- ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
+[-] #ACBR-10270 - DANFE RTC: razão social, endereço, site e e-mail do emitente limitados ao quadro do emitente, sem invadir o bloco abaixo.
+  DANFE RTC: textos impressos em cinza passam a ser impressos em preto, evitando impressão clara em algumas impressoras.
+  Por: Daniel de Morais InfoCotidiano
+
 23/11/2026
 -- ACBrNFeDANFeRLClass, ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
 [+] #ACBR-10270 - A propriedade ExibeEAN passa a imprimir o EAN no DANFE RTC (retrato e paisagem). O DANFE padrão não foi alterado.

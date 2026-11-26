@@ -1095,7 +1095,7 @@ begin
   LTitulo.ParentFont := False;
   LTitulo.Font.Name := 'Arial';
   LTitulo.Font.Height := -7;
-  LTitulo.Font.Color := clGray;
+  LTitulo.Font.Color := clBlack;
   LTitulo.Caption := ATitulo;
 
   LValor := TRLLabel.Create(Self);
