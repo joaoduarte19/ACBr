@@ -1157,11 +1157,11 @@ begin
           infoRRA.tpProcRRA   := eSStrToTpProcRRA(Ok, INIRec.ReadString(sSecao, 'tpProcRRA', EmptyStr));
           infoRRA.nrProcRRA   := INIRec.ReadString(sSecao, 'nrProcRRA', EmptyStr);
           infoRRA.descRRA     := INIRec.ReadString(sSecao, 'descRRA', EmptyStr);
-          infoRRA.qtdMesesRRA := INIRec.ReadFloat(sSecao, 'qtdMesesRRA', 0);
+          infoRRA.qtdMesesRRA := StringToFloatDef(INIRec.ReadString(sSecao, 'qtdMesesRRA', ''), 0);
 
           sSecao := 'despProcJud' + IntToStrZero(I, 2);
-          infoRRA.despProcJud.vlrDespCustas    := INIRec.ReadFloat(sSecao, 'vlrDespCustas', 0);
-          infoRRA.despProcJud.vlrDespAdvogados := INIRec.ReadFloat(sSecao, 'vlrDespAdvogados', 0);
+          infoRRA.despProcJud.vlrDespCustas    := StringToFloatDef(INIRec.ReadString(sSecao, 'vlrDespCustas', ''), 0);
+          infoRRA.despProcJud.vlrDespAdvogados := StringToFloatDef(INIRec.ReadString(sSecao, 'vlrDespAdvogados', ''), 0);
 
           J := 1;
           while true do
@@ -1177,7 +1177,7 @@ begin
             begin
               tpInsc := eSStrToTpInscricao(Ok, sFim);
               nrInsc := INIRec.ReadString(sSecao, 'nrInsc', EmptyStr);
-              vlrAdv := INIRec.ReadFloat(sSecao, 'vlrAdv', 0);;
+              vlrAdv := StringToFloatDef(INIRec.ReadString(sSecao, 'vlrAdv', ''), 0);;
             end;
 
             Inc(J);

@@ -1312,8 +1312,8 @@ begin
             nrProcRRA := INIRec.ReadString(sSecao, 'nrProcRRA', EmptyStr);
             descRRA := INIRec.ReadString(sSecao, 'descRRA', EmptyStr);
             qtdMesesRRA := INIRec.ReadInteger(sSecao, 'qtdMesesRRA', 0);
-            despProcJud.vlrDespCustas := INIRec.ReadFloat(sSecao, 'vlrDespCustas',0);
-            despProcJud.vlrDespAdvogados := INIRec.ReadFloat(sSecao, 'vlrDespAdvogados',0);
+            despProcJud.vlrDespCustas := StringToFloatDef(INIRec.ReadString(sSecao, 'vlrDespCustas', ''), 0);
+            despProcJud.vlrDespAdvogados := StringToFloatDef(INIRec.ReadString(sSecao, 'vlrDespAdvogados', ''), 0);
 
             J := 1;
             while True do
@@ -1329,7 +1329,7 @@ begin
               begin
                 tpInsc := eSStrToTpInscricao(Ok, sFim);
                 nrInsc := INIRec.ReadString(sSecao, 'nrInsc', EmptyStr);
-                vlrAdv := INIRec.ReadFloat(sSecao, 'vlrAdv',0);
+                vlrAdv := StringToFloatDef(INIRec.ReadString(sSecao, 'vlrAdv', ''), 0);
               end;
 
               Inc(J);

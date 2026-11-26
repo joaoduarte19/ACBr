@@ -52,6 +52,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/11/2026
+-- pcesS1200/pcesS2299/pcesS2501 --
+[*] ACBr 9563 - Trocado o ReadFloat por StringToFloatDef ao ler do INI um campo do tipo Float.
+  Por: Italo Giurizzato Junior
+
 16/10/2026
 -- pcesS2500.pas --
 [*] - ACBR-10064 - Ajuste da ordem dos campos.
