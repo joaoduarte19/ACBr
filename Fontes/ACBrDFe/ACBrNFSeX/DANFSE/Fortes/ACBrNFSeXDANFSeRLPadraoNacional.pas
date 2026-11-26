@@ -528,7 +528,7 @@ begin
 
   rllTomaEndereco.Caption := xEndereco;
 
-  if fpNFSe.infNFSe.emit.Identificacao.Nif <> '' then
+  if fpNFSe.Tomador.IdentificacaoTomador.Nif <> '' then
     rllTomaCNPJ.Caption := fpNFSe.Tomador.IdentificacaoTomador.Nif
   else
     rllTomaCNPJ.Caption := FormatarCNPJouCPF(fpNFSe.Tomador.IdentificacaoTomador.CpfCnpj);
@@ -538,7 +538,11 @@ begin
   rllTomaMunicipio.Caption := fpNFSe.Tomador.Endereco.xMunicipio + '/' +
                                   fpNFSe.Tomador.Endereco.UF;
   rllTomaTelefone.Caption := FormatarFone(fpNFSe.Tomador.Contato.Telefone);
-  rllTomaCEP.Caption := fpNFSe.Tomador.Endereco.CodigoMunicipio + ' / ' +
+
+  if Trim(fpNFSe.Tomador.Endereco.CodigoMunicipio) = '' then
+    rllTomaCEP.Caption := fpNFSe.Tomador.Endereco.CEP + ' (ext)'
+  else
+    rllTomaCEP.Caption := fpNFSe.Tomador.Endereco.CodigoMunicipio + ' / ' +
                             FormatarCEP(fpNFSe.Tomador.Endereco.CEP);
 end;
 

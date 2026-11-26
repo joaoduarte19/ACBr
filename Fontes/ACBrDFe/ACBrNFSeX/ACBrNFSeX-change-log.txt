@@ -43,6 +43,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/11/2026
+-- ACBrNFSeXDANFSeRLPadraoNacional --
+[-] ACBr 10212 - Correção para que seja impresso corretamente o NIF de um tomador estrangeiro bem como
+    o código do endereçamento postal.
+  Por: Italo Giurizzato Junior
 -- ACBrNFSeXLerXml/SpeedGov.LerXml/Tecnos.LerXml --
 [*] ACBr 9563 - Trocado o ReadFloat por StringToFloatDef ao ler do INI um campo do tipo Float.
   Por: Italo Giurizzato Junior
