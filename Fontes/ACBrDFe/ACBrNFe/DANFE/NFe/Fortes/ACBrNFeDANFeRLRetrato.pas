@@ -1245,7 +1245,7 @@ begin
         FRecebemoDe := rllRecebemosDe.Caption;
 
       rllRecebemosDe.Caption := Format (FRecebemoDe, [ XNome ]);
-      rllCNPJ.Caption := FormatarCNPJ(CNPJCPF );
+      rllCNPJ.Caption := FormatarCNPJouCPF(CNPJCPF );
       rllInscrEstSubst.caption := IEST;
       rllInscricaoEstadual.Caption := IE;
       rlmEmitente.Lines.Text   := XNome;

@@ -45,6 +45,10 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/11/2026
+-- ACBrNFeDANFeRLRetrato --
+[*] ACBr 10017 - Trocado o FormatarCNPJ por FormatarCNPJouCPF uma vez que o emitente pode ser uma pessoa
+    fisca.
+  Por: Claudo Marconi
 -- ACBrNFe.EnvEvento --
 [*] ACBr 9563 - Trocado o ReadFloat por StringToFloatDef ao ler do INI um campo do tipo Float.
   Por: Italo Giurizzato Junior
