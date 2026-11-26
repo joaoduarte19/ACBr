@@ -39,6 +39,11 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/11/2026
+-- ACBrDFe.RTC.IniReader --
+[*] ACBr 9563 - Trocado o ReadFloat por StringToFloatDef ao ler do INI um campo do tipo Float.
+  Por: Italo Giurizzato Junior
+
 25/11/2026
 -- ACBrDFe.RTC.XmlWriter --
 [*] Removido a condição que fazia o grupo gIBSCBS não ser gerado se vBC fosse zero.

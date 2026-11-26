@@ -518,13 +518,13 @@ begin
   if AINIRec.SectionExists(sSecao) then
   begin
     gALCZFMCBS.nProcSuframa := AINIRec.ReadString(sSecao, 'nProcSuframa', '');
-    gALCZFMCBS.pAliqEfetRegCBS := AINIRec.ReadFloat(sSecao, 'pAliqEfetRegCBS', 0);
+    gALCZFMCBS.pAliqEfetRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAliqEfetRegCBS', ''), 0);
 
     lValor := AINIRec.ReadString(sSecao, 'tpALCZFMCBS', '');
     if lValor <> '' then
       gALCZFMCBS.tpALCZFMCBS := StrTotpALCZFMCBS(lValor);
 
-    gALCZFMCBS.vTribRegCBS := AINIRec.ReadFloat(sSecao, 'vTribRegCBS', 0);
+    gALCZFMCBS.vTribRegCBS := StringToFloatDef(AINIRec.ReadString(sSecao, 'vTribRegCBS', ''), 0);
   end;
 end;
 
