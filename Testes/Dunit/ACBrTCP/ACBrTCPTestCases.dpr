@@ -35,7 +35,11 @@ program ACBrTCPTestCases;
 uses
   ACBrTests.Util in '..\..\ACBrTests.Util.pas',
   ACBrTests.Runner in '..\..\ACBrTests.Runner.pas',
-  ACBrSocketTest in '..\..\FPCUnit\ACBrTCP\ACBrSocketTest.pas';
+  ACBrSocketTest in '..\..\FPCUnit\ACBrTCP\ACBrSocketTest.pas',
+  ACBrShoppingPrecosUtilTests in '..\..\FPCUnit\ACBrTCP\ACBrShoppingPrecosUtilTests.pas',
+  ACBrShoppingPrecosModelosTests in '..\..\FPCUnit\ACBrTCP\ACBrShoppingPrecosModelosTests.pas',
+  ACBrShoppingPrecosTests in '..\..\FPCUnit\ACBrTCP\ACBrShoppingPrecosTests.pas',
+  ACBrShoppingPrecosOperacoesTests in '..\..\FPCUnit\ACBrTCP\ACBrShoppingPrecosOperacoesTests.pas';
 
 begin
   ACBrRunTests;

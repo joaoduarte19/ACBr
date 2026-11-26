@@ -41,7 +41,7 @@
         <PackageName Value="FCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="7">
       <Unit0>
         <Filename Value="ACBrTCPTestCases.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -55,6 +55,22 @@
         <Filename Value="..\..\ACBrTests.Util.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="ACBrShoppingPrecosUtilTests.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="ACBrShoppingPrecosModelosTests.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ACBrShoppingPrecosTests.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="ACBrShoppingPrecosOperacoesTests.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

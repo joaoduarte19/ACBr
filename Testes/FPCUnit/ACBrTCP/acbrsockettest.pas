@@ -29,21 +29,21 @@ uses ACBrSocket;
 
 procedure Funcoes.IsAbsoluteURL_URLComProtocolo_RetornaTrue;
 begin
-  CheckTrue(ACBrSocket.isAbsoluteURL('http://www.google.com.br'));
-  CheckTrue(ACBrSocket.isAbsoluteURL('HTTP://WWW.projetoacbr.com.br/forum/'));
-  CheckTrue(ACBrSocket.isAbsoluteURL('https://www.google.com.br'));
-  CheckTrue(ACBrSocket.isAbsoluteURL('ftp://www.exemplo.com.br/pasta/arquivo/Leiame.txt'));
+  CheckTrue(ACBrSocket.LocationIsAbsoluteURL('http://www.google.com.br'));
+  CheckTrue(ACBrSocket.LocationIsAbsoluteURL('HTTP://WWW.projetoacbr.com.br/forum/'));
+  CheckTrue(ACBrSocket.LocationIsAbsoluteURL('https://www.google.com.br'));
+  CheckTrue(ACBrSocket.LocationIsAbsoluteURL('ftp://www.exemplo.com.br/pasta/arquivo/Leiame.txt'));
 end;
 
 procedure Funcoes.IsAbsoluteURL_URLAbsolutaRelativaAoProtocolo_RetornaTrue;
 begin
-  CheckTrue(ACBrSocket.isAbsoluteURL('//cdn.example.com/lib.js'));
+  CheckTrue(ACBrSocket.LocationIsAbsoluteURL('//cdn.example.com/lib.js'));
 end;
 
 procedure Funcoes.IsAbsoluteURL_URLRelativa_RetornaFalse;
 begin
-  CheckFalse(ACBrSocket.isAbsoluteURL('/minhaPasta/index.html'));
-  CheckFalse(ACBrSocket.isAbsoluteURL('../../OutraPasta/Cadastro.htm'));
+  CheckFalse(ACBrSocket.LocationIsAbsoluteURL('/minhaPasta/index.html'));
+  CheckFalse(ACBrSocket.LocationIsAbsoluteURL('../../OutraPasta/Cadastro.htm'));
 end;
 
 initialization

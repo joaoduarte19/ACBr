@@ -1,0 +1,50 @@
+ACBrShoppingPrecos - Exemplo
+=============================
+
+Demonstra o componente TACBrShoppingPrecos (paleta ACBrTCP), cliente da API do
+Shopping de Precos: produtos, estoque, precos, pedidos, etiquetas e XML de notas.
+
+Documentacao da API: https://apidoc.shoppingdeprecos.com.br/introducao
+
+Pastas
+------
+Delphi\   projeto ShoppingPrecosExemplo.dpr
+Lazarus\  projeto ShoppingPrecosExemplo.lpi (requer o pacote ACBrTCP)
+
+Pacotes
+-------
+Delphi:  ACBr_TCP (runtime) e DCLACBr_TCP (design-time; requer designide).
+         Dependem de ACBr_Comum, ACBr_Diversos e ACBr_synapse instalados.
+Lazarus: ACBrTCP.lpk.
+O componente aparece na paleta ACBrTCP. Configuracoes.Plataforma tem editor
+proprio no Object Inspector (lista de plataformas conhecidas).
+
+Configuracao
+------------
+As credenciais sao fornecidas pelo Shopping de Precos para a sua conta:
+
+  Configuracoes.Usuario       usuario da API (sem ':')
+  Configuracoes.Senha         senha da API
+  Configuracoes.Token         token enviado no cabecalho X-Client
+  Configuracoes.IntegracaoID  ID da integracao (numerico)
+  Configuracoes.Plataforma    codigo da plataforma (marketplace)
+
+Senha e Token NAO sao gravados no .dfm/.lfm: informe-os em tempo de execucao.
+
+A lista Configuracoes.CadastroPlataformas e apenas uma referencia estatica.
+Para a lista atual, use ListarPlataformas; depois disso, ValidarPlataforma passa
+a exigir que Configuracoes.Plataforma conste nessa lista.
+
+Proxy: ProxyHost, ProxyPort, ProxyUser e ProxyPass. O componente nao segue
+redirecionamentos HTTP, para nao reenviar as credenciais a outro servidor.
+
+Pedidos: FiltroPedidos aceita um intervalo de no maximo 3 dias (data e hora).
+Depois de gravar os pedidos no seu sistema, confirme a importacao com
+FilaIDsImportados + ConfirmarImportacaoPedidos.
+
+XML da NF-e (AtualizarStatus): prefira AtualizacaoStatus.CarregarXMLNFe(Stream),
+que envia os bytes do arquivo assinado sem conversao. No Delphi 7, atribuir o
+XML a AtualizacaoStatus.XMLNFe perde caracteres fora da pagina de codigo do
+Windows e invalida a assinatura.
+
+Nao use dados reais de clientes nos testes.

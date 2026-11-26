@@ -17,13 +17,16 @@ uses
   ACBrConsultaCNPJ.WS.BrasilAPI, ACBrConsultaCNPJ.WS.ReceitaWS, 
   ACBrConsultaCNPJ.WS.CNPJWS, ACBrConsultaCNPJ.WS.MinhaReceita, ACBr.Auth.JWT, 
   ACBrCupomVerde, ACBrIMendes, ACBrCalculadoraConsumo, 
-  ACBrCalculadoraConsumo.Schemas, LazarusPackageIntf;
+  ACBrCalculadoraConsumo.Schemas, ACBrShoppingPrecos, 
+  ACBrShoppingPrecosConfiguracoes, ACBrShoppingPrecosModelos, 
+  ACBrShoppingPrecosModelosAPI, ACBrShoppingPrecosReg, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
   RegisterUnit('ACBrTCPReg', @ACBrTCPReg.Register);
+  RegisterUnit('ACBrShoppingPrecosReg', @ACBrShoppingPrecosReg.Register);
 end;
 
 initialization

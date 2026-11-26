@@ -36,7 +36,7 @@
     <License Value="LGPL
 "/>
     <Version Minor="10"/>
-    <Files Count="35">
+    <Files Count="40">
       <Item1>
         <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrTCPReg.pas"/>
         <HasRegisterProc Value="True"/>
@@ -178,6 +178,27 @@
         <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.Schemas.pas"/>
         <UnitName Value="ACBrCalculadoraConsumo.Schemas"/>
       </Item35>
+      <Item36>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecos.pas"/>
+        <UnitName Value="ACBrShoppingPrecos"/>
+      </Item36>
+      <Item37>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosConfiguracoes.pas"/>
+        <UnitName Value="ACBrShoppingPrecosConfiguracoes"/>
+      </Item37>
+      <Item38>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosModelos.pas"/>
+        <UnitName Value="ACBrShoppingPrecosModelos"/>
+      </Item38>
+      <Item39>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosModelosAPI.pas"/>
+        <UnitName Value="ACBrShoppingPrecosModelosAPI"/>
+      </Item39>
+      <Item40>
+        <Filename Value="..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosReg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ACBrShoppingPrecosReg"/>
+      </Item40>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

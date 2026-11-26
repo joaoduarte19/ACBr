@@ -31,9 +31,11 @@ package DCLACBr_TCP;
 
 requires
   rtl,
+  designide,
   ACBr_TCP;
 contains
-  ACBrTCPReg in '..\..\..\Fontes\ACBrTCP\ACBrTCPReg.pas';
+  ACBrTCPReg in '..\..\..\Fontes\ACBrTCP\ACBrTCPReg.pas',
+  ACBrShoppingPrecosReg in '..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosReg.pas';
 
 
 end.

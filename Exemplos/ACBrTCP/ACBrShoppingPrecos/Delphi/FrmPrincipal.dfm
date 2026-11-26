@@ -1,0 +1,942 @@
+object FrmPrincipal: TFrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'ACBrShoppingPrecos - Exemplo'
+  ClientHeight = 680
+  ClientWidth = 950
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  TextHeight = 14
+  object grpConfiguracoes: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 950
+    Height = 140
+    Align = alTop
+    Caption = 'Configuracoes'
+    TabOrder = 0
+    object lblUsuario: TLabel
+      Left = 12
+      Top = 20
+      Width = 39
+      Height = 14
+      Caption = 'Usuario'
+    end
+    object lblSenha: TLabel
+      Left = 264
+      Top = 20
+      Width = 34
+      Height = 14
+      Caption = 'Senha'
+    end
+    object lblToken: TLabel
+      Left = 496
+      Top = 20
+      Width = 80
+      Height = 14
+      Caption = 'Token X-Client'
+    end
+    object lblPlataforma: TLabel
+      Left = 12
+      Top = 76
+      Width = 57
+      Height = 14
+      Caption = 'Plataforma'
+    end
+    object lblIntegracao: TLabel
+      Left = 496
+      Top = 76
+      Width = 123
+      Height = 14
+      Caption = 'IntegracaoID da conta'
+    end
+    object edtUsuario: TEdit
+      Left = 12
+      Top = 40
+      Width = 240
+      Height = 22
+      TabOrder = 0
+    end
+    object edtSenha: TEdit
+      Left = 264
+      Top = 40
+      Width = 220
+      Height = 22
+      PasswordChar = '*'
+      TabOrder = 1
+    end
+    object edtToken: TEdit
+      Left = 496
+      Top = 40
+      Width = 435
+      Height = 22
+      PasswordChar = '*'
+      TabOrder = 2
+    end
+    object cbxPlataforma: TComboBox
+      Left = 12
+      Top = 96
+      Width = 472
+      Height = 22
+      Style = csDropDownList
+      TabOrder = 3
+    end
+    object edtIntegracao: TEdit
+      Left = 496
+      Top = 96
+      Width = 435
+      Height = 22
+      TabOrder = 4
+    end
+  end
+  object pgcOperacoes: TPageControl
+    Left = 0
+    Top = 140
+    Width = 950
+    Height = 332
+    ActivePage = tabProdutos
+    Align = alTop
+    TabOrder = 1
+    object tabProdutos: TTabSheet
+      Caption = 'Produtos'
+      object lblSKU: TLabel
+        Left = 205
+        Top = 14
+        Width = 22
+        Height = 14
+        Caption = 'SKU'
+      end
+      object lblTitulo: TLabel
+        Left = 360
+        Top = 14
+        Width = 31
+        Height = 14
+        Caption = 'Titulo'
+      end
+      object lblPreco: TLabel
+        Left = 12
+        Top = 74
+        Width = 31
+        Height = 14
+        Caption = 'Preco'
+      end
+      object lblEstoque: TLabel
+        Left = 360
+        Top = 74
+        Width = 45
+        Height = 14
+        Caption = 'Estoque'
+      end
+      object lblProdutoUso: TLabel
+        Left = 12
+        Top = 190
+        Width = 355
+        Height = 14
+        Caption = 'Os campos sao copiados para Produto no evento de cada botao.'
+      end
+      object edtSKU: TEdit
+        Left = 202
+        Top = 34
+        Width = 140
+        Height = 22
+        TabOrder = 0
+      end
+      object edtTitulo: TEdit
+        Left = 360
+        Top = 34
+        Width = 554
+        Height = 22
+        TabOrder = 1
+      end
+      object edtPreco: TEdit
+        Left = 12
+        Top = 94
+        Width = 330
+        Height = 22
+        TabOrder = 2
+      end
+      object edtEstoque: TEdit
+        Left = 360
+        Top = 94
+        Width = 200
+        Height = 22
+        TabOrder = 3
+      end
+      object btnEnviarProduto: TButton
+        Left = 12
+        Top = 142
+        Width = 170
+        Height = 28
+        Caption = 'Enviar produto'
+        TabOrder = 4
+        OnClick = btnEnviarProdutoClick
+      end
+      object btnAtualizarEstoque: TButton
+        Left = 194
+        Top = 142
+        Width = 180
+        Height = 28
+        Caption = 'Atualizar estoque'
+        TabOrder = 5
+        OnClick = btnAtualizarEstoqueClick
+      end
+      object btnAtualizarPreco: TButton
+        Left = 386
+        Top = 142
+        Width = 180
+        Height = 28
+        Caption = 'Atualizar preco'
+        TabOrder = 6
+        OnClick = btnAtualizarPrecoClick
+      end
+      object btnCategorias: TButton
+        Left = 578
+        Top = 142
+        Width = 180
+        Height = 28
+        Caption = 'Listar categorias'
+        TabOrder = 7
+        OnClick = btnCategoriasClick
+      end
+      object cbTipoProduto: TComboBox
+        Left = 12
+        Top = 34
+        Width = 170
+        Height = 22
+        ItemIndex = 0
+        TabOrder = 8
+        Text = 'Produto Simples'
+        Items.Strings = (
+          'Produto Simples'
+          'Produto com varia'#231#245'es'
+          'Produto Kit')
+      end
+    end
+    object tabPedidos: TTabSheet
+      Caption = 'Pedidos'
+      object lblPedido: TLabel
+        Left = 12
+        Top = 12
+        Width = 71
+        Height = 14
+        Caption = 'ID do pedido'
+      end
+      object lblStatus: TLabel
+        Left = 274
+        Top = 12
+        Width = 35
+        Height = 14
+        Caption = 'Status'
+      end
+      object lblNF: TLabel
+        Left = 566
+        Top = 12
+        Width = 78
+        Height = 14
+        Caption = 'Numero da NF'
+      end
+      object lblChave: TLabel
+        Left = 12
+        Top = 70
+        Width = 58
+        Height = 14
+        Caption = 'Chave NFe'
+      end
+      object lblXML: TLabel
+        Left = 566
+        Top = 70
+        Width = 150
+        Height = 14
+        Caption = 'Arquivo XML NFe (opcional)'
+      end
+      object lblPeriodo: TLabel
+        Left = 12
+        Top = 128
+        Width = 263
+        Height = 14
+        Caption = 'Periodo de atualizacao para listagem (ate 3 dias)'
+      end
+      object lblFilaID: TLabel
+        Left = 12
+        Top = 230
+        Width = 199
+        Height = 14
+        Caption = 'FilaID cujo pedido ja foi salvo no ERP'
+      end
+      object edtPedido: TEdit
+        Left = 12
+        Top = 32
+        Width = 250
+        Height = 22
+        TabOrder = 0
+      end
+      object cbxStatus: TComboBox
+        Left = 274
+        Top = 32
+        Width = 280
+        Height = 22
+        Style = csDropDownList
+        ItemIndex = 0
+        TabOrder = 1
+        Text = 'Aprovado'
+        Items.Strings = (
+          'Aprovado'
+          'Faturado'
+          'Enviado'
+          'Entregue'
+          'Cancelado'
+          'Devolvido'
+          'Aguardando Pagamento')
+      end
+      object edtNF: TEdit
+        Left = 566
+        Top = 32
+        Width = 150
+        Height = 22
+        TabOrder = 2
+      end
+      object edtChave: TEdit
+        Left = 12
+        Top = 90
+        Width = 542
+        Height = 22
+        TabOrder = 3
+      end
+      object edtXML: TEdit
+        Left = 566
+        Top = 90
+        Width = 292
+        Height = 22
+        TabOrder = 4
+      end
+      object btnSelecionarXML: TButton
+        Left = 867
+        Top = 88
+        Width = 43
+        Height = 28
+        Caption = '...'
+        TabOrder = 5
+        OnClick = btnSelecionarXMLClick
+      end
+      object dtpInicial: TDateTimePicker
+        Left = 12
+        Top = 148
+        Width = 165
+        Height = 23
+        Date = 46294.000000000000000000
+        Time = 46294.000000000000000000
+        TabOrder = 6
+      end
+      object dtpFinal: TDateTimePicker
+        Left = 192
+        Top = 148
+        Width = 165
+        Height = 23
+        Date = 46294.000000000000000000
+        Time = 46294.000000000000000000
+        TabOrder = 7
+      end
+      object btnBuscarFila: TButton
+        Left = 12
+        Top = 190
+        Width = 140
+        Height = 28
+        Caption = 'Buscar fila'
+        TabOrder = 8
+        OnClick = btnBuscarFilaClick
+      end
+      object btnListarPedidos: TButton
+        Left = 164
+        Top = 190
+        Width = 140
+        Height = 28
+        Caption = 'Listar pedidos'
+        TabOrder = 9
+        OnClick = btnListarPedidosClick
+      end
+      object btnConsultarPedido: TButton
+        Left = 316
+        Top = 190
+        Width = 160
+        Height = 28
+        Caption = 'Consultar pedido'
+        TabOrder = 10
+        OnClick = btnConsultarPedidoClick
+      end
+      object btnAtualizarStatus: TButton
+        Left = 488
+        Top = 190
+        Width = 160
+        Height = 28
+        Caption = 'Atualizar status'
+        TabOrder = 11
+        OnClick = btnAtualizarStatusClick
+      end
+      object edtFilaID: TEdit
+        Left = 12
+        Top = 250
+        Width = 460
+        Height = 22
+        TabOrder = 12
+      end
+      object btnConfirmarFila: TButton
+        Left = 488
+        Top = 248
+        Width = 205
+        Height = 28
+        Caption = 'Confirmar importacao'
+        TabOrder = 13
+        OnClick = btnConfirmarFilaClick
+      end
+    end
+    object tabEtiquetas: TTabSheet
+      Caption = 'Etiquetas'
+      object lblPedidoEtiqueta: TLabel
+        Left = 12
+        Top = 14
+        Width = 148
+        Height = 14
+        Caption = 'ID do pedido para etiqueta'
+      end
+      object lblFormato: TLabel
+        Left = 488
+        Top = 14
+        Width = 45
+        Height = 14
+        Caption = 'Formato'
+      end
+      object lblEtiquetasUso: TLabel
+        Left = 12
+        Top = 130
+        Width = 548
+        Height = 14
+        Caption = 
+          'Plataforma define automaticamente a rota. Outros marketplaces re' +
+          'tornam URL ou ZPL no resultado.'
+      end
+      object edtPedidoEtiqueta: TEdit
+        Left = 12
+        Top = 34
+        Width = 460
+        Height = 22
+        TabOrder = 0
+      end
+      object cbxFormato: TComboBox
+        Left = 488
+        Top = 34
+        Width = 180
+        Height = 22
+        Style = csDropDownList
+        ItemIndex = 0
+        TabOrder = 1
+        Text = 'PDF'
+        Items.Strings = (
+          'PDF'
+          'ZPL')
+      end
+      object btnObterEtiqueta: TButton
+        Left = 12
+        Top = 80
+        Width = 180
+        Height = 28
+        Caption = 'Obter etiqueta'
+        TabOrder = 2
+        OnClick = btnObterEtiquetaClick
+      end
+      object btnSalvarEtiqueta: TButton
+        Left = 204
+        Top = 80
+        Width = 310
+        Height = 28
+        Caption = 'Salvar PDF / ZIP do Mercado Livre'
+        TabOrder = 3
+        OnClick = btnSalvarEtiquetaClick
+      end
+    end
+    object tabCadastros: TTabSheet
+      Caption = 'Plataformas / Integracoes'
+      object lblCadastrosUso: TLabel
+        Left = 12
+        Top = 110
+        Width = 355
+        Height = 14
+        Caption = 'Selecione a plataforma e informe a integracao no grupo superior.'
+      end
+      object lblCadastrosUso2: TLabel
+        Left = 12
+        Top = 136
+        Width = 379
+        Height = 14
+        Caption = 
+          'A listagem exibe os IDs e nomes para preencher essas configuraco' +
+          'es.'
+      end
+      object btnListarPlataformas: TButton
+        Left = 12
+        Top = 20
+        Width = 200
+        Height = 28
+        Caption = 'Listar plataformas'
+        TabOrder = 0
+        OnClick = btnListarPlataformasClick
+      end
+      object btnListarIntegracoes: TButton
+        Left = 224
+        Top = 20
+        Width = 200
+        Height = 28
+        Caption = 'Listar integracoes'
+        TabOrder = 1
+        OnClick = btnListarIntegracoesClick
+      end
+      object btnObterIcone: TButton
+        Left = 12
+        Top = 62
+        Width = 200
+        Height = 28
+        Caption = 'Baixar icone da plataforma'
+        TabOrder = 2
+        OnClick = btnObterIconeClick
+      end
+      object btnSalvarIcone: TButton
+        Left = 224
+        Top = 62
+        Width = 200
+        Height = 28
+        Caption = 'Salvar icone'
+        TabOrder = 3
+        OnClick = btnSalvarIconeClick
+      end
+    end
+    object tabCatalogo: TTabSheet
+      Caption = 'Catalogo'
+      object lblCategoriaAPI: TLabel
+        Left = 12
+        Top = 16
+        Width = 130
+        Height = 14
+        Caption = 'Categoria para atributos'
+      end
+      object edtCategoriaAPI: TEdit
+        Left = 12
+        Top = 34
+        Width = 280
+        Height = 22
+        TabOrder = 0
+      end
+      object btnListarMarcas: TButton
+        Left = 12
+        Top = 80
+        Width = 200
+        Height = 28
+        Caption = 'Listar marcas'
+        TabOrder = 1
+        OnClick = btnListarMarcasClick
+      end
+      object btnListarAtributos: TButton
+        Left = 224
+        Top = 80
+        Width = 200
+        Height = 28
+        Caption = 'Listar atributos'
+        TabOrder = 2
+        OnClick = btnListarAtributosClick
+      end
+      object btnConsultarEstoques: TButton
+        Left = 12
+        Top = 128
+        Width = 300
+        Height = 28
+        Caption = 'Consultar estoques da integracao'
+        TabOrder = 3
+        OnClick = btnConsultarEstoquesClick
+      end
+      object btnConsultarPrecos: TButton
+        Left = 324
+        Top = 128
+        Width = 300
+        Height = 28
+        Caption = 'Consultar precos da integracao'
+        TabOrder = 4
+        OnClick = btnConsultarPrecosClick
+      end
+    end
+    object tabAnuncios: TTabSheet
+      Caption = 'Anuncios'
+      object lblProdutoInterno: TLabel
+        Left = 12
+        Top = 10
+        Width = 135
+        Height = 14
+        Caption = 'ProdutoID (SKU interno)'
+      end
+      object lblSKUAnuncio: TLabel
+        Left = 214
+        Top = 10
+        Width = 100
+        Height = 14
+        Caption = 'SKU na plataforma'
+      end
+      object lblPrecoAnuncio: TLabel
+        Left = 416
+        Top = 10
+        Width = 31
+        Height = 14
+        Caption = 'Preco'
+      end
+      object lblEstoqueAnuncio: TLabel
+        Left = 598
+        Top = 10
+        Width = 45
+        Height = 14
+        Caption = 'Estoque'
+      end
+      object lblMarcaAnuncio: TLabel
+        Left = 12
+        Top = 68
+        Width = 43
+        Height = 14
+        Caption = 'MarcaID'
+      end
+      object lblCategoriaAnuncio: TLabel
+        Left = 214
+        Top = 68
+        Width = 63
+        Height = 14
+        Caption = 'CategoriaID'
+      end
+      object lblDepartamentoAnuncio: TLabel
+        Left = 416
+        Top = 68
+        Width = 91
+        Height = 14
+        Caption = 'DepartamentoID'
+      end
+      object lblAnunciosUso: TLabel
+        Left = 12
+        Top = 198
+        Width = 434
+        Height = 14
+        Caption = 
+          'Veja os eventos para montar lotes, depositos, atributos e variac' +
+          'oes por codigo.'
+      end
+      object edtProdutoInterno: TEdit
+        Left = 12
+        Top = 28
+        Width = 180
+        Height = 22
+        TabOrder = 0
+      end
+      object edtSKUAnuncio: TEdit
+        Left = 214
+        Top = 28
+        Width = 180
+        Height = 22
+        TabOrder = 1
+      end
+      object edtPrecoAnuncio: TEdit
+        Left = 416
+        Top = 28
+        Width = 160
+        Height = 22
+        TabOrder = 2
+        Text = '0'
+      end
+      object edtEstoqueAnuncio: TEdit
+        Left = 598
+        Top = 28
+        Width = 160
+        Height = 22
+        TabOrder = 3
+        Text = '0'
+      end
+      object edtMarcaAnuncio: TEdit
+        Left = 12
+        Top = 86
+        Width = 180
+        Height = 22
+        TabOrder = 4
+      end
+      object edtCategoriaAnuncio: TEdit
+        Left = 214
+        Top = 86
+        Width = 180
+        Height = 22
+        TabOrder = 5
+      end
+      object edtDepartamentoAnuncio: TEdit
+        Left = 416
+        Top = 86
+        Width = 180
+        Height = 22
+        TabOrder = 6
+      end
+      object btnPublicarProduto: TButton
+        Left = 12
+        Top = 140
+        Width = 280
+        Height = 28
+        Caption = 'Enviar produto para plataforma'
+        TabOrder = 7
+        OnClick = btnPublicarProdutoClick
+      end
+      object btnEstoqueIntegracao: TButton
+        Left = 304
+        Top = 140
+        Width = 280
+        Height = 28
+        Caption = 'Atualizar estoque por integracao'
+        TabOrder = 8
+        OnClick = btnEstoqueIntegracaoClick
+      end
+      object btnPrecoIntegracao: TButton
+        Left = 596
+        Top = 140
+        Width = 280
+        Height = 28
+        Caption = 'Atualizar preco por integracao'
+        TabOrder = 9
+        OnClick = btnPrecoIntegracaoClick
+      end
+    end
+    object tabOperacoesPedido: TTabSheet
+      Caption = 'Situacoes / Aceite'
+      object lblPedidoExtra: TLabel
+        Left = 12
+        Top = 12
+        Width = 49
+        Height = 14
+        Caption = 'PedidoID'
+      end
+      object lblSituacaoExtra: TLabel
+        Left = 284
+        Top = 12
+        Width = 77
+        Height = 14
+        Caption = 'ID da situacao'
+      end
+      object lblSKUAceite: TLabel
+        Left = 12
+        Top = 132
+        Width = 159
+        Height = 14
+        Caption = 'SKU do item Amazon Vendor'
+      end
+      object lblQuantidadeAceite: TLabel
+        Left = 284
+        Top = 132
+        Width = 159
+        Height = 14
+        Caption = 'Quantidade aceita (0 recusa)'
+      end
+      object edtPedidoExtra: TEdit
+        Left = 12
+        Top = 30
+        Width = 250
+        Height = 22
+        TabOrder = 0
+      end
+      object edtSituacaoExtra: TEdit
+        Left = 284
+        Top = 30
+        Width = 180
+        Height = 22
+        TabOrder = 1
+      end
+      object btnListarSituacoes: TButton
+        Left = 12
+        Top = 80
+        Width = 200
+        Height = 28
+        Caption = 'Listar situacoes'
+        TabOrder = 2
+        OnClick = btnListarSituacoesClick
+      end
+      object btnAtualizarSituacao: TButton
+        Left = 224
+        Top = 80
+        Width = 260
+        Height = 28
+        Caption = 'Atualizar situacao do pedido'
+        TabOrder = 3
+        OnClick = btnAtualizarSituacaoClick
+      end
+      object edtSKUAceite: TEdit
+        Left = 12
+        Top = 150
+        Width = 250
+        Height = 22
+        TabOrder = 4
+      end
+      object edtQuantidadeAceite: TEdit
+        Left = 284
+        Top = 150
+        Width = 230
+        Height = 22
+        TabOrder = 5
+        Text = '0'
+      end
+      object btnAceitarCompra: TButton
+        Left = 12
+        Top = 198
+        Width = 280
+        Height = 28
+        Caption = 'Enviar aceite Amazon Vendor'
+        TabOrder = 6
+        OnClick = btnAceitarCompraClick
+      end
+    end
+    object tabNotas: TTabSheet
+      Caption = 'Notas fiscais'
+      object lblPedidosXML: TLabel
+        Left = 12
+        Top = 10
+        Width = 204
+        Height = 14
+        Caption = 'IDs dos pedidos separados por virgula'
+      end
+      object lblXMLInicio: TLabel
+        Left = 12
+        Top = 76
+        Width = 56
+        Height = 14
+        Caption = 'Data inicial'
+      end
+      object lblXMLFim: TLabel
+        Left = 214
+        Top = 76
+        Width = 50
+        Height = 14
+        Caption = 'Data final'
+      end
+      object lblRelatorioID: TLabel
+        Left = 416
+        Top = 76
+        Width = 59
+        Height = 14
+        Caption = 'RelatorioID'
+      end
+      object edtPedidosXML: TEdit
+        Left = 12
+        Top = 28
+        Width = 520
+        Height = 22
+        TabOrder = 0
+      end
+      object btnRecuperarXML: TButton
+        Left = 552
+        Top = 28
+        Width = 170
+        Height = 28
+        Caption = 'Recuperar XMLs'
+        TabOrder = 1
+        OnClick = btnRecuperarXMLClick
+      end
+      object btnSalvarXML: TButton
+        Left = 734
+        Top = 28
+        Width = 180
+        Height = 28
+        Caption = 'Salvar primeiro XML'
+        TabOrder = 2
+        OnClick = btnSalvarXMLClick
+      end
+      object dtpXMLInicio: TDateTimePicker
+        Left = 12
+        Top = 94
+        Width = 180
+        Height = 22
+        Date = 46295.000000000000000000
+        Format = 'dd/MM/yyyy'
+        Time = 0.616484641206625400
+        TabOrder = 3
+      end
+      object dtpXMLFim: TDateTimePicker
+        Left = 214
+        Top = 94
+        Width = 180
+        Height = 22
+        Date = 46295.000000000000000000
+        Format = 'dd/MM/yyyy'
+        Time = 0.616484641206625400
+        TabOrder = 4
+      end
+      object edtRelatorioID: TEdit
+        Left = 416
+        Top = 94
+        Width = 260
+        Height = 22
+        TabOrder = 5
+      end
+      object btnSolicitarXML: TButton
+        Left = 12
+        Top = 146
+        Width = 240
+        Height = 28
+        Caption = 'Solicitar XMLs sem pedido'
+        TabOrder = 6
+        OnClick = btnSolicitarXMLClick
+      end
+      object btnConsultarXML: TButton
+        Left = 264
+        Top = 146
+        Width = 240
+        Height = 28
+        Caption = 'Consultar solicitacao'
+        TabOrder = 7
+        OnClick = btnConsultarXMLClick
+      end
+      object btnBaixarRelatorio: TButton
+        Left = 516
+        Top = 146
+        Width = 260
+        Height = 28
+        Caption = 'Baixar arquivo do relatorio'
+        TabOrder = 8
+        OnClick = btnBaixarRelatorioClick
+      end
+      object btnSalvarRelatorio: TButton
+        Left = 12
+        Top = 194
+        Width = 240
+        Height = 28
+        Caption = 'Salvar arquivo do relatorio'
+        TabOrder = 9
+        OnClick = btnSalvarRelatorioClick
+      end
+    end
+  end
+  object memResposta: TMemo
+    Left = 0
+    Top = 472
+    Width = 950
+    Height = 208
+    Align = alClient
+    ReadOnly = True
+    ScrollBars = ssBoth
+    TabOrder = 2
+    WordWrap = False
+  end
+  object ACBrShoppingPrecos1: TACBrShoppingPrecos
+    Left = 752
+    Top = 400
+  end
+  object dlgSalvarEtiqueta: TSaveDialog
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofEnableSizing]
+    Left = 864
+    Top = 536
+  end
+  object dlgAbrirXML: TOpenDialog
+    Filter = 'Arquivo XML|*.xml'
+    Options = [ofHideReadOnly, ofFileMustExist, ofEnableSizing]
+    Left = 904
+    Top = 536
+  end
+end

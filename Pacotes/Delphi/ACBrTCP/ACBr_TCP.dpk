@@ -75,7 +75,11 @@ contains
   ACBrCupomVerde in '..\..\..\Fontes\ACBrTCP\ACBrCupomVerde.pas',
   ACBrIMendes in '..\..\..\Fontes\ACBrTCP\ACBrIMendes.pas',
   ACBrCalculadoraConsumo in '..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.pas',
-  ACBrCalculadoraConsumo.Schemas in '..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.Schemas.pas';
+  ACBrCalculadoraConsumo.Schemas in '..\..\..\Fontes\ACBrTCP\ACBrCalculadoraConsumo.Schemas.pas',
+  ACBrShoppingPrecosModelos in '..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosModelos.pas',
+  ACBrShoppingPrecosModelosAPI in '..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosModelosAPI.pas',
+  ACBrShoppingPrecosConfiguracoes in '..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecosConfiguracoes.pas',
+  ACBrShoppingPrecos in '..\..\..\Fontes\ACBrTCP\ACBrShoppingPrecos.pas';
 
 end.
 

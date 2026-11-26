@@ -36,6 +36,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+25/11/2026
+-- ACBrShoppingPrecos/ACBrShoppingPrecosConfiguracoes/ACBrShoppingPrecosModelos/ACBrShoppingPrecosModelosAPI/ACBrShoppingPrecosReg --
+[+] Novo componente TACBrShoppingPrecos (paleta ACBrTCP), cliente da API do Shopping de Preços: produtos, estoque, preços, pedidos, etiquetas (PDF/ZPL) e XML de notas.
+   Por: Fábio Tellini (componente e demo originais); Alexandre de Paula (integração, demo Lazarus e testes)
+-- ACBr_TCP/DCLACBr_TCP/ACBrTCP.lpk --
+[+] Inclusão do TACBrShoppingPrecos nos pacotes Delphi e Lazarus. O DCLACBr_TCP passa a requerer designide.
+   Por: Alexandre de Paula
+-- ACBrSocketTest --
+[*] Teste do ACBrSocket passa a usar LocationIsAbsoluteURL (antiga isAbsoluteURL), que impedia a suíte do ACBrTCP de compilar.
+   Por: Alexandre de Paula
+
 09/10/2026
 -- ACBrIMendes --
 [+] Inclusão do campo prodCodImendes em TACBrIMendesGrupo, retornado quando o saneamento é
