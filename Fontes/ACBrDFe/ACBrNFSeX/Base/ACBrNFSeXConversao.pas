@@ -644,10 +644,10 @@ const
   TLayoutNFSeArrayStrings: array[TLayoutNFSe] of string = ('0', '1', '2');
 
 type
-  TNaoNIF = (tnnNaoInformado, tnnDispensado, tnnNaoExigencia);
+  TNaoNIF = (tnnNaoInformado, tnnDispensado, tnnNaoExigencia, tnnNenhum);
 
 const
-  TNaoNIFArrayStrings: array[TNaoNIF] of string = ('0', '1', '2');
+  TNaoNIFArrayStrings: array[TNaoNIF] of string = ('0', '1', '2', '');
 
 type
   TLocalPrestacao = (lpMunicipio, lpForaMunicipio);
@@ -13959,14 +13959,16 @@ end;
 function StrToNaoNIF(out ok: boolean; const s: string): TNaoNIF;
 begin
   Result := StrToEnumerado(OK, s,
-                           ['0', '1', '2'],
-                           [tnnNaoInformado, tnnDispensado, tnnNaoExigencia]);
+                           ['0', '1', '2', ''],
+                           [tnnNaoInformado, tnnDispensado, tnnNaoExigencia,
+                            tnnNenhum]);
 end;
 
 function NaoNIFToStr(const t: TNaoNIF): string;
 begin
-  Result := EnumeradoToStr(t, ['0', '1', '2'],
-                           [tnnNaoInformado, tnnDispensado, tnnNaoExigencia]);
+  Result := EnumeradoToStr(t, ['0', '1', '2', ''],
+                           [tnnNaoInformado, tnnDispensado, tnnNaoExigencia,
+                            tnnNenhum]);
 end;
 
 function CodIBGEPaisToSiglaISO2(t: Integer): string;

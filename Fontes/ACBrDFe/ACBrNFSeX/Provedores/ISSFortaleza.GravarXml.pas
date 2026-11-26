@@ -203,12 +203,10 @@ begin
   Result := CreateElement('Destinatario');
 
   if Dest.CNPJCPF <> '' then
-    Result.AppendChild(GerarCPFCNPJ(Dest.CNPJCPF))
-  else
-  if Dest.Nif <> '' then
-    Result.AppendChild(AddNode(tcStr, '#1', 'Nif', 1, 40, 1, Dest.Nif, ''))
-  else
-    Result.AppendChild(AddNode(tcStr, '#1', 'NaoNif', 1, 1, 1,
+    Result.AppendChild(GerarCPFCNPJ(Dest.CNPJCPF));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Nif', 1, 40, 0, Dest.Nif, ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'NaoNif', 1, 1, 0,
                                                 NaoNIFToStr(Dest.cNaoNIF), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'Nome', 1, 300, 1, Dest.xNome, ''));
@@ -433,14 +431,11 @@ begin
   Result := CreateElement('Fornecedor');
 
   if fornec.CNPJCPF <> '' then
-    Result.AppendChild(GerarCPFCNPJ(fornec.CNPJCPF))
-  else
-  if fornec.Nif <> '' then
-    Result.AppendChild(AddNode(tcStr, '#1', 'Nif', 1, 40, 1,
-                                                     fornec.Nif, ''))
-  else
-    Result.AppendChild(AddNode(tcStr, '#1', 'NaoNif', 1, 1, 1,
-                                   NaoNIFToStr(fornec.cNaoNIF), ''));
+    Result.AppendChild(GerarCPFCNPJ(fornec.CNPJCPF));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'Nif', 1, 40, 0, fornec.Nif, ''));
+  Result.AppendChild(AddNode(tcStr, '#1', 'NaoNif', 1, 1, 0,
+                                              NaoNIFToStr(fornec.cNaoNIF), ''));
 
   Result.AppendChild(AddNode(tcStr, '#1', 'Nome', 1, 150, 1,
                                                              fornec.xNome, ''));

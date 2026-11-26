@@ -42,6 +42,14 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+26/11/2026
+-- ACBrNFSeXConversao --
+[*] ACBR-9232 - O tipo TNaoNIF agora tem o enumerado tnnNenhum para as situações onde a tag cNaoNIF é opcional.
+   Por: Italo Giurizzato Junior
+-- ISSFortaleza.GravarXml --
+[*] ACBR-9232 - Tem situações onde é necessário informar o CPF/CNPJ do Destinatário bem como o NaoNIF.
+   Por: Wesley Santos/ Italo Giurizzato Junior
+
 25/11/2026
 -- Equiplano.GravarXml --
 [-] Altera o parâmetro da cardinalidade do elemento dsComplemento para coincidir com o schema.
