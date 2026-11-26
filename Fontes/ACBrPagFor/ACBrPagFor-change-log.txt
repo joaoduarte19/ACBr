@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+16/11/2026
+-- PagFor.Sicoob.GravarTxtRemessa --
+[*] ACBR-10026: Acrescentado o enumerado flLiquidacaoTitulosProprioBanco no case que 
+    verifica a forma de lançamento.
+  Por: Italo Giurizzato Junior
+
 13/11/2026
 -- PagFor.Sicredi.GravarTxtRemessa --
 [*] ACBR-10209: Possível solução para gerar corretamente os campos CodigoUG e CodigoISPB.

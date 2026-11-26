@@ -158,6 +158,7 @@ begin
   GravarCampo(PagFor.Lote.Items[I].Registro1.Endereco.Estado, 2, tcStr);
 
   case PagFor.Lote.Items[I].Registro1.Servico.FormaLancamento of
+    flLiquidacaoTitulosProprioBanco,
     flLiquidacaoTitulosOutrosBancos:
       GravarCampo(' ', 2, tcStr);
   else
