@@ -43,6 +43,13 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 26/11/2026
+-- ACBrNFSeXServicos --
+[*] ACBR-10296 - Correção no nome do município.
+   Por: ArecoDesenv
+-- SigISSWeb.GravarXml --
+[*] ACBR-10296 - Ao gerar a tag: cidade_destinatario_cbsibs verifica se o campo: xMunicipio foi
+    preenchido se sim usa se não otem através da função: ObterNomeMunicipioUF
+   Por: ArecoDesenv/Italo Giurizzato Junior
 -- ACBrNFSeXConversao --
 [*] ACBR-9232 - O tipo TNaoNIF agora tem o enumerado tnnNenhum para as situações onde a tag cNaoNIF é opcional.
    Por: Italo Giurizzato Junior

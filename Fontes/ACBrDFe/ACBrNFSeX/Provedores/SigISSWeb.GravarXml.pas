@@ -444,7 +444,15 @@ begin
       NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cep_destinatario_cbsibs', 1, 60, 1,
                                         NFSe.IBSCBS.dest.ender.endNac.CEP, ''));
 
-      xCidade := ObterNomeMunicipioUF(NFSe.IBSCBS.dest.ender.endNac.cMun, xUF);
+      if Trim(NFSe.IBSCBS.dest.ender.endNac.UF) = '' then
+        xCidade := ObterNomeMunicipioUF(NFSe.IBSCBS.dest.ender.endNac.cMun, xUF)
+      else
+        xUF := NFSe.IBSCBS.dest.ender.endNac.UF;
+
+      if Trim(NFSe.IBSCBS.dest.ender.endNac.xMunicipio) = '' then
+        xCidade := ObterNomeMunicipioUF(NFSe.IBSCBS.dest.ender.endNac.cMun, xUF)
+      else
+        xCidade := NFSe.IBSCBS.dest.ender.endNac.xMunicipio;
 
       NFSeNode.AppendChild(AddNode(tcStr, '#1', 'cidade_destinatario_cbsibs', 1, 60, 1,
                                                                   xCidade, ''));
