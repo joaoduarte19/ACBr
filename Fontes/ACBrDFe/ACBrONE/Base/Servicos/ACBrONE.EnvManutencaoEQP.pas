@@ -156,8 +156,8 @@ begin
       xEQP      := INIRec.ReadString(sSecao, 'xEQP', '');
       cUF       := INIRec.ReadInteger(sSecao, 'cUF', 0);
       tpSentido := StrTotpSentido(INIRec.ReadString(sSecao, 'tpSentido', 'E'));
-      latitude  := INIRec.ReadFloat(sSecao, 'latitude', 0);
-      longitude := INIRec.ReadFloat(sSecao, 'longitude', 0);
+      latitude  := StringToFloatDef(INIRec.ReadString(sSecao, 'latitude', ''), 0);
+      longitude := StringToFloatDef(INIRec.ReadString(sSecao, 'longitude', ''), 0);
       tpEQP     := StrTotpEQP(INIRec.ReadString(sSecao, 'tpEQP', '1'));
     end;
   finally

@@ -231,8 +231,8 @@ begin
         dhPass          := StringToDateTime(INIRec.ReadString(sSecao, 'dhPass', ''));
         CNPJOper        := INIRec.ReadString(sSecao, 'CNPJOper', '');
         cEQP            := INIRec.ReadString(sSecao, 'cEQP', '');
-        latitude        := INIRec.ReadFloat(sSecao, 'latitude', 0);
-        longitude       := INIRec.ReadFloat(sSecao, 'longitude', 0);
+        latitude        := StringToFloatDef(INIRec.ReadString(sSecao, 'latitude', ''), 0);
+        longitude       := StringToFloatDef(INIRec.ReadString(sSecao, 'longitude', ''), 0);
         tpSentido       := StrTotpSentido(INIRec.ReadString(sSecao, 'tpSentido', 'E'));
         placa           := INIRec.ReadString(sSecao, 'placa', '');
         tpVeiculo       := StrTotpVeiculo(INIRec.ReadString(sSecao, 'tpVeiculo', 'E'));
