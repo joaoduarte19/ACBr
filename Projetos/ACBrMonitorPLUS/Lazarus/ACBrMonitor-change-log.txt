@@ -43,6 +43,12 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+26/11/2026
+-- ACBrMonitor1 --
+[-] ACBR-10303 - Corrigida a impressão do DANFE Simplificado Tipo 2 (tpImp=6) com o modelo Fortes, que saía na impressora da NF-e (A4) em vez da impressora da NFC-e.
+   Por: Daniel de Morais InfoCotidiano
+   Veja: https://www.projetoacbr.com.br/forum/topic/96110-danfe-tipo-2-esta-imprimindo-na-laser/
+
 23/11/2026
 -- ACBrMonitor1 --
 [*] ACBR-10270 - A opção "Exibir Código GTIN" ([DANFE] ExibirEAN) passa a valer também para o DANFE da Reforma Tributária. Texto da opção alterado para "Exibir Código GTIN(Paisagem/RTC)".

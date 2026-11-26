@@ -11633,7 +11633,9 @@ begin
       end
       else
         ACBrNFe1.DANFE := ACBrNFeDANFeRL1;
-      if NaoEstaVazio(cbxImpressora.Text) then
+      if (ACBrNFe1.DANFE = ACBrNFeDANFCeFortes1) then
+        ACBrNFe1.DANFE.Impressora := cbxImpressoraNFCe.Text
+      else if NaoEstaVazio(cbxImpressora.Text) then
         ACBrNFe1.DANFE.Impressora := cbxImpressora.Text
     end;
 
