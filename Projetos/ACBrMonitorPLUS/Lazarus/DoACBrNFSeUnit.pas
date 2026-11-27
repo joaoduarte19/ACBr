@@ -294,6 +294,13 @@ public
    procedure Executar; override;
 end;
 
+{ TMetodoConsultarDFeNFSePorCNPJCPFNSU }
+
+TMetodoConsultarDFeNFSePorCNPJCPFNSU = class(TACBrMetodo)
+public
+  procedure Executar; override;
+end;
+
 {TMetodoConsultarParametrosNFSe}
 TMetodoConsultarParametrosNFSe = class(TACBrMetodo)
 public
@@ -1850,6 +1857,31 @@ begin
   end;
 end;
 
+{ TMetodoConsultarDFeNFSePorCNPJCPFNSU }
+
+procedure TMetodoConsultarDFeNFSePorCNPJCPFNSU.Executar;
+var
+  ANSU, ACNPJCPF: String;
+
+  RespConsultarDFe: TConsultaDFeResposta;
+begin
+  ACNPJCPF := fpCmd.Params(0);
+  ANSU := fpCmd.Params(1);
+
+  with TACBrObjetoNFSe(fpObjetoDono) do
+  begin
+    ACBrNFSeX.ConsultarDFe(ACNPJCPF, StrToIntDef(ANSU, 0));
+
+    RespConsultarDFe := TConsultaDFeResposta.Create(TpResp, codUTF8);
+    try
+      RespConsultarDFe.Processar(ACBrNFSeX.WebService.ConsultarDFe);
+      fpCmd.Resposta := fpCmd.Resposta + sLineBreak + RespConsultarDFe.Gerar;
+    finally
+      RespConsultarDFe.Free;
+    end;
+  end;
+end;
+
 { TMetodoConsultarParametrosNFSe }
 
 { Params: 0 - ATipoParam: Integer com o Tipo de Parametro: [0, 1, 2, 3, 4, 5]
@@ -1986,6 +2018,7 @@ begin
   ListaDeMetodos.Add(CMetodoSetPathArquivoWebServices);
   ListaDeMetodos.Add(CMetodoSetambiente);
   ListaDeMetodos.Add(CMetodoSetversaodf);
+  ListaDeMetodos.Add(CMetodoConsultarDFeNFSePorCNPJCPFNSU);
 
   // DoACBrUnit
   ListaDeMetodos.Add(CMetodoSavetofile);
@@ -2065,6 +2098,7 @@ begin
     43  : AMetodoClass := TMetodoSetPathArquivoWebServices;
     44  : AMetodoClass := TMetodoSetAmbiente;
     45  : AMetodoClass := TMetodoSetVersaoDF;
+    46  : AMetodoClass := TMetodoConsultarDFeNFSePorCNPJCPFNSU;
 
     else
     begin

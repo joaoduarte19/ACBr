@@ -43,6 +43,13 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+
+27/11/2026
+-- ACBrMonitorConsts, DoACBrNFSeUnit --
+[+] ACBR-10178 - Adiciona novo método para consultar os DFes por CNPJCPF e NSU junto ao ambiente nacional.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/96277-novo-m%C3%A9todo-de-consulta-disponibilizado-no-acbrmonitorplus-e-na-acbrlibnfse-para-consultardfe-no-padr%C3%A3o-nacional/    
+
 26/11/2026
 -- ACBrMonitor1 --
 [-] ACBR-10303 - Corrigida a impressão do DANFE Simplificado Tipo 2 (tpImp=6) com o modelo Fortes, que saía na impressora da NF-e (A4) em vez da impressora da NFC-e.

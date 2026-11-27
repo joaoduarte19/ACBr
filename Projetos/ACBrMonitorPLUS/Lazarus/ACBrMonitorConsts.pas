@@ -527,6 +527,7 @@ const
   CMetodoSetCodigoMunicipio = 'SetCodigoMunicipio';
   CMetodoSetEmitente = 'SetEmitente';
   CMetodoSetAutenticacaoNFSe = 'SetAutenticacaoNFSe';
+  CMetodoConsultarDFeNFSePorCNPJCPFNSU = 'ConsultarDFeNFSePorCNPJCPFNSU';
 
   CMetodoValidarCTe =                  'validarcte';
   CMetodoAssinarCTe =                  'assinarcte';
