@@ -43,6 +43,11 @@ Símbolo : Significado
 [-]     : Correção de Bug (assim esperamos)
 
 27/11/2026
+-- ACBrLibNFSeMT, ACBrLibNFSeST, ACBrLibNFSeStaticImport, ACBrLibNFSeStaticImportMT --
+[-] ACBR-10178 - Corrige a convenção de chamada (stdcall/cdecl) na implementação de NFSE_ConsultarDFePorCNPJCPFNSU e NFSE_ConsultarDFePorChave, que impedia a compilação com STDCALL.
+[+] ACBR-10178 - Adiciona NFSE_ConsultarDFePorCNPJCPFNSU e NFSE_ConsultarDFePorChave nas units de importação estática.
+   Por: Alexandre Paula
+
 -- ACBrLibNFSe.lpr, ACBrLibNFSeBase, ACBrLibNFSeMT, ACBrLibNFSeST --
 [+] ACBR-10178 - Adiciona novos métodos para consultar os DFes por CNPJCPF e NSU e para consultar DFe por chave junto ao ambiente nacional.
    Por: Diego Folieni

@@ -949,7 +949,8 @@ begin
 end;
 
 function NFSE_ConsultarDFePorCNPJCPFNSU(aCNPJCPF: PAnsiChar; aNSU: Integer;
-  sResposta: PAnsiChar; var esTamanho: Integer): Integer; cdecl;
+  sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 begin
   try
     VerificarLibInicializada(pLib);
@@ -964,7 +965,8 @@ begin
 end;
 
 function NFSE_ConsultarDFePorChave(aChave: PAnsiChar; sResposta: PAnsiChar;
-  var esTamanho: Integer): Integer; cdecl;
+  var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 begin
   try
     VerificarLibInicializada(pLib);

@@ -224,6 +224,12 @@ function NFSE_ConsultarEvento(const aChave: PAnsiChar; aTipoEvento: Integer; aNu
 function NFSE_ConsultarDFe(aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFSeLIBName;
 
+function NFSE_ConsultarDFePorCNPJCPFNSU(aCNPJCPF: PAnsiChar; aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFSeLIBName;
+
+function NFSE_ConsultarDFePorChave(aChave: PAnsiChar; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFSeLIBName;
+
 function NFSE_ObterDANFSE(const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf}; external CACBrNFSeLIBName;
 
