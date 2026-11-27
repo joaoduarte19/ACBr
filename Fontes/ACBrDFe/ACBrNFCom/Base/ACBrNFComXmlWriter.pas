@@ -243,6 +243,23 @@ begin
   NrOcorrgIBSTot := 1;
   NrOcorrgCBSTot := 1;
 
+  // Remover a condição tpAmb = taHomologacao quando estiver implantado em produção
+  GerargIBSCBS := not ((NFCom.Ide.tpAmb = taHomologacao) and
+    (NFCom.Emit.CRT in [crtSimplesNacional]) and
+    (NFCom.Emit.tpRegimeIBSCBS = trNenhum));
+
+  // NT 2026.005: gTribSN obrigatorio conforme CRT e tpRegimeIBSCBS
+  GerarGIBSSNZerado :=
+    ((NFCom.Emit.CRT = crtSimplesNacional) and
+     (NFCom.Emit.tpRegimeIBSCBS = trNenhum)) or
+    ((NFCom.Emit.CRT = crtRegimeNormal) and
+     (NFCom.Emit.tpRegimeIBSCBS = trNormalPendenteCRT1SemRegimeRegular));
+  GerarGCBSSNZerado := GerarGIBSSNZerado or
+    ((NFCom.Emit.CRT = crtSimplesExcessoReceita) and
+     (NFCom.Emit.tpRegimeIBSCBS = trNenhum)) or
+    ((NFCom.Emit.CRT = crtRegimeNormal) and
+     (NFCom.Emit.tpRegimeIBSCBS = trNormalPendenteCRT2SemRegimeRegular));
+
   ListaDeAlertas.Clear;
 
   {

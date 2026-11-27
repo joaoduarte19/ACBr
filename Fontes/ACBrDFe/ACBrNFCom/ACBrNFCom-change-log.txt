@@ -42,6 +42,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2026
+-- ACBrNFComXmlWriter --
+[*] ACBr 10312 - Alteração visando alimentar as propriedades: GerarGIBSSNZerado, 
+    GerarGCBSSNZerado e GerargIBSCBS conforme as regras constantes na NT 2026/005 
+    versão 1.00
+  Por: Prodata/Italo Giurizzato Junior
+
 23/10/2026
 -- ACBrNFComXmlReader --
 [-] Trocado todos os Find por FindAnyNs, criado a procedure LerICMSSN para realizar a leitura do grupo ICMSSN.
