@@ -207,6 +207,12 @@ function NFSE_ConsultarEvento(const libHandle: PLibHandle; const aChave: PAnsiCh
 function NFSE_ConsultarDFe(const libHandle: PLibHandle; aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+function NFSE_ConsultarDFePorCNPJCPFNSU(const libHandle: PLibHandle; aCNPJCPF: PAnsiChar; aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function NFSE_ConsultarDFePorChave(const libHandle: PLibHandle; aChave: pAnsiChar; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
 function NFSE_ObterDANFSE(const libHandle: PLibHandle; const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
@@ -932,6 +938,37 @@ begin
   try
     VerificarLibInicializada(libHandle);
     Result := TACBrLibNFSe(libHandle^.Lib).ConsultarDFe(aNSU, sResposta, esTamanho);
+  except
+      on E: EACBrLibException do
+       Result := E.Erro;
+
+      on E: Exception do
+        Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFSE_ConsultarDFePorCNPJCPFNSU(const libHandle: PLibHandle;
+  aCNPJCPF: PAnsiChar; aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer
+  ): Integer; cdecl;
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibNFSe(libHandle^.Lib).ConsultarDFePorCNPJCPFNSU(aCNPJCPF, aNSU, sResposta, esTamanho);
+  except
+      on E: EACBrLibException do
+       Result := E.Erro;
+
+      on E: Exception do
+        Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFSE_ConsultarDFePorChave(const libHandle: PLibHandle; aChave: PAnsiChar;
+  sResposta: PAnsiChar; var esTamanho: Integer): Integer; cdecl;
+begin
+  try
+    VerificarLibInicializada(libHandle);
+    Result := TACBrLibNFSe(libHandle^.Lib).ConsultarDFePorChave(aChave, sResposta, esTamanho);
   except
       on E: EACBrLibException do
        Result := E.Erro;

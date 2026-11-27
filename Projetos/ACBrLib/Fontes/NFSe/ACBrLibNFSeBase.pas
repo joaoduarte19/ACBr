@@ -104,6 +104,8 @@ type
     function ConsultarNFSePorChave(const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ConsultarEvento(const aChave: PAnsiChar; aTipoEvento: Integer; aNumSeq: Integer; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ConsultarDFe(aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+    function ConsultarDFePorCNPJCPFNSU(aCNPJCPF: PAnsiChar; aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+    function ConsultarDFePorChave(aChave: PAnsiChar; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ObterDANFSE(const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ConsultarParametros(aTipoParametroMunicipio: Integer; const aCodigoServico: PAnsiChar; aCompetencia: TDateTime; aNumeroBeneficio: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
     function ObterInformacoesProvedor(const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
@@ -1947,6 +1949,88 @@ begin
 
       if Config.Log.Nivel = logParanoico then
         GravarLogsHttp('NFSE_ConsultarDFe', NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);
+
+      try
+        Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);
+
+        Resposta:= Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free
+      end;
+    finally
+      NFSeDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibNFSe.ConsultarDFePorCNPJCPFNSU(aCNPJCPF: PAnsiChar;
+  aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+var
+  Resp: TConsultaDFeResposta;
+  Resposta: AnsiString;
+begin
+  try
+    if Config.Log.Nivel > logNormal then
+      GravarLog('NFSE_ConsultarDFePorCNPJCPFNSU('+ aCNPJCPF +', ' + IntToStr(aNSU) + ' )', logCompleto, True)
+      else
+      GravarLog('NFSE_ConsultarDFeCNPJCPFNSU', logNormal);
+
+    NFSeDM.Travar;
+    try
+      NFSeDM.ACBrNFSeX1.ConsultarDFe(aCNPJCPF, aNSU);
+      Resp := TConsultaDFeResposta.Create(Config.TipoResposta, Config.CodResposta);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarDFe', NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);
+
+      try
+        Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);
+
+        Resposta:= Resp.Gerar;
+        MoverStringParaPChar(Resposta, sResposta, esTamanho);
+        Result := SetRetorno(ErrOK, Resposta);
+      finally
+        Resp.Free
+      end;
+    finally
+      NFSeDM.Destravar;
+    end;
+  except
+    on E: EACBrLibException do
+      Result := SetRetorno(E.Erro, ConverterStringSaida(E.Message));
+
+    on E: Exception do
+      Result := SetRetorno(ErrExecutandoMetodo, ConverterStringSaida(E.Message));
+  end;
+end;
+
+function TACBrLibNFSe.ConsultarDFePorChave(aChave: PAnsiChar;
+  sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+var
+  Resp: TConsultaDFeResposta;
+  Resposta: AnsiString;
+begin
+  try
+    if Config.Log.Nivel > logNormal then
+      GravarLog('NFSE_ConsultarDFePorChave(' + aChave + ' )', logCompleto, True)
+      else
+      GravarLog('NFSE_ConsultarDFePorChave', logNormal);
+
+    NFSeDM.Travar;
+    try
+      NFSeDM.ACBrNFSeX1.ConsultarDFe(aChave);
+      Resp := TConsultaDFeResposta.Create(Config.TipoResposta, Config.CodResposta);
+
+      if Config.Log.Nivel = logParanoico then
+        GravarLogsHttp('NFSE_ConsultarDFePorChave', NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);
 
       try
         Resp.Processar(NFSeDM.ACBrNFSeX1.WebService.ConsultarDFe);

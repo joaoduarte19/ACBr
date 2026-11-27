@@ -42,6 +42,12 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2026
+-- ACBrLibNFSe.lpr, ACBrLibNFSeBase, ACBrLibNFSeMT, ACBrLibNFSeST --
+[+] ACBR-10178 - Adiciona novos métodos para consultar os DFes por CNPJCPF e NSU e para consultar DFe por chave junto ao ambiente nacional.
+   Por: Diego Folieni
+   Veja: https://www.projetoacbr.com.br/forum/topic/96277-novo-m%C3%A9todo-de-consulta-disponibilizado-no-acbrmonitorplus-e-na-acbrlibnfse-para-consultardfe-no-padr%C3%A3o-nacional/ 
+
 17/11/2026
 -- ACBrLibNFSe.lpi --
 [-] Remove simbolos de depuração na compilação Linux/x86_64-MT

@@ -208,6 +208,12 @@ function NFSE_ConsultarEvento(const aChave: PAnsiChar; aTipoEvento: Integer; aNu
 function NFSE_ConsultarDFe(aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
+function NFSE_ConsultarDFePorCNPJCPFNSU(aCNPJCPF: PAnsiChar; aNSU: Integer; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
+function NFSE_ConsultarDFePorChave(aChave: PAnsiChar; sResposta: PAnsiChar; var esTamanho: Integer): Integer;
+  {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
+
 function NFSE_ObterDANFSE(const aChaveNFSe: PAnsiChar; const sResposta: PAnsiChar; var esTamanho: Integer): Integer;
   {$IfDef STDCALL} stdcall{$Else} cdecl{$EndIf};
 
@@ -933,6 +939,36 @@ begin
   try
     VerificarLibInicializada(pLib);
     Result := TACBrLibNFSe(pLib^.Lib).ConsultarDFe(aNSU, sResposta, esTamanho);
+  except
+      on E: EACBrLibException do
+       Result := E.Erro;
+
+      on E: Exception do
+        Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFSE_ConsultarDFePorCNPJCPFNSU(aCNPJCPF: PAnsiChar; aNSU: Integer;
+  sResposta: PAnsiChar; var esTamanho: Integer): Integer; cdecl;
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibNFSe(pLib^.Lib).ConsultarDFePorCNPJCPFNSU(aCNPJCPF, aNSU, sResposta, esTamanho);
+  except
+      on E: EACBrLibException do
+       Result := E.Erro;
+
+      on E: Exception do
+        Result := ErrExecutandoMetodo;
+  end;
+end;
+
+function NFSE_ConsultarDFePorChave(aChave: PAnsiChar; sResposta: PAnsiChar;
+  var esTamanho: Integer): Integer; cdecl;
+begin
+  try
+    VerificarLibInicializada(pLib);
+    Result := TACBrLibNFSe(pLib^.Lib).ConsultarDFePorChave(aChave, sResposta, esTamanho);
   except
       on E: EACBrLibException do
        Result := E.Erro;

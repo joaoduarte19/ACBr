@@ -122,6 +122,8 @@ exports
   NFSE_ConsultarNFSePorChave,
   NFSE_ConsultarEvento,
   NFSE_ConsultarDFe,
+  NFSE_ConsultarDFePorCNPJCPFNSU,
+  NFSE_ConsultarDFePorChave,
   NFSE_ObterDANFSE,
   NFSE_ConsultarParametros;
 
