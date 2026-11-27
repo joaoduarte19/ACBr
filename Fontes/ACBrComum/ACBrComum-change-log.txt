@@ -37,6 +37,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2026
+-- ACBrUtil.Strings.pas --
+[-] Correção no método "NativeStringToAnsi" para converter corretamente para ANSI
+    em Delphi POSIX
+    http://www.projetoacbr.com.br/forum/index.php?showtopic=96007
+    (por: Divinomar e DSA)
+
 13/11/2026
 -- ACBrUtil.Strings.pas --
 [-] Correção no método "AddDelimitedTextToList" para evitar "Range check error"

@@ -422,12 +422,30 @@ begin
 end;
 
 function NativeStringToAnsi(const AString: String): AnsiString;
+{$ifDef POSIX}
+ Var
+   Enc: TEncoding;
+   Bytes: TBytes;
+{$EndIf}
 begin
   {$IfDef USE_UTF8}
    {$IfDef ANDROID}
     Result := TranslateString(AString, 1252)
    {$Else}
-    Result := ACBrUTF8ToAnsi(AString);
+    {$ifDef POSIX}
+     Enc := TEncoding.GetEncoding(1252) ;
+     try
+       Bytes := Enc.GetBytes( AString ) ;
+     finally
+       Enc.Free ;
+     end ;
+     SetLength(Result, Length(Bytes));
+     if Length(Bytes) > 0 then
+       Move(Bytes[0], Result[1], Length(Bytes));
+     SetCodePage(RawByteString(Result), 1252, False);
+    {$Else}
+     Result := ACBrUTF8ToAnsi(AString);
+    {$EndIf}
    {$EndIf}
   {$Else}
     Result := AnsiString(AString);
