@@ -57,6 +57,9 @@ type
     FNrOcorrgIBSTot: Integer;
     FNrOcorrgCBSTot: Integer;
     FNrOcorrgMonoTot: Integer;
+    FGerargIBSCBS: Boolean;
+    FGerarGIBSSNZerado: Boolean;
+    FGerarGCBSSNZerado: Boolean;
   protected
     function CreateOptions: TACBrXmlWriterOptions; override;
   public
@@ -157,6 +160,9 @@ type
     property NrOcorrgIBSTot: Integer read FNrOcorrgIBSTot write FNrOcorrgIBSTot;
     property NrOcorrgCBSTot: Integer read FNrOcorrgCBSTot write FNrOcorrgCBSTot;
     property NrOcorrgMonoTot: Integer read FNrOcorrgMonoTot write FNrOcorrgMonoTot;
+    property GerargIBSCBS: Boolean read FGerargIBSCBS write FGerargIBSCBS;
+    property GerarGIBSSNZerado: Boolean read FGerarGIBSSNZerado write FGerarGIBSSNZerado;
+    property GerarGCBSSNZerado: Boolean read FGerarGCBSSNZerado write FGerarGCBSSNZerado;
   end;
 
 implementation
@@ -175,6 +181,9 @@ begin
   FNrOcorrgIBSTot := 0;
   FNrOcorrgCBSTot := 0;
   FNrOcorrgMonoTot := 0;
+  FGerargIBSCBS := True;
+  FGerarGIBSSNZerado := False;
+  FGerarGCBSSNZerado := False;
 end;
 
 function TDFeRTCXmlWriter.CreateOptions: TACBrXmlWriterOptions;
@@ -428,6 +437,13 @@ end;
 
 function TDFeRTCXmlWriter.Gerar_gIBSCBS(gIBSCBS: TgIBSCBS): TACBrXmlNode;
 begin
+  Result := nil;
+
+  // Para CRT=1 e tpRegimeIBSCBS=Nenhum, ou seja, diferente de (1, 2, 3 e 4)
+  // Não gerar o grupo gIBSCBS
+  if not GerargIBSCBS then
+    Exit;
+
   Result := CreateElement('gIBSCBS');
 
   Result.AppendChild(AddNode(tcDe2, '#4', 'vBC', 1, 15, 1,
@@ -479,15 +495,18 @@ function TDFeRTCXmlWriter.Gerar_gTribSN(gTribSN: TTribSN): TACBrXmlNode;
 begin
   Result := nil;
 
-  if (gTribSN.gIBSSN.pIBSSN > 0) or (gTribSN.gIBSSN.vIBSSN > 0) or
+  if GerarGIBSSNZerado or GerarGCBSSNZerado or
+     (gTribSN.gIBSSN.pIBSSN > 0) or (gTribSN.gIBSSN.vIBSSN > 0) or
      (gTribSN.gCBSSN.pCBSSN > 0) or (gTribSN.gCBSSN.vCBSSN > 0) then
   begin
     Result := CreateElement('gTribSN');
 
-    if (gTribSN.gIBSSN.pIBSSN > 0) or (gTribSN.gIBSSN.vIBSSN > 0) then
+    if GerarGIBSSNZerado or
+       (gTribSN.gIBSSN.pIBSSN > 0) or (gTribSN.gIBSSN.vIBSSN > 0) then
       Result.AppendChild(Gerar_gIBSSN(gTribSN.gIBSSN));
 
-    if (gTribSN.gCBSSN.pCBSSN > 0) or (gTribSN.gCBSSN.vCBSSN > 0) then
+    if GerarGCBSSNZerado or
+       (gTribSN.gCBSSN.pCBSSN > 0) or (gTribSN.gCBSSN.vCBSSN > 0) then
       Result.AppendChild(Gerar_gCBSSN(gTribSN.gCBSSN));
   end;
 end;
@@ -838,7 +857,8 @@ function TDFeRTCXmlWriter.Gerar_gTribSNTot(gTribSN: TgTribSN): TACBrXmlNode;
 begin
   Result := nil;
 
-  if (gTribSN.vIBSSN > 0) or (gTribSN.vCBSSN > 0) then
+  if ((GerarGIBSSNZerado or GerarGCBSSNZerado) and FpGerarGrupoIBSCBSTot) or
+     (gTribSN.vIBSSN > 0) or (gTribSN.vCBSSN > 0) then
   begin
     Result := CreateElement('gTribSN');
 

@@ -39,6 +39,17 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2026
+-- ACBrDFe.RTC.XmlWriter --
+[*] ACBr 10312 - Criado as propriedades GerarGIBSSNZerado e GerarGCBSSNZerado para 
+    controlar a geração dos grupos gIBSSN e gCBSSN quando se tratar de contribuinte 
+    do Simples Nacional e com a exigência de gerar os grupos mesmo com os valores
+    zerados.
+  Por: Prodata
+[*] ACBr 9599 - Criado a propriedade GerargIBSCBS para controlar a geração do grupo
+    gIBSCBS quando se tratar de contribuinte do Simples Nacional.
+  Por: Italo Giurizzato Junior
+
 26/11/2026
 -- ACBrDFe.RTC.IniReader --
 [*] ACBr 9563 - Trocado o ReadFloat por StringToFloatDef ao ler do INI um campo do tipo Float.
