@@ -1114,26 +1114,53 @@ const
   cPorLinha = 3;
   cLarguraGrupo = 332;
 var
-  I, LLeft, LTop: Integer;
+  I, LLeft, LTop, LTopoDup: Integer;
   LDup: TDupCollectionItem;
+  LExibeFat: Boolean;
 begin
-  rlbFatura.Visible := fpRTC.ExibeFatura and fpDANFe.ExibeCampoFatura;
+  // Quadro FATURA / DUPLICATAS (NT 2026.010 - quadro facultativo, grupo cobr - Y01).
+  // - Linha "DADOS DA FATURA": impressa quando cobr/fat/nFat estiver preenchido,
+  //   mesma regra do DANFE clássico (rlbFaturaReal), inclusive em venda à vista
+  //   sem duplicatas.
+  // - Duplicatas: 3 por linha, conforme o modelo da NT, sem limite de quantidade.
+  // - O quadro todo é controlado por ExibeCampoFatura; ExibeCampoDuplicata não é
+  //   considerado aqui.
+  // - Diferente das demais bandas, as células desta banda são criadas em tempo de
+  //   execução (CriarCelula) e não desenhadas no form: a quantidade de duplicatas
+  //   é variável e rlbFatura é btTitle, então não é possível usar TRLSubDetail
+  //   (subdetalhes são impressos após todas as bandas de título). No form fica
+  //   apenas o título rllSecFatura.
+  LExibeFat := NaoEstaVazio(fpNFe.Cobr.Fat.nFat);
+  rlbFatura.Visible := (fpRTC.ExibeFatura or LExibeFat) and fpDANFe.ExibeCampoFatura;
 
   if not rlbFatura.Visible then
     Exit;
+
+  LTopoDup := cTopoCelulas;
+  if LExibeFat then
+  begin
+    CriarCelula(rlbFatura, 0, cTopoCelulas, 250, ACBrStr('DADOS DA FATURA - NÚMERO'), fpNFe.Cobr.Fat.nFat);
+    CriarCelula(rlbFatura, 249, cTopoCelulas, 250, 'VALOR ORIGINAL', fpRTC.FormatarValor(fpNFe.Cobr.Fat.vOrig));
+    CriarCelula(rlbFatura, 498, cTopoCelulas, 250, 'VALOR DESCONTO', fpRTC.FormatarValor(fpNFe.Cobr.Fat.vDesc));
+    CriarCelula(rlbFatura, 747, cTopoCelulas, (rllSecFatura.Left + rllSecFatura.Width) - 747, ACBrStr('VALOR LÍQUIDO'), fpRTC.FormatarValor(fpNFe.Cobr.Fat.vLiq));
+    LTopoDup := cTopoCelulas + (cAlturaCelula - 1);
+  end;
 
   for I := 0 to (fpNFe.Cobr.Dup.Count - 1) do
   begin
     LDup := fpNFe.Cobr.Dup.Items[I];
     LLeft := (I mod cPorLinha) * cLarguraGrupo;
-    LTop := cTopoCelulas + (I div cPorLinha) * (cAlturaCelula - 1);
+    LTop := LTopoDup + (I div cPorLinha) * (cAlturaCelula - 1);
 
     CriarCelula(rlbFatura, LLeft, LTop, 132, 'FATURA/DUPLICATA', LDup.nDup);
     CriarCelula(rlbFatura, LLeft + 131, LTop, 94, 'VENCIMENTO', FormatDateBr(LDup.dVenc));
-    CriarCelula(rlbFatura, LLeft + 224, LTop, 108, 'VALOR', fpRTC.FormatarValor(LDup.vDup));
+    if ((I mod cPorLinha) = (cPorLinha - 1)) then
+      CriarCelula(rlbFatura, LLeft + 224, LTop, (rllSecFatura.Left + rllSecFatura.Width) - (LLeft + 224), 'VALOR', fpRTC.FormatarValor(LDup.vDup))
+    else
+      CriarCelula(rlbFatura, LLeft + 224, LTop, 108, 'VALOR', fpRTC.FormatarValor(LDup.vDup));
   end;
 
-  rlbFatura.Height := cTopoCelulas +
+  rlbFatura.Height := LTopoDup +
     ((fpNFe.Cobr.Dup.Count + cPorLinha - 1) div cPorLinha) * (cAlturaCelula - 1) + 1;
 end;
 

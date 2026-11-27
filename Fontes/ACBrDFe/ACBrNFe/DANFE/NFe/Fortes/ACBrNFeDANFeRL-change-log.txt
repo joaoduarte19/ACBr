@@ -45,6 +45,11 @@ Símbolo : Significado
 [+]     : Novo recurso
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
+27/11/2026
+-- ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
+[-] DANFE RTC: quadro Fatura/Duplicatas passa a imprimir os dados da fatura quando ExibeCampoFatura = True, inclusive sem duplicatas. 
+  Por: Daniel de Morais InfoCotidiano
+
 26/11/2026
 -- ACBrNFeDANFeRLRetratoRTC, ACBrNFeDANFeRLPaisagemRTC --
 [-] #ACBR-10270 - DANFE RTC: razão social, endereço, site e e-mail do emitente limitados ao quadro do emitente, sem invadir o bloco abaixo.
