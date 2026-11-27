@@ -63,6 +63,7 @@ type
     procedure LerXMLTributos(const ANode: TACBrXmlNode; trib: Ttrib); override;
     procedure LerXMLImovel(const ANode: TACBrXmlNode; Imovel: TDadosimovel); override;
     procedure LerXMLIBSCBSDPS(const ANode: TACBrXmlNode; IBSCBS: TIBSCBSDPS); override;
+    procedure LerXMLcondominios(const ANode: TACBrXmlNode; condominios: Tcondominios);
     procedure LerXMLSubstituicao(const ANode: TACBrXmlNode);
 
     procedure LerXMLPrestador(const ANode: TACBrXmlNode);
@@ -194,6 +195,7 @@ begin
       xNome := ObterConteudo(AuxNode.Childrens.FindAnyNs('xNome'), tcStr);
       dtIni := ObterConteudo(AuxNode.Childrens.FindAnyNs('dtIni'), tcDat);
       dtFim := ObterConteudo(AuxNode.Childrens.FindAnyNs('dtFim'), tcDat);
+      cMun := ObterConteudo(AuxNode.Childrens.FindAnyNs('cMun'), tcInt);
       idAtvEvt := ObterConteudo(AuxNode.Childrens.FindAnyNs('idAtvEvt'), tcStr);
 
       LerXMLEnderecoEvento(AuxNode);
@@ -269,6 +271,11 @@ begin
       nDI := ObterConteudo(AuxNode.Childrens.FindAnyNs('nDI'), tcStr);
       nRE := ObterConteudo(AuxNode.Childrens.FindAnyNs('nRE'), tcStr);
       mdic := ObterConteudo(AuxNode.Childrens.FindAnyNs('mdic'), tcInt);
+      nFatura := ObterConteudo(AuxNode.Childrens.FindAnyNs('nFatura'), tcStr);
+      vFatura := ObterConteudo(AuxNode.Childrens.FindAnyNs('vFatura'), tcDe2);
+      nDUIMP := ObterConteudo(AuxNode.Childrens.FindAnyNs('nDUIMP'), tcStr);
+      nDUE := ObterConteudo(AuxNode.Childrens.FindAnyNs('nDUE'), tcStr);
+      nContCambio := ObterConteudo(AuxNode.Childrens.FindAnyNs('nContCambio'), tcStr);
     end;
   end;
 end;
@@ -322,6 +329,7 @@ begin
     begin
       pAjusteBCISSQN := ObterConteudo(AuxNode.Childrens.FindAnyNs('pAjusteBCISSQN'), tcDe2);
       vAjusteBCISSQN := ObterConteudo(AuxNode.Childrens.FindAnyNs('vAjusteBCISSQN'), tcDe2);
+      vAjusteBCIBSCBSComExt := ObterConteudo(AuxNode.Childrens.FindAnyNs('vAjusteBCIBSCBSComExt'), tcDe2);
 
       if (ValorDeducoes = 0) and (NFSe.infNFSe.valores.vCalcDR > 0) then
         ValorDeducoes := NFSe.infNFSe.valores.vCalcDR;
@@ -1010,19 +1018,6 @@ begin
     NFSe.tpEmit := StrTotpEmit(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpEmit'), tcStr));
     NFSe.cMotivoEmisTI := StrTocMotivoEmisTI(ObterConteudo(AuxNode.Childrens.FindAnyNs('cMotivoEmisTI'), tcStr));
     NFSe.cLocEmi := ObterConteudo(AuxNode.Childrens.FindAnyNs('cLocEmi'), tcStr);
-    NFSe.chNFSeRej := ObterConteudo(AuxNode.Childrens.FindAnyNs('chNFSeRej'), tcStr);
-
-    NFSe.Producao := FpAOwner.StrToSimNao(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpAmb'), tcStr));
-
-    LerXMLSubstituicao(AuxNode);
-    LerXMLPrestador(AuxNode);
-    LerXMLTomador(AuxNode);
-    LerXMLIntermediario(AuxNode);
-    LerXMLServico(AuxNode);
-    LerXMLValores(AuxNode);
-
-    // Reforma Tributária
-    LerXMLIBSCBSDPS(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
 
     if FpVersaoNT = ntPN009v101 then
     begin
@@ -1033,6 +1028,30 @@ begin
       else
         NFSe.IBSCBS.finNFSe := StrTofinNFSe(Lvalor);
     end;
+
+    NFSe.chNFSeRej := ObterConteudo(AuxNode.Childrens.FindAnyNs('chNFSeRej'), tcStr);
+
+    NFSe.Producao := FpAOwner.StrToSimNao(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpAmb'), tcStr));
+
+    LerXMLSubstituicao(AuxNode);
+    LerXMLPrestador(AuxNode);
+    LerXMLTomador(AuxNode);
+
+    if FpVersaoNT = ntPN009v101 then
+    begin
+      lvalor := ObterConteudo(AuxNode.Childrens.FindAnyNs('indDest'), tcStr);
+      if lvalor <> '' then
+        NFSe.IBSCBS.indDest := StrToindDest(lvalor);
+
+      LerXMLDestinatario(AuxNode.Childrens.FindAnyNs('dest'), NFSe.IBSCBS.dest);
+    end;
+
+    LerXMLIntermediario(AuxNode);
+    LerXMLServico(AuxNode);
+    LerXMLValores(AuxNode);
+
+    // Reforma Tributária
+    LerXMLIBSCBSDPS(AuxNode.Childrens.FindAnyNs('IBSCBS'), NFSe.IBSCBS);
   end;
 end;
 
@@ -1115,6 +1134,55 @@ begin
     Item.cNCMBemMovel := ObterConteudo(ANodes[i].Childrens.FindAnyNs('cNCMBemMovel'), tcStr);
     Item.xNCMBemMovel := ObterConteudo(ANodes[i].Childrens.FindAnyNs('xNCMBemMovel'), tcStr);
     Item.qtdNCMBemMovel := ObterConteudo(ANodes[i].Childrens.FindAnyNs('qtdNCMBemMovel'), tcInt);
+  end;
+
+  LerXMLcondominios(ANode.Childrens.FindAnyNs('condominios'), IBSCBS.condominios);
+end;
+
+procedure TNFSeR_PadraoNacional.LerXMLcondominios(const ANode: TACBrXmlNode;
+  condominios: Tcondominios);
+var
+  ANodes, ANodesDet: TACBrXmlNodeArray;
+  i, j: Integer;
+  Cobranca: TgCobrancaCollectionItem;
+  Detalhe: TgDetCobrancaCollectionItem;
+  Desconto: TgDescontoCollectionItem;
+begin
+  if not Assigned(ANode) then Exit;
+
+  condominios.dVencOrig := ObterConteudo(ANode.Childrens.FindAnyNs('dVencOrig'), tcDat);
+
+  ANodes := ANode.Childrens.FindAllAnyNs('gCobranca');
+
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    Cobranca := condominios.gCobranca.New;
+
+    Cobranca.tpCobranca := ObterConteudo(ANodes[i].Childrens.FindAnyNs('tpCobranca'), tcStr);
+    Cobranca.xTpCobranca := ObterConteudo(ANodes[i].Childrens.FindAnyNs('xTpCobranca'), tcStr);
+    Cobranca.vCobranca := ObterConteudo(ANodes[i].Childrens.FindAnyNs('vCobranca'), tcDe2);
+
+    ANodesDet := ANodes[i].Childrens.FindAllAnyNs('gDetCobranca');
+
+    for j := 0 to Length(ANodesDet) - 1 do
+    begin
+      Detalhe := Cobranca.gDetCobranca.New;
+
+      Detalhe.tpDetCobranca := ObterConteudo(ANodesDet[j].Childrens.FindAnyNs('tpDetCobranca'), tcStr);
+      Detalhe.xTpDetCobranca := ObterConteudo(ANodesDet[j].Childrens.FindAnyNs('xTpDetCobranca'), tcStr);
+      Detalhe.vDetCobranca := ObterConteudo(ANodesDet[j].Childrens.FindAnyNs('vDetCobranca'), tcDe2);
+    end;
+  end;
+
+  ANodes := ANode.Childrens.FindAllAnyNs('gDesconto');
+
+  for i := 0 to Length(ANodes) - 1 do
+  begin
+    Desconto := condominios.gDesconto.New;
+
+    Desconto.tpDesconto := ObterConteudo(ANodes[i].Childrens.FindAnyNs('tpDesconto'), tcStr);
+    Desconto.vDesconto := ObterConteudo(ANodes[i].Childrens.FindAnyNs('vDesconto'), tcDe2);
+    Desconto.xTpDesconto := ObterConteudo(ANodes[i].Childrens.FindAnyNs('xTpDesconto'), tcStr);
   end;
 end;
 
@@ -1199,6 +1267,7 @@ begin
     NFSe.infNFSe.xNBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('xNBS'), tcStr);
     NFSe.infNFSe.verAplic := ObterConteudo(AuxNode.Childrens.FindAnyNs('verAplic'), tcStr);
     NFSe.infNFSe.ambGer := StrToambGer(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('ambGer'), tcStr));
+    NFSe.infNFSe.verCalcIBSCBS := ObterConteudo(AuxNode.Childrens.FindAnyNs('verCalcIBSCBS'), tcStr);
     NFSe.infNFSe.tpEmis := StrTotpEmis(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('tpEmis'), tcStr));
     NFSe.infNFSe.procEmi := StrToprocEmis(Ok, ObterConteudo(AuxNode.Childrens.FindAnyNs('procEmi'), tcStr));
     NFSe.infNFSe.cStat := ObterConteudo(AuxNode.Childrens.FindAnyNs('cStat'), tcInt);
@@ -2080,6 +2149,7 @@ begin
       NFSe.infNFSe.xNBS := AINIRec.ReadString(sSecao, 'xNBS', '');
       NFSe.infNFSe.verAplic := AINIRec.ReadString(sSecao, 'verAplic', '');
       NFSe.infNFSe.ambGer := StrToambGer(Ok, AINIRec.ReadString(sSecao, 'ambGer', ''));
+      NFSe.infNFSe.verCalcIBSCBS := AINIRec.ReadString(sSecao, 'verCalcIBSCBS', '');
       NFSe.infNFSe.tpEmis := StrTotpEmis(Ok, AINIRec.ReadString(sSecao, 'tpEmis', ''));
       NFSe.infNFSe.procEmi := StrToprocEmis(Ok, AINIRec.ReadString(sSecao, 'procEmi', ''));
       NFSe.infNFSe.cStat := AINIRec.ReadInteger(sSecao, 'cStat', 0);
@@ -2372,6 +2442,11 @@ begin
     NFSe.Servico.comExt.nDI := AINIRec.ReadString(sSecao, 'nDI', '');
     NFSe.Servico.comExt.nRE := AINIRec.ReadString(sSecao, 'nRE', '');
     NFSe.Servico.comExt.mdic := AINIRec.ReadInteger(sSecao, 'mdic', 0);
+    NFSe.Servico.comExt.nFatura := AINIRec.ReadString(sSecao, 'nFatura', '');
+    NFSe.Servico.comExt.vFatura := StringToFloatDef(AINIRec.ReadString(sSecao, 'vFatura', ''), 0);
+    NFSe.Servico.comExt.nDUIMP := AINIRec.ReadString(sSecao, 'nDUIMP', '');
+    NFSe.Servico.comExt.nDUE := AINIRec.ReadString(sSecao, 'nDUE', '');
+    NFSe.Servico.comExt.nContCambio := AINIRec.ReadString(sSecao, 'nContCambio', '');
   end;
 end;
 
@@ -2423,6 +2498,7 @@ begin
     NFSe.Servico.Evento.dtIni := AINIRec.ReadDate(sSecao, 'dtIni', Now);
     NFSe.Servico.Evento.dtFim := AINIRec.ReadDate(sSecao, 'dtFim', Now);
     NFSe.Servico.Evento.idAtvEvt := AINIRec.ReadString(sSecao, 'idAtvEvt', '');
+    NFSe.Servico.Evento.cMun := AINIRec.ReadInteger(sSecao, 'cMun', 0);
 
     NFSe.Servico.Evento.Endereco.CEP := AINIRec.ReadString(sSecao, 'CEP', '');
     NFSe.Servico.Evento.Endereco.xMunicipio := AINIRec.ReadString(sSecao, 'xMunicipio', '');
@@ -2498,6 +2574,7 @@ begin
     NFSe.Servico.Valores.ValorDeducoes := StringToFloatDef(AINIRec.ReadString(sSecao, 'ValorDeducoes', ''), 0);
     NFSe.Servico.Valores.pAjusteBCISSQN := StringToFloatDef(AINIRec.ReadString(sSecao, 'pAjusteBCISSQN', ''), 0);
     NFSe.Servico.Valores.vAjusteBCISSQN := StringToFloatDef(AINIRec.ReadString(sSecao, 'vAjusteBCISSQN', ''), 0);
+    NFSe.Servico.Valores.vAjusteBCIBSCBSComExt := StringToFloatDef(AINIRec.ReadString(sSecao, 'vAjusteBCIBSCBSComExt', ''), 0);
   end;
 end;
 

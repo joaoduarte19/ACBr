@@ -208,6 +208,7 @@ type
     procedure GerarINIgLocacao(AINIRec: TMemIniFile; gLocacao: TgLocacao);
     procedure GerarINIgUnidImob(AINIRec: TMemIniFile; gUnidImob: TgUnidImobCollection);
     procedure GerarINIbensMoveis(AINIRec: TMemIniFile; bensMoveis: TbensMoveisCollection);
+    procedure GerarINIcondominios(AINIRec: TMemIniFile; condominios: Tcondominios);
     procedure GerarINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); virtual;
     procedure GerarINIDocumentos(AINIRec: TMemIniFile; Documentos: TdocumentosCollection);
     procedure GerarINITributacao(AINIRec: TMemIniFile; Tributacao: Ttrib);
@@ -2256,6 +2257,7 @@ begin
   GerarINIDestinatario(AINIRec, IBSCBS.dest);
   GerarINIImovel(AINIRec, IBSCBS.imovel);
   GerarINIbensMoveis(AINIRec, IBSCBS.bensMoveis);
+  GerarINIcondominios(AINIRec, IBSCBS.condominios);
   GerarINIIBSCBSValores(AINIRec, IBSCBS.valores);
 end;
 
@@ -2398,6 +2400,55 @@ begin
     AINIRec.WriteString(LSecao, 'cNCMBemMovel', bensMoveis[i].cNCMBemMovel);
     AINIRec.WriteString(LSecao, 'xNCMBemMovel', bensMoveis[i].xNCMBemMovel);
     AINIRec.WriteInteger(LSecao, 'qtdNCMBemMovel', bensMoveis[i].qtdNCMBemMovel);
+  end;
+end;
+
+procedure TNFSeWClass.GerarINIcondominios(AINIRec: TMemIniFile;
+  condominios: Tcondominios);
+var
+  i, j: Integer;
+begin
+  if condominios.gCobranca.Count = 0 then
+    Exit;
+
+  LSecao := 'condominios';
+
+  AINIRec.WriteString(LSecao, 'dVencOrig', DateToStr(condominios.dVencOrig));
+
+  for i := 0 to condominios.gCobranca.Count - 1 do
+  begin
+    if i > 98 then
+      Break;
+
+    LSecao := 'gCobranca' + IntToStrZero(i+1, 2);
+
+    AINIRec.WriteString(LSecao, 'tpCobranca', condominios.gCobranca[i].tpCobranca);
+    AINIRec.WriteString(LSecao, 'xTpCobranca', condominios.gCobranca[i].xTpCobranca);
+    AINIRec.WriteFloat(LSecao, 'vCobranca', condominios.gCobranca[i].vCobranca);
+
+    for j := 0 to condominios.gCobranca[i].gDetCobranca.Count - 1 do
+    begin
+      if j > 98 then
+        Break;
+
+      LSecao := 'gDetCobranca' + IntToStrZero(i+1, 2) + IntToStrZero(j+1, 2);
+
+      AINIRec.WriteString(LSecao, 'tpDetCobranca', condominios.gCobranca[i].gDetCobranca[j].tpDetCobranca);
+      AINIRec.WriteString(LSecao, 'xTpDetCobranca', condominios.gCobranca[i].gDetCobranca[j].xTpDetCobranca);
+      AINIRec.WriteFloat(LSecao, 'vDetCobranca', condominios.gCobranca[i].gDetCobranca[j].vDetCobranca);
+    end;
+  end;
+
+  for i := 0 to condominios.gDesconto.Count - 1 do
+  begin
+    if i > 98 then
+      Break;
+
+    LSecao := 'gDesconto' + IntToStrZero(i+1, 2);
+
+    AINIRec.WriteString(LSecao, 'tpDesconto', condominios.gDesconto[i].tpDesconto);
+    AINIRec.WriteFloat(LSecao, 'vDesconto', condominios.gDesconto[i].vDesconto);
+    AINIRec.WriteString(LSecao, 'xTpDesconto', condominios.gDesconto[i].xTpDesconto);
   end;
 end;
 

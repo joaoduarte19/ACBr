@@ -82,6 +82,10 @@ type
     function GerarXMLEnderImovel(ender: TenderImovel): TACBrXmlNode;
     function GerarXMLgAjusteBCLocImoveis(gAjusteBCLocImoveis: TgAjusteBCLocImoveisCollectionItem): TACBrXmlNode;
     function GerarXMLbensMoveis(bensMoveis: TbensMoveisCollectionItem): TACBrXmlNode;
+    function GerarXMLcondominios(condominios: Tcondominios): TACBrXmlNode;
+    function GerarXMLgCobranca(gCobranca: TgCobrancaCollectionItem): TACBrXmlNode;
+    function GerarXMLgDetCobranca(gDetCobranca: TgDetCobrancaCollectionItem): TACBrXmlNode;
+    function GerarXMLgDesconto(gDesconto: TgDescontoCollectionItem): TACBrXmlNode;
 
     function GerarXMLSubstituicao: TACBrXmlNode;
 
@@ -591,6 +595,9 @@ begin
 
   Result.AppendChild(AddNode(tcStr, '#1', 'ambGer', 1, 1, 1, '1', ''));
 
+  Result.AppendChild(AddNode(tcStr, '#1', 'verCalcIBSCBS', 1, 20, 0,
+                                               NFSe.infNFSe.verCalcIBSCBS, ''));
+
   Result.AppendChild(AddNode(tcStr, '#1', 'tpEmis', 1, 1, 1, '2'
                                        {tpEmisToStr(NFSe.infNFSe.tpEmis)}, ''));
 
@@ -710,16 +717,31 @@ begin
   Result.AppendChild(GerarXMLSubstituicao);
   Result.AppendChild(GerarXMLPrestador);
   Result.AppendChild(GerarXMLTomador);
+
+  if FpVersaoNT = ntPN009v101 then
+  begin
+    Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, 1,
+                                        indDestToStr(NFSe.IBSCBS.indDest), ''));
+
+    if (NFSe.IBSCBS.dest.xNome <> '') and GerarDest then
+      Result.AppendChild(GerarXMLDestinatario(NFSe.IBSCBS.dest));
+
+    if Length(NFSe.IBSCBS.dest.xNome) > 150 then
+      wAlerta('#1', 'xNome', '', ERR_MSG_MAIOR);
+  end;
+
   Result.AppendChild(GerarXMLIntermediario);
   Result.AppendChild(GerarXMLServico);
   Result.AppendChild(GerarXMLValores);
 
   // Reforma Tributária
-  if (NFSe.IBSCBS.dest.xNome <> '') or (NFSe.IBSCBS.imovel.cCIB <> '') or
+  if ((FpVersaoNT = ntPNNenhuma) and (NFSe.IBSCBS.dest.xNome <> '')) or
+     (NFSe.IBSCBS.imovel.cCIB <> '') or
      (NFSe.IBSCBS.imovel.ender.CEP <> '') or
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      ((FpVersaoNT = ntPN009v101) and (NFSe.IBSCBS.imovel.cMun > 0)) or
      ((FpVersaoNT = ntPN009v101) and (NFSe.IBSCBS.bensMoveis.Count > 0)) or
+     ((FpVersaoNT = ntPN009v101) and (NFSe.IBSCBS.condominios.gCobranca.Count > 0)) or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
     Result.AppendChild(GerarXMLIBSCBS(NFSe.IBSCBS));
 end;
@@ -753,15 +775,6 @@ begin
   if IBSCBS.tpEnteGov in [tcgConsorcioPublico, tcgComiteGestorIBS] then
     wAlerta('#1', 'tpEnteGov', '', ERR_MSG_INVALIDO);
 
-  Result.AppendChild(AddNode(tcStr, '#1', 'indDest', 1, 1, NrOcorrindDest,
-                                             indDestToStr(IBSCBS.indDest), ''));
-
-  if (IBSCBS.dest.xNome <> '') and GerarDest then
-    Result.AppendChild(GerarXMLDestinatario(IBSCBS.dest));
-
-  if Length(IBSCBS.dest.xNome) > 150 then
-    wAlerta('#1', 'xNome', '', ERR_MSG_MAIOR);
-
   if (IBSCBS.imovel.cMun > 0) and GerarImovel then
     Result.AppendChild(GerarXMLImovelNT009(IBSCBS.imovel))
   else
@@ -773,6 +786,9 @@ begin
 
   if IBSCBS.bensMoveis.Count > 1000 then
     wAlerta('#1', 'bensMoveis', '', ERR_MSG_MAIOR_MAXIMO + '1000');
+
+  if IBSCBS.condominios.gCobranca.Count > 0 then
+    Result.AppendChild(GerarXMLcondominios(IBSCBS.condominios));
 
   Result.AppendChild(GerarXMLIBSCBSTribValores(IBSCBS.valores));
 end;
@@ -941,6 +957,82 @@ begin
 
   Result.AppendChild(AddNode(tcInt, '#1', 'qtdNCMBemMovel', 1, 3, 1,
                                                bensMoveis.qtdNCMBemMovel, ''));
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLcondominios(
+  condominios: Tcondominios): TACBrXmlNode;
+var
+  i: Integer;
+begin
+  Result := CreateElement('condominios');
+
+  Result.AppendChild(AddNode(tcDat, '#1', 'dVencOrig', 10, 10, 1,
+                                                    condominios.dVencOrig, ''));
+
+  for i := 0 to condominios.gCobranca.Count - 1 do
+    Result.AppendChild(GerarXMLgCobranca(condominios.gCobranca[i]));
+
+  if condominios.gCobranca.Count > 20 then
+    wAlerta('#1', 'gCobranca', '', ERR_MSG_MAIOR_MAXIMO + '20');
+
+  for i := 0 to condominios.gDesconto.Count - 1 do
+    Result.AppendChild(GerarXMLgDesconto(condominios.gDesconto[i]));
+
+  if condominios.gDesconto.Count > 10 then
+    wAlerta('#1', 'gDesconto', '', ERR_MSG_MAIOR_MAXIMO + '10');
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLgCobranca(
+  gCobranca: TgCobrancaCollectionItem): TACBrXmlNode;
+var
+  i: Integer;
+begin
+  Result := CreateElement('gCobranca');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpCobranca', 2, 2, 1,
+                                                     gCobranca.tpCobranca, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xTpCobranca', 1, 150, 0,
+                                                    gCobranca.xTpCobranca, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vCobranca', 1, 15, 1,
+                                                      gCobranca.vCobranca, ''));
+
+  for i := 0 to gCobranca.gDetCobranca.Count - 1 do
+    Result.AppendChild(GerarXMLgDetCobranca(gCobranca.gDetCobranca[i]));
+
+  if gCobranca.gDetCobranca.Count > 20 then
+    wAlerta('#1', 'gDetCobranca', '', ERR_MSG_MAIOR_MAXIMO + '20');
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLgDetCobranca(
+  gDetCobranca: TgDetCobrancaCollectionItem): TACBrXmlNode;
+begin
+  Result := CreateElement('gDetCobranca');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpDetCobranca', 3, 3, 1,
+                                               gDetCobranca.tpDetCobranca, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xTpDetCobranca', 1, 150, 0,
+                                              gDetCobranca.xTpDetCobranca, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDetCobranca', 1, 15, 1,
+                                                gDetCobranca.vDetCobranca, ''));
+end;
+
+function TNFSeW_PadraoNacional.GerarXMLgDesconto(
+  gDesconto: TgDescontoCollectionItem): TACBrXmlNode;
+begin
+  Result := CreateElement('gDesconto');
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'tpDesconto', 1, 1, 1,
+                                                     gDesconto.tpDesconto, ''));
+
+  Result.AppendChild(AddNode(tcDe2, '#1', 'vDesconto', 1, 15, 1,
+                                                      gDesconto.vDesconto, ''));
+
+  Result.AppendChild(AddNode(tcStr, '#1', 'xTpDesconto', 1, 150, 1,
+                                                    gDesconto.xTpDesconto, ''));
 end;
 
 function TNFSeW_PadraoNacional.GerarXMLSubstituicao: TACBrXmlNode;
@@ -1342,7 +1434,16 @@ begin
     Result.AppendChild(AddNode(tcInt, '#1', 'tpMoeda', 3, 3, 1,
                                               NFSe.Servico.comExt.tpMoeda, ''));
 
-    Result.AppendChild(AddNode(tcDe2, '#1', 'vServMoeda', 1, 15, 1,
+    if FpVersaoNT = ntPN009v101 then
+    begin
+      Result.AppendChild(AddNode(tcStr, '#1', 'nFatura', 1, 20, 0,
+                                              NFSe.Servico.comExt.nFatura, ''));
+
+      Result.AppendChild(AddNode(tcDe2, '#1', 'vFatura', 1, 15, 0,
+                                              NFSe.Servico.comExt.vFatura, ''));
+    end
+    else
+      Result.AppendChild(AddNode(tcDe2, '#1', 'vServMoeda', 1, 15, 1,
                                            NFSe.Servico.comExt.vServMoeda, ''));
 
     Result.AppendChild(AddNode(tcStr, '#1', 'mecAFComexP', 2, 2, 1,
@@ -1354,14 +1455,29 @@ begin
     Result.AppendChild(AddNode(tcStr, '#1', 'movTempBens', 1, 1, 1,
                         movTempBensToStr(NFSe.Servico.comExt.movTempBens), ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'nDI', 1, 12, 0,
+    if FpVersaoNT = ntPN009v101 then
+    begin
+      Result.AppendChild(AddNode(tcStr, '#1', 'nDUIMP', 15, 15, 0,
+                                               NFSe.Servico.comExt.nDUIMP, ''));
+
+      Result.AppendChild(AddNode(tcStr, '#1', 'nDUE', 14, 14, 0,
+                                                 NFSe.Servico.comExt.nDUE, ''));
+    end
+    else
+    begin
+      Result.AppendChild(AddNode(tcStr, '#1', 'nDI', 1, 12, 0,
                                                   NFSe.Servico.comExt.nDI, ''));
 
-    Result.AppendChild(AddNode(tcStr, '#1', 'nRE', 1, 12, 0,
+      Result.AppendChild(AddNode(tcStr, '#1', 'nRE', 1, 12, 0,
                                                   NFSe.Servico.comExt.nRE, ''));
+    end;
 
     Result.AppendChild(AddNode(tcInt, '#1', 'mdic', 1, 1, 1,
                                                  NFSe.Servico.comExt.mdic, ''));
+
+    if FpVersaoNT = ntPN009v101 then
+      Result.AppendChild(AddNode(tcStr, '#1', 'nContCambio', 1, 20, 0,
+                                          NFSe.Servico.comExt.nContCambio, ''));
   end;
 end;
 
@@ -1459,6 +1575,10 @@ begin
 
     Result.AppendChild(AddNode(tcDat, '#1', 'dtFim', 10, 10, 1,
                                                 NFSe.Servico.Evento.dtFim, ''));
+
+    if (FpVersaoNT = ntPN009v101) and (NFSe.Servico.Evento.cMun > 0) then
+      Result.AppendChild(AddNode(tcInt, '#1', 'cMun', 7, 7, 1,
+                                                 NFSe.Servico.Evento.cMun, ''));
 
     if NFSe.Servico.Evento.idAtvEvt <> '' then
       Result.AppendChild(AddNode(tcStr, '#1', 'idAtvEvt', 1, 30, 1,
@@ -1662,7 +1782,8 @@ begin
 
   if (NFSe.Servico.Valores.pAjusteBCISSQN > 0) or
      (NFSe.Servico.Valores.vAjusteBCISSQN > 0) or
-     (NFSe.Servico.Valores.docAjusteBC.Count > 0) then
+     (NFSe.Servico.Valores.docAjusteBC.Count > 0) or
+     (NFSe.Servico.Valores.vAjusteBCIBSCBSComExt <> 0) then
   begin
     Result := CreateElement('vAjusteBC');
 
@@ -1676,6 +1797,10 @@ begin
 
     if NFSe.Servico.Valores.docAjusteBC.Count > 0 then
       Result.AppendChild(GerarXMLDocAjusteBC);
+
+    if NFSe.Servico.Valores.vAjusteBCIBSCBSComExt <> 0 then
+      Result.AppendChild(AddNode(tcDe2, '#1', 'vAjusteBCIBSCBSComExt', 1, 16, 1,
+                               NFSe.Servico.Valores.vAjusteBCIBSCBSComExt, ''));
   end;
 end;
 
@@ -2416,6 +2541,7 @@ begin
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.imovel.cMun > 0) or
      (NFSe.IBSCBS.bensMoveis.Count > 0) or
+     (NFSe.IBSCBS.condominios.gCobranca.Count > 0) or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
   begin
     GerarINIIBSCBS(AINIRec, NFSe.IBSCBS);
@@ -2453,6 +2579,7 @@ begin
      (NFSe.IBSCBS.imovel.ender.endExt.cEndPost <> '') or
      (NFSe.IBSCBS.imovel.cMun > 0) or
      (NFSe.IBSCBS.bensMoveis.Count > 0) or
+     (NFSe.IBSCBS.condominios.gCobranca.Count > 0) or
      (NFSe.IBSCBS.valores.trib.gIBSCBS.CST <> cstNenhum) then
     GerarINIIBSCBS(AINIRec, NFSe.IBSCBS);
 end;
@@ -2479,6 +2606,9 @@ begin
     AINIRec.WriteString(LSecao, 'xNBS', NFSe.infNFSe.xNBS);
     AINIRec.WriteString(LSecao, 'verAplic', NFSe.infNFSe.verAplic);
     AINIRec.WriteString(LSecao, 'ambGer', ambGerToStr(NFSe.infNFSe.ambGer));
+
+    if NFSe.infNFSe.verCalcIBSCBS <> '' then
+      AINIRec.WriteString(LSecao, 'verCalcIBSCBS', NFSe.infNFSe.verCalcIBSCBS);
     AINIRec.WriteString(LSecao, 'tpEmis', tpEmisToStr(NFSe.infNFSe.tpEmis));
     AINIRec.WriteString(LSecao, 'procEmi', procEmisToStr(NFSe.infNFSe.procEmi));
     AINIRec.WriteInteger(LSecao, 'cStat', NFSe.infNFSe.cStat);
@@ -2624,6 +2754,11 @@ begin
   AINIRec.WriteString(LSecao, 'nDI', NFSe.Servico.comExt.nDI);
   AINIRec.WriteString(LSecao, 'nRE', NFSe.Servico.comExt.nRE);
   AINIRec.WriteInteger(LSecao, 'mdic', NFSe.Servico.comExt.mdic);
+  AINIRec.WriteString(LSecao, 'nFatura', NFSe.Servico.comExt.nFatura);
+  AINIRec.WriteFloat(LSecao, 'vFatura', NFSe.Servico.comExt.vFatura);
+  AINIRec.WriteString(LSecao, 'nDUIMP', NFSe.Servico.comExt.nDUIMP);
+  AINIRec.WriteString(LSecao, 'nDUE', NFSe.Servico.comExt.nDUE);
+  AINIRec.WriteString(LSecao, 'nContCambio', NFSe.Servico.comExt.nContCambio);
 end;
 
 procedure TNFSeW_PadraoNacional.GerarINILocacaoSubLocacao(AINIRec: TMemIniFile);
@@ -2662,6 +2797,9 @@ begin
   AINIRec.WriteString(LSecao, 'dtIni', DateToStr(NFSe.Servico.Evento.dtIni));
   AINIRec.WriteString(LSecao, 'dtFim', DateToStr(NFSe.Servico.Evento.dtFim));
   AINIRec.WriteString(LSecao, 'idAtvEvt', NFSe.Servico.Evento.idAtvEvt);
+
+  if NFSe.Servico.Evento.cMun > 0 then
+    AINIRec.WriteInteger(LSecao, 'cMun', NFSe.Servico.Evento.cMun);
 
   AINIRec.WriteString(LSecao, 'CEP', NFSe.Servico.Evento.Endereco.CEP);
   AINIRec.WriteString(LSecao, 'xMunicipio', NFSe.Servico.Evento.Endereco.xMunicipio);
@@ -2719,6 +2857,9 @@ begin
   AINIRec.WriteFloat(LSecao, 'ValorDeducoes', NFSe.Servico.Valores.ValorDeducoes);
   AINIRec.WriteFloat(LSecao, 'pAjusteBCISSQN', NFSe.Servico.Valores.pAjusteBCISSQN);
   AINIRec.WriteFloat(LSecao, 'vAjusteBCISSQN', NFSe.Servico.Valores.vAjusteBCISSQN);
+
+  if NFSe.Servico.Valores.vAjusteBCIBSCBSComExt <> 0 then
+    AINIRec.WriteFloat(LSecao, 'vAjusteBCIBSCBSComExt', NFSe.Servico.Valores.vAjusteBCIBSCBSComExt);
 end;
 
 procedure TNFSeW_PadraoNacional.GerarINIDocumentosDeducoes(

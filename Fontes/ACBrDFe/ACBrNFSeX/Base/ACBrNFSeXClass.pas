@@ -499,6 +499,7 @@ type
     FBaseCalculoPisCofins: Double;
     FpAjusteBCISSQN: Double;
     FvAjusteBCISSQN: Double;
+    FvAjusteBCIBSCBSComExt: Double;
     FdocAjusteBC: TdocAjusteBCCollection;
 
     procedure SetDocDeducao(const Value: TDocDeducaoCollection);
@@ -583,6 +584,7 @@ type
     property totTrib: TtotTrib read FtotTrib write FtotTrib;
     property pAjusteBCISSQN: Double read FpAjusteBCISSQN write FpAjusteBCISSQN;
     property vAjusteBCISSQN: Double read FvAjusteBCISSQN write FvAjusteBCISSQN;
+    property vAjusteBCIBSCBSComExt: Double read FvAjusteBCIBSCBSComExt write FvAjusteBCIBSCBSComExt;
     // PadraoNacional - NT 009
     property docAjusteBC: TdocAjusteBCCollection read FdocAjusteBC write SetdocAjusteBC;
 
@@ -985,6 +987,11 @@ type
     FnDI: string;
     FnRE: string;
     Fmdic: Integer;
+    FnFatura: string;
+    FvFatura: Double;
+    FnDUIMP: string;
+    FnDUE: string;
+    FnContCambio: string;
   public
     property mdPrestacao: TmdPrestacao read FmdPrestacao write FmdPrestacao;
     property vincPrest: TvincPrest read FvincPrest write FvincPrest;
@@ -996,6 +1003,11 @@ type
     property nDI: string read FnDI write FnDI;
     property nRE: string read FnRE write FnRE;
     property mdic: Integer read Fmdic write Fmdic;
+    property nFatura: string read FnFatura write FnFatura;
+    property vFatura: Double read FvFatura write FvFatura;
+    property nDUIMP: string read FnDUIMP write FnDUIMP;
+    property nDUE: string read FnDUE write FnDUE;
+    property nContCambio: string read FnContCambio write FnContCambio;
   end;
 
   // Provedor PadraoNacional
@@ -1021,6 +1033,7 @@ type
     FidAtvEvt: string;
     FEndereco: TEndereco;
     Finfoatividadeeventoopcao: Integer;
+    FcMun: Integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1031,6 +1044,7 @@ type
     property idAtvEvt: string read FidAtvEvt write FidAtvEvt;
     property Endereco: TEndereco read FEndereco write FEndereco;
     property infoatividadeeventoopcao: Integer read Finfoatividadeeventoopcao write Finfoatividadeeventoopcao;
+    property cMun: Integer read FcMun write FcMun;
   end;
 
   // Provedor PadraoNacional
@@ -1905,6 +1919,7 @@ type
     FxNBS: string;
     FverAplic: string;
     FambGer: TambGer;
+    FverCalcIBSCBS: string;
     FtpEmis: TtpEmis;
     FprocEmi: TprocEmi;
     FcStat: Integer;
@@ -1931,6 +1946,7 @@ type
     property xNBS: string read FxNBS write FxNBS;
     property verAplic: string read FverAplic write FverAplic;
     property ambGer: TambGer read FambGer write FambGer;
+    property verCalcIBSCBS: string read FverCalcIBSCBS write FverCalcIBSCBS;
     property tpEmis: TtpEmis read FtpEmis write FtpEmis;
     property procEmi: TprocEmi read FprocEmi write FprocEmi;
     property cStat: Integer read FcStat write FcStat;
@@ -2404,6 +2420,100 @@ type
     property Items[Index: Integer]: TbensMoveisCollectionItem read GetItem write SetItem; default;
   end;
 
+  { TgDetCobrancaCollectionItem }
+  TgDetCobrancaCollectionItem = class(TObject)
+  private
+    FtpDetCobranca: string;
+    FxTpDetCobranca: string;
+    FvDetCobranca: Double;
+  public
+    property tpDetCobranca: string read FtpDetCobranca write FtpDetCobranca;
+    property xTpDetCobranca: string read FxTpDetCobranca write FxTpDetCobranca;
+    property vDetCobranca: Double read FvDetCobranca write FvDetCobranca;
+  end;
+
+  { TgDetCobrancaCollection }
+  TgDetCobrancaCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgDetCobrancaCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgDetCobrancaCollectionItem);
+  public
+    function Add: TgDetCobrancaCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TgDetCobrancaCollectionItem;
+    property Items[Index: Integer]: TgDetCobrancaCollectionItem read GetItem write SetItem; default;
+  end;
+
+  { TgCobrancaCollectionItem }
+  TgCobrancaCollectionItem = class(TObject)
+  private
+    FtpCobranca: string;
+    FxTpCobranca: string;
+    FvCobranca: Double;
+    FgDetCobranca: TgDetCobrancaCollection;
+
+    procedure SetgDetCobranca(const Value: TgDetCobrancaCollection);
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property tpCobranca: string read FtpCobranca write FtpCobranca;
+    property xTpCobranca: string read FxTpCobranca write FxTpCobranca;
+    property vCobranca: Double read FvCobranca write FvCobranca;
+    property gDetCobranca: TgDetCobrancaCollection read FgDetCobranca write SetgDetCobranca;
+  end;
+
+  { TgCobrancaCollection }
+  TgCobrancaCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgCobrancaCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgCobrancaCollectionItem);
+  public
+    function Add: TgCobrancaCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TgCobrancaCollectionItem;
+    property Items[Index: Integer]: TgCobrancaCollectionItem read GetItem write SetItem; default;
+  end;
+
+  { TgDescontoCollectionItem }
+  TgDescontoCollectionItem = class(TObject)
+  private
+    FtpDesconto: string;
+    FvDesconto: Double;
+    FxTpDesconto: string;
+  public
+    property tpDesconto: string read FtpDesconto write FtpDesconto;
+    property vDesconto: Double read FvDesconto write FvDesconto;
+    property xTpDesconto: string read FxTpDesconto write FxTpDesconto;
+  end;
+
+  { TgDescontoCollection }
+  TgDescontoCollection = class(TACBrObjectList)
+  private
+    function GetItem(Index: Integer): TgDescontoCollectionItem;
+    procedure SetItem(Index: Integer; Value: TgDescontoCollectionItem);
+  public
+    function Add: TgDescontoCollectionItem; overload; deprecated {$IfDef SUPPORTS_DEPRECATED_DETAILS} 'Obsoleta: Use a função New'{$EndIf};
+    function New: TgDescontoCollectionItem;
+    property Items[Index: Integer]: TgDescontoCollectionItem read GetItem write SetItem; default;
+  end;
+
+  { Tcondominios }
+  Tcondominios = class(TObject)
+  private
+    FdVencOrig: TDateTime;
+    FgCobranca: TgCobrancaCollection;
+    FgDesconto: TgDescontoCollection;
+
+    procedure SetgCobranca(const Value: TgCobrancaCollection);
+    procedure SetgDesconto(const Value: TgDescontoCollection);
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    property dVencOrig: TDateTime read FdVencOrig write FdVencOrig;
+    property gCobranca: TgCobrancaCollection read FgCobranca write SetgCobranca;
+    property gDesconto: TgDescontoCollection read FgDesconto write SetgDesconto;
+  end;
+
   { TpgtoCollectionItem }
   // PadraoNacional - NT 009
   TpgtoCollectionItem = class(TObject)
@@ -2461,6 +2571,7 @@ type
     Fdest: TDadosdaPessoa;
     Fimovel: TDadosimovel;
     FbensMoveis: TbensMoveisCollection;
+    Fcondominios: Tcondominios;
     FgPgtoVinc: TgPgtoVinc;
     Fvalores: Tvalorestrib;
     FOperExterior: TIndicador;
@@ -2490,6 +2601,7 @@ type
 
     // NT 009
     property bensMoveis: TbensMoveisCollection read FbensMoveis write SetbensMoveis;
+    property condominios: Tcondominios read Fcondominios write Fcondominios;
     property gPgtoVinc: TgPgtoVinc read FgPgtoVinc write FgPgtoVinc;
 
     // Incluido para atender o provedor SigISSWeb
@@ -3732,6 +3844,7 @@ begin
   Fdest := TDadosdaPessoa.Create;
   Fimovel := TDadosimovel.Create;
   FbensMoveis := TbensMoveisCollection.Create;
+  Fcondominios := Tcondominios.Create;
   Fvalores := Tvalorestrib.Create;
   FgPgtoVinc := TgPgtoVinc.Create;;
 end;
@@ -3742,6 +3855,7 @@ begin
   Fdest.Free;
   Fimovel.Free;
   FbensMoveis.Free;
+  Fcondominios.Free;
   Fvalores.Free;
   FgPgtoVinc.Free;
 
@@ -4132,6 +4246,128 @@ procedure TbensMoveisCollection.SetItem(Index: Integer;
   Value: TbensMoveisCollectionItem);
 begin
   inherited Items[Index] := Value;
+end;
+
+{ TgDetCobrancaCollection }
+
+function TgDetCobrancaCollection.Add: TgDetCobrancaCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgDetCobrancaCollection.GetItem(Index: Integer): TgDetCobrancaCollectionItem;
+begin
+  Result := TgDetCobrancaCollectionItem(inherited Items[Index]);
+end;
+
+function TgDetCobrancaCollection.New: TgDetCobrancaCollectionItem;
+begin
+  Result := TgDetCobrancaCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgDetCobrancaCollection.SetItem(Index: Integer;
+  Value: TgDetCobrancaCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TgCobrancaCollectionItem }
+
+constructor TgCobrancaCollectionItem.Create;
+begin
+  inherited Create;
+
+  FgDetCobranca := TgDetCobrancaCollection.Create;
+end;
+
+destructor TgCobrancaCollectionItem.Destroy;
+begin
+  FgDetCobranca.Free;
+
+  inherited Destroy;
+end;
+
+procedure TgCobrancaCollectionItem.SetgDetCobranca(
+  const Value: TgDetCobrancaCollection);
+begin
+  FgDetCobranca := Value;
+end;
+
+{ TgCobrancaCollection }
+
+function TgCobrancaCollection.Add: TgCobrancaCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgCobrancaCollection.GetItem(Index: Integer): TgCobrancaCollectionItem;
+begin
+  Result := TgCobrancaCollectionItem(inherited Items[Index]);
+end;
+
+function TgCobrancaCollection.New: TgCobrancaCollectionItem;
+begin
+  Result := TgCobrancaCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgCobrancaCollection.SetItem(Index: Integer;
+  Value: TgCobrancaCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ TgDescontoCollection }
+
+function TgDescontoCollection.Add: TgDescontoCollectionItem;
+begin
+  Result := Self.New;
+end;
+
+function TgDescontoCollection.GetItem(Index: Integer): TgDescontoCollectionItem;
+begin
+  Result := TgDescontoCollectionItem(inherited Items[Index]);
+end;
+
+function TgDescontoCollection.New: TgDescontoCollectionItem;
+begin
+  Result := TgDescontoCollectionItem.Create;
+  Self.Add(Result);
+end;
+
+procedure TgDescontoCollection.SetItem(Index: Integer;
+  Value: TgDescontoCollectionItem);
+begin
+  inherited Items[Index] := Value;
+end;
+
+{ Tcondominios }
+
+constructor Tcondominios.Create;
+begin
+  inherited Create;
+
+  FgCobranca := TgCobrancaCollection.Create;
+  FgDesconto := TgDescontoCollection.Create;
+end;
+
+destructor Tcondominios.Destroy;
+begin
+  FgCobranca.Free;
+  FgDesconto.Free;
+
+  inherited Destroy;
+end;
+
+procedure Tcondominios.SetgCobranca(const Value: TgCobrancaCollection);
+begin
+  FgCobranca := Value;
+end;
+
+procedure Tcondominios.SetgDesconto(const Value: TgDescontoCollection);
+begin
+  FgDesconto := Value;
 end;
 
 { TvaloresIBSCBS }

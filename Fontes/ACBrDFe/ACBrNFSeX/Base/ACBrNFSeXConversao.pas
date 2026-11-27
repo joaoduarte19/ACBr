@@ -413,11 +413,12 @@ const
 
 type
   TmdPrestacao = (mpDesconhecido, mpTransfronteirico, mpConsumoBrasil,
-                  mpMovimentoTempPessoasFisicas, mpConsumoExterior, mpNenhum);
+                  mpMovimentoTempPessoasFisicas, mpConsumoExterior,
+                  mpConsumoConcomitante, mpNenhum);
 
 const
   TmdPrestacaoArrayStrings: array[TmdPrestacao] of string = ('0', '1', '2',
-    '3', '4', '');
+    '3', '4', '5', '');
 
 type
   TvincPrest = (vpSemVinculo, vpControlada, vpControladora, vpColigada,
@@ -13455,17 +13456,19 @@ end;
 function mdPrestacaoToStr(const t: TmdPrestacao): string;
 begin
   result := EnumeradoToStr(t,
-                           ['0', '1', '2', '3', '4', ''],
+                           ['0', '1', '2', '3', '4', '5', ''],
                            [mpDesconhecido, mpTransfronteirico, mpConsumoBrasil,
-                             mpMovimentoTempPessoasFisicas, mpConsumoExterior, mpNenhum]);
+                             mpMovimentoTempPessoasFisicas, mpConsumoExterior,
+                             mpConsumoConcomitante, mpNenhum]);
 end;
 
 function StrTomdPrestacao(out ok: Boolean; const s: string): TmdPrestacao;
 begin
   result := StrToEnumerado(ok, s,
-                           ['0', '1', '2', '3', '4', ''],
+                           ['0', '1', '2', '3', '4', '5', ''],
                            [mpDesconhecido, mpTransfronteirico, mpConsumoBrasil,
-                             mpMovimentoTempPessoasFisicas, mpConsumoExterior, mpNenhum]);
+                             mpMovimentoTempPessoasFisicas, mpConsumoExterior,
+                             mpConsumoConcomitante, mpNenhum]);
 end;
 
 function vincPrestToStr(const t: TvincPrest): string;

@@ -146,6 +146,7 @@ type
     procedure LerINIgLocacao(AINIRec: TMemIniFile; gLocacao: TgLocacao);
     procedure LerINIgUnidImob(AINIRec: TMemIniFile; gUnidImob: TgUnidImobCollection);
     procedure LerINIbensMoveis(AINIRec: TMemIniFile; bensMoveis: TbensMoveisCollection);
+    procedure LerINIcondominios(AINIRec: TMemIniFile; condominios: Tcondominios);
     procedure LerINIIBSCBSValores(AINIRec: TMemIniFile; Valores: Tvalorestrib); virtual;
     procedure LerINIDocumentos(AINIRec: TMemIniFile; Documentos: TdocumentosCollection);
     procedure LerINITributacao(AINIRec: TMemIniFile; Tributacao: Ttrib);
@@ -2180,6 +2181,7 @@ begin
     LerINIDestinatario(AINIRec, IBSCBS.dest);
     LerINIImovel(AINIRec, IBSCBS.imovel);
     LerINIbensMoveis(AINIRec, IBSCBS.bensMoveis);
+    LerINIcondominios(AINIRec, IBSCBS.condominios);
     LerINIIBSCBSValores(AINIRec, IBSCBS.valores);
   end;
 end;
@@ -2345,6 +2347,62 @@ begin
       cNCMBemMovel := AINIRec.ReadString(sSecao, 'cNCMBemMovel', '');
       xNCMBemMovel := AINIRec.ReadString(sSecao, 'xNCMBemMovel', '');
       qtdNCMBemMovel := AINIRec.ReadInteger(sSecao, 'qtdNCMBemMovel', 0);
+    end;
+
+    inc(i);
+  end;
+end;
+
+procedure TNFSeRClass.LerINIcondominios(AINIRec: TMemIniFile;
+  condominios: Tcondominios);
+var
+  i, j: Integer;
+  sSecao: string;
+begin
+  sSecao := 'condominios';
+  if AINIRec.SectionExists(sSecao) then
+    condominios.dVencOrig := AINIRec.ReadDate(sSecao, 'dVencOrig', 0);
+
+  i := 1;
+  while AINIRec.SectionExists('gCobranca' + IntToStrZero(i, 2)) do
+  begin
+    sSecao := 'gCobranca' + IntToStrZero(i, 2);
+
+    with condominios.gCobranca.New do
+    begin
+      tpCobranca := AINIRec.ReadString(sSecao, 'tpCobranca', '');
+      xTpCobranca := AINIRec.ReadString(sSecao, 'xTpCobranca', '');
+      vCobranca := StringToFloatDef(AINIRec.ReadString(sSecao, 'vCobranca', ''), 0);
+
+      j := 1;
+      while AINIRec.SectionExists('gDetCobranca' + IntToStrZero(i, 2) + IntToStrZero(j, 2)) do
+      begin
+        sSecao := 'gDetCobranca' + IntToStrZero(i, 2) + IntToStrZero(j, 2);
+
+        with gDetCobranca.New do
+        begin
+          tpDetCobranca := AINIRec.ReadString(sSecao, 'tpDetCobranca', '');
+          xTpDetCobranca := AINIRec.ReadString(sSecao, 'xTpDetCobranca', '');
+          vDetCobranca := StringToFloatDef(AINIRec.ReadString(sSecao, 'vDetCobranca', ''), 0);
+        end;
+
+        inc(j);
+      end;
+    end;
+
+    inc(i);
+  end;
+
+  i := 1;
+  while AINIRec.SectionExists('gDesconto' + IntToStrZero(i, 2)) do
+  begin
+    sSecao := 'gDesconto' + IntToStrZero(i, 2);
+
+    with condominios.gDesconto.New do
+    begin
+      tpDesconto := AINIRec.ReadString(sSecao, 'tpDesconto', '');
+      vDesconto := StringToFloatDef(AINIRec.ReadString(sSecao, 'vDesconto', ''), 0);
+      xTpDesconto := AINIRec.ReadString(sSecao, 'xTpDesconto', '');
     end;
 
     inc(i);

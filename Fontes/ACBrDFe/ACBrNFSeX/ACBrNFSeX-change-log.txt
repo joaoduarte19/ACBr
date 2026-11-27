@@ -42,6 +42,20 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+27/11/2026
+-- ACBrNFSeXConversao/ACBrNFSeXClass/ACBrNFSeXGravarXml/ACBrNFSeXLerXml --
+-- PadraoNacional.GravarXml/PadraoNacional.LerXml --
+[*] ACBr 10313 - Adequação ao pacote de schemas da produção restrita de 24/11/2026 (Release 2 da NT 009
+    versão 1.01): indDest e dest passam a ser gerados em infDPS, entre toma e interm, e não
+    mais dentro do grupo IBSCBS. Na leitura do XML são aceitas as duas posições.
+[*] ACBr 10313 - Grupo comExt da NT 009: inclusão de nFatura, vFatura, nDUIMP, nDUE e nContCambio no lugar
+    de vServMoeda, nDI e nRE, e do modo de prestação 5 (mpConsumoConcomitante).
+[+] ACBr 10313 - Inclusão de vAjusteBCIBSCBSComExt em vAjusteBC, de cMun em atvEvento e da leitura de
+    verCalcIBSCBS da NFS-e, com gravação e leitura no INI.
+[+] ACBr 10313 - Inclusão do grupo condominios do IBSCBS (gCobranca, gDetCobranca e gDesconto), na geração
+    e leitura do XML e do INI.
+   Por: Cosme Eduardo Zanon
+
 26/11/2026
 -- ACBrNFSeXDANFSeRLPadraoNacional --
 [-] ACBr 10212 - Correção para que seja impresso corretamente o NIF de um tomador estrangeiro bem como
