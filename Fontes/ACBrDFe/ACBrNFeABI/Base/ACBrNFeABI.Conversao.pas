@@ -60,7 +60,8 @@ type
 
 const
   TSchemaNFeABIArrayStrings: array[TSchemaNFeABI] of string = ('', '', '', '', '',
-    'evCancNFeABI', 'evPagParcelaNFeABI', 'evApropCredIndNFeABI', 'evDesfazimAlienac');
+    'evCancNFeABI', 'evPagParcelaNFeABI', 'evApropCredIndNFeABI',
+    'evDesfazimAlienacNFeABI');
 
 type
   TLayOutNFeABI = (LayNFeABIAutorizacao, LayNFeABIConsulta, LayNFeABIStatusServico,
@@ -218,11 +219,10 @@ begin
     // Ajuste nos arquivos ACBrNFeABI.Conversao.pas e ACBrNFeABI.EventoClass.pas
   Result := StrToEnumerado(ok, s,
             ['-99999', '110111', '110112', '110114', '110115', '112310',
-             '310112', '510620', '211310', '112320', '170110', '190110'],
+             '310112', '510620', '211310', '112320'],
             [teNaoMapeado, teCancelamento, teEncerramento, teInclusaoCondutor,
              teInclusaoDFe, tePagamentoOperacao, teEncerramentoFisco,
-             teRegistroPassagemBRId, teApropCredIndNFeABI, teDesfazAlienacNFeABI,
-             tePagamentoOperacao, teApropCredIndNFeABI]);
+             teRegistroPassagemBRId, teApropCredIndNFeABI, teDesfazAlienacNFeABI]);
 end;
 
 function StrToVersaoNFeABI(const s: String): TVersaoNFeABI;

@@ -631,40 +631,32 @@ end;
 
 function TNFeABIXmlWriter.Gerar_Cadastro(Cadastro: TCadastro): TACBrXmlNode;
 begin
-  Result := nil;
+  Result := FDocument.CreateElement('cadastro');
 
-  if (Cadastro.cCIB <> '') or (Cadastro.indIPTU = tiSim) or
-     (Cadastro.nIptu <> '') or (Cadastro.indIncra = tiSim) or
-     (Cadastro.nIncra <> '') or (Cadastro.indRIP <> tieNenhum) or
-     (Cadastro.nRIP <> '') then
-  begin
-    Result := FDocument.CreateElement('cadastro');
-
-    Result.AppendChild(AddNode(tcStr, 'D09', 'cCIB', 2, 60, 0,
+  Result.AppendChild(AddNode(tcStr, 'D09', 'cCIB', 2, 60, 0,
                                                       Cadastro.cCIB, DSC_CCIB));
 
-    if Cadastro.indIPTU = tiSim then
-      Result.AppendChild(AddNode(tcStr, 'I17c', 'indIPTU', 1, 1, 1,
+  if Cadastro.indIPTU = tiSim then
+    Result.AppendChild(AddNode(tcStr, 'I17c', 'indIPTU', 1, 1, 1,
                                TIndicadorToStr(Cadastro.indIPTU), DSC_INDIPTU));
 
-    Result.AppendChild(AddNode(tcStr, 'D09', 'nIptu', 2, 60, 0,
+  Result.AppendChild(AddNode(tcStr, 'D09', 'nIPTU', 2, 60, 0,
                                                     Cadastro.nIptu, DSC_NIPTU));
 
-    if Cadastro.indIncra = tiSim then
-      Result.AppendChild(AddNode(tcStr, 'I17c', 'indIncra', 1, 1, 1,
+  if Cadastro.indIncra = tiSim then
+    Result.AppendChild(AddNode(tcStr, 'I17c', 'indINCRA', 1, 1, 1,
                              TIndicadorToStr(Cadastro.indIncra), DSC_INDINCRA));
 
-    Result.AppendChild(AddNode(tcStr, 'D09', 'nIncra', 2, 60, 0,
+  Result.AppendChild(AddNode(tcStr, 'D09', 'nINCRA', 2, 60, 0,
                                                   Cadastro.nIncra, DSC_NINCRA));
 
-    if Cadastro.indRIP <> tieNenhum then
-      Result.AppendChild(AddNode(tcStr, 'G08a', 'indRIP', 1, 1, 0,
-                     IfThen(Cadastro.indRIP = tieSim, '1', '0'), 'Indicador de RIP'));
+  if Cadastro.indRIP <> tieNenhum then
+    Result.AppendChild(AddNode(tcStr, 'G08a', 'indRIP', 1, 1, 0,
+               IfThen(Cadastro.indRIP = tieSim, '1', '0'), 'Indicador de RIP'));
 
-    if Cadastro.nRIP <> '' then
-      Result.AppendChild(AddNode(tcStr, 'G08b', 'nRIP', 2, 60, 0,
-                                                  Cadastro.nRIP, 'Numero do RIP'));
-  end;
+  if Cadastro.nRIP <> '' then
+    Result.AppendChild(AddNode(tcStr, 'G08b', 'nRIP', 2, 60, 0,
+                                               Cadastro.nRIP, 'Numero do RIP'));
 end;
 
 function TNFeABIXmlWriter.Gerar_autXML(autXML: TautXMLCollection): TACBrXmlNodeArray;
@@ -817,12 +809,21 @@ begin
     Result.AppendChild(AddNode(tcStr, 'D09', 'CNPJempImob', 14, 14, 0,
                                      gIncorpLote.CNPJempImob, DSC_CNPJEMPIMOB));
 
-    Result.AppendChild(AddNode(tcStr, 'D09', 'cCIBObra', 2, 60, 0,
-                                           gIncorpLote.cCIBObra, DSC_CCIBOBRA));
+    if (gIncorpLote.cCIBObra <> '') and (gIncorpLote.CNO <> '') then
+      wAlerta('H10b', 'CNO', 'CNO da obra',
+        'Informe cCIBObra ou CNO, nao os dois (somente cCIBObra foi gerado)');
 
-    if gIncorpLote.CNO <> '' then
+    if gIncorpLote.cCIBObra <> '' then
+      Result.AppendChild(AddNode(tcStr, 'H10a', 'cCIBObra', 2, 60, 0,
+                                           gIncorpLote.cCIBObra, DSC_CCIBOBRA))
+    else if gIncorpLote.CNO <> '' then
+    begin
+      if OnlyNumber(gIncorpLote.CNO) <> gIncorpLote.CNO then
+        wAlerta('H10b', 'CNO', 'CNO da obra', ERR_MSG_INVALIDO);
+
       Result.AppendChild(AddNode(tcStr, 'H10b', 'CNO', 2, 60, 0,
                                            gIncorpLote.CNO, 'CNO da obra'));
+    end;
   end;
 end;
 

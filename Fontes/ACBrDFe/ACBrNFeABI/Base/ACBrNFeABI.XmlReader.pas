@@ -338,12 +338,19 @@ begin
 
   if LInd <> '' then
     Cadastro.indIPTU := StrToTIndicador(LInd);
-  Cadastro.nIptu := ObterConteudo(ANode.Childrens.FindAnyNs('nIptu'), tcStr);
-  LInd := ObterConteudo(ANode.Childrens.FindAnyNs('indIncra'), tcStr);
+
+  Cadastro.nIptu := ObterConteudo(ANode.Childrens.FindAnyNs('nIPTU'), tcStr);
+  if Cadastro.nIptu = '' then
+    Cadastro.nIptu := ObterConteudo(ANode.Childrens.FindAnyNs('nIptu'), tcStr);
+  LInd := ObterConteudo(ANode.Childrens.FindAnyNs('indINCRA'), tcStr);
+  if LInd = '' then
+    LInd := ObterConteudo(ANode.Childrens.FindAnyNs('indIncra'), tcStr);
 
   if LInd <> '' then
     Cadastro.indIncra := StrToTIndicador(LInd);
-  Cadastro.nIncra := ObterConteudo(ANode.Childrens.FindAnyNs('nIncra'), tcStr);
+  Cadastro.nIncra := ObterConteudo(ANode.Childrens.FindAnyNs('nINCRA'), tcStr);
+  if Cadastro.nIncra = '' then
+    Cadastro.nIncra := ObterConteudo(ANode.Childrens.FindAnyNs('nIncra'), tcStr);
 
   LIndRIP := ObterConteudo(ANode.Childrens.FindAnyNs('indRIP'), tcStr);
   if LIndRIP = '1' then

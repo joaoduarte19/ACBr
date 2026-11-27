@@ -343,9 +343,9 @@ begin
     // Quando os novos eventos entrarem em vigor, remover os '170110', '190110'
     // Ajuste nos arquivos ACBrNFeABI.Conversao.pas e ACBrNFeABI.EventoClass.pas
     if FTpEvento = tePagamentoOperacao then
-      Result := '170110'
+      Result := '112310'
     else if FTpEvento = teApropCredIndNFeABI then
-      Result := '190110'
+      Result := '211310'
     else
       Result := TpEventoToStr( FTpEvento );
   except
