@@ -232,7 +232,7 @@ type
     Label43: TLabel;
     ACBr_MDFeDAMDFEFPDF_dpk: TCheckBox;
     Label44: TLabel;
-    CheckBox3: TCheckBox;
+    ACBr_CTeDacteFPDF_dpk: TCheckBox;
     Label45: TLabel;
     ACBr_FastReportComum_dpk: TCheckBox;
     Label46: TLabel;
@@ -252,6 +252,7 @@ type
     FUtilizarBotoesMarcar: Boolean;
     procedure AtualizarTelaConformeListaDePacotes(ListaPacotes: TPacotes);
     procedure AtualizarListaDePacotesConformeTela(ListaPacotes: TPacotes);
+    function PacotePrincipalDe(Sender: TObject): TCheckBox;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -429,7 +430,67 @@ begin
   end;
 end;
 
+// devolve o pacote principal do qual o pacote de impressão/extensão depende,
+// ou nil quando Sender não é um desses pacotes
+function TframePacotes.PacotePrincipalDe(Sender: TObject): TCheckBox;
+begin
+  Result := nil;
+
+  if (Sender = ACBr_NFeDanfeFR_dpk)   or (Sender = ACBr_NFeDanfeRL_dpk) or
+     (Sender = ACBr_NFeDanfeFPDF_dpk) or (Sender = ACBr_NFeDanfeESCPOS_dpk) or
+     (Sender = ACBr_NFCeECFVirtual_dpk) then
+    Result := ACBr_NFe_dpk
+  else
+  if (Sender = ACBr_NFeABIDANFeABIFPDF_dpk) then
+    Result := ACBr_NFeABI_dpk
+  else
+  if (Sender = ACBr_CTeDacteFR_dpk) or (Sender = ACBr_CTeDacteRL_dpk) or
+     (Sender = CheckBox3) then // ACBr_CTeDacteFPDF.dpk
+    Result := ACBr_CTe_dpk
+  else
+  if (Sender = ACBr_NFSeDanfseFR_dpk) or (Sender = ACBr_NFSeDanfseRL_dpk) then
+    Result := ACBr_NFSe_dpk
+  else
+  if (Sender = ACBr_NFSeXDanfseFR_dpk) or (Sender = ACBr_NFSeXDanfseRL_dpk) or
+     (Sender = ACBr_NFSeXDanfseFPDF_dpk) then
+    Result := ACBr_NFSeX_dpk
+  else
+  if (Sender = ACBr_BoletoFR_dpk) or (Sender = ACBr_BoletoRL_dpk) or
+     (Sender = ACBr_BoletoFPDF_dpk) then
+    Result := ACBr_Boleto_dpk
+  else
+  if (Sender = ACBr_MDFeDamdfeFR_dpk) or (Sender = ACBr_MDFeDamdfeRL_dpk) or
+     (Sender = ACBr_MDFeDAMDFEFPDF_dpk) then
+    Result := ACBr_MDFe_dpk
+  else
+  if (Sender = ACBr_SATExtratoFR_dpk)     or (Sender = ACBr_SATExtratoRL_dpk) or
+     (Sender = ACBr_SATExtratoESCPOS_dpk) or (Sender = ACBr_SATExtratoFPDF_dpk) or
+     (Sender = ACBr_SATECFVirtual_dpk) then
+    Result := ACBr_SAT_dpk
+  else
+  if (Sender = ACBr_GNREGuiaFR_dpk) or (Sender = ACBr_GNREGuiaRL_dpk) then
+    Result := ACBr_GNRE_dpk
+  else
+  if (Sender = ACBr_BPeDabpeFR_dpk) or (Sender = ACBr_BPeDABPeFPDF_dpk) or
+     (Sender = ACBr_BPeDabpeESCPOS_dpk) then
+    Result := ACBr_BPe_dpk
+  else
+  if (Sender = ACBr_NF3eDANF3eRL_dpk) or (Sender = ACBr_NF3eDANF3eESCPOS_dpk) then
+    Result := ACBr_NF3e_dpk
+  else
+  if (Sender = ACBr_NFComDANFComRL_dpk) then
+    Result := ACBr_NFCom_dpk
+  else
+  if (Sender = ACBr_DCeDACERL_dpk) then
+    Result := ACBr_DCe_dpk
+  else
+  if (Sender = ACBr_SPEDImportar_dpk) then
+    Result := ACBr_SPED_dpk;
+end;
+
 procedure TframePacotes.VerificarCheckboxes(Sender: TObject);
+var
+  vPacotePrincipal: TCheckBox;
 begin
 // rotina de verificação de dependência e marcação dos pacotes base
 
@@ -445,6 +506,16 @@ begin
       ACBr_synapse_dpk.Checked  := True;
       ACBr_Comum_dpk.Checked    := True;
       ACBr_Diversos_dpk.Checked := True;
+      // ACBr_Diversos.dpk requer ACBr_OpenSSL e ACBr_LibXML2
+      ACBr_OpenSSL_dpk.Checked  := True;
+      ACBr_LibXML2_dpk.Checked  := True;
+
+      // ao marcar um pacote de impressão/extensão, marcar junto o pacote
+      // principal do qual depende; precisa ocorrer antes do passo 1, que
+      // desmarca as impressões cujo pacote principal não está marcado
+      vPacotePrincipal := PacotePrincipalDe(Sender);
+      if Assigned(vPacotePrincipal) and TCheckBox(Sender).Checked then
+        vPacotePrincipal.Checked := True;
 
       //1) Primeiro verificar dependências das impressões marcadas...
 
@@ -453,6 +524,15 @@ begin
       begin
         ACBr_NFeDanfeFR_dpk.Checked := False;
         ACBr_NFeDanfeRL_dpk.Checked := False;
+        ACBr_NFeDanfeFPDF_dpk.Checked := False;
+        ACBr_NFeDanfeESCPOS_dpk.Checked := False;
+        ACBr_NFCeECFVirtual_dpk.Checked := False;
+      end;
+
+      // quando não for selecionado o NFeABI devemos desmarcar
+      if not ACBr_NFeABI_dpk.Checked then
+      begin
+        ACBr_NFeABIDANFeABIFPDF_dpk.Checked := False;
       end;
 
       // quando não for selecionado o CTe devemos desmarcar
@@ -460,6 +540,7 @@ begin
       begin
         ACBr_CTeDacteFR_dpk.Checked := False;
         ACBr_CTeDacteRL_dpk.Checked := False;
+        ACBr_CTeDacteFPDF_dpk.Checked := False; // ACBr_CTeDacteFPDF.dpk
       end;
 
       // quando não for selecionado o NFSe devemos desmarcar
@@ -474,6 +555,7 @@ begin
       begin
         ACBr_NFSeXDanfseFR_dpk.Checked := False;
         ACBr_NFSeXDanfseRL_dpk.Checked := False;
+        ACBr_NFSeXDanfseFPDF_dpk.Checked := False;
       end;
 
       // quando não for selecionado o Boleto devemos desmarcar
@@ -489,6 +571,40 @@ begin
       begin
         ACBr_MDFeDamdfeFR_dpk.Checked := False;
         ACBr_MDFeDamdfeRL_dpk.Checked := False;
+        ACBr_MDFeDAMDFEFPDF_dpk.Checked := False;
+      end;
+
+      // quando não for selecionado o BP-e devemos desmarcar
+      if not ACBr_BPe_dpk.Checked then
+      begin
+        ACBr_BPeDabpeFR_dpk.Checked := False;
+        ACBr_BPeDABPeFPDF_dpk.Checked := False;
+        ACBr_BPeDabpeESCPOS_dpk.Checked := False;
+      end;
+
+      // quando não for selecionado o NF3e devemos desmarcar
+      if not ACBr_NF3e_dpk.Checked then
+      begin
+        ACBr_NF3eDANF3eRL_dpk.Checked := False;
+        ACBr_NF3eDANF3eESCPOS_dpk.Checked := False;
+      end;
+
+      // quando não for selecionado o NFCom devemos desmarcar
+      if not ACBr_NFCom_dpk.Checked then
+      begin
+        ACBr_NFComDANFComRL_dpk.Checked := False;
+      end;
+
+      // quando não for selecionado o DCe devemos desmarcar
+      if not ACBr_DCe_dpk.Checked then
+      begin
+        ACBr_DCeDACERL_dpk.Checked := False;
+      end;
+
+      // quando não for selecionado o SPED devemos desmarcar
+      if not ACBr_SPED_dpk.Checked then
+      begin
+        ACBr_SPEDImportar_dpk.Checked := False;
       end;
 
       // quando não for selecionado o SAT devemos desmarcar
@@ -498,6 +614,7 @@ begin
         ACBr_SATExtratoFR_dpk.Checked := False;
         ACBr_SATExtratoESCPOS_dpk.Checked := False;
         ACBr_SATExtratoFPDF_dpk.Checked := False;
+        ACBr_SATECFVirtual_dpk.Checked := False;
       end;
 
       // quando não for selecionado o GNRE devemos desmarcar
@@ -544,6 +661,13 @@ begin
         and not(ACBr_SAT_dpk.Checked) then
         ACBr_SAT_dpk.Checked := True;
 
+      // pacotes que também requerem o ACBr_Serial
+      if ACBr_SATExtratoFPDF_dpk.Checked or ACBr_SATECFVirtual_dpk.Checked or
+         ACBr_NFCeECFVirtual_dpk.Checked or ACBr_MTER_dpk.Checked then
+      begin
+        ACBr_Serial_dpk.Checked := True;
+      end;
+
       //2) Segundo Verificar dependência de outros pacotes marcados...
 
       //
@@ -553,7 +677,15 @@ begin
          (ACBr_BPe_dpk.Checked)    or (ACBr_ANe_dpk.Checked)   or
          (ACBr_CIOT_dpk.Checked)   or (ACBr_NF3e_dpk.Checked)  or
          (ACBr_SAT_dpk.Checked)    or (ACBr_Boleto_dpk.Checked) or
-         (ACBr_PAFNFCe_dpk.Checked) then
+         (ACBr_PAFNFCe_dpk.Checked) or (ACBr_NFeABI_dpk.Checked) or
+         (ACBr_NFSeX_dpk.Checked)  or (ACBr_GNRE_dpk.Checked)  or
+         (ACBr_NFCom_dpk.Checked)  or (ACBr_DCe_dpk.Checked)   or
+         (ACBr_NFGas_dpk.Checked)  or (ACBr_NFAg_dpk.Checked)  or
+         (ACBr_ONE_dpk.Checked)    or (ACBr_GTIN_dpk.Checked)  or
+         (ACBr_Reinf_dpk.Checked)  or (ACBre_Social_dpk.Checked) or
+         (ACBr_DeRE_dpk.Checked)   or (ACBr_PagFor_dpk.Checked) or
+         (ACBr_DebitoAutomatico_dpk.Checked) or
+         (ACBr_DFeReportRL_dpk.Checked) then
       begin
         ACBr_DFeComum_dpk.Checked := True;
       end;
@@ -567,8 +699,13 @@ begin
         ACBr_TCP_dpk.Checked        := True;
       end;
 
-      if (ACBr_TEFD_dpk.Checked or ACBr_MTER_dpk.Checked) then
+      if (ACBr_TEFD_dpk.Checked or ACBr_MTER_dpk.Checked or
+          ACBrBaas_dpk.Checked) then
         ACBr_TCP_dpk.Checked := True;
+
+      // ACBr_Integrador.dpk requer ACBr_PCNComum
+      if ACBr_Integrador_dpk.Checked then
+        ACBr_PCNComum_dpk.Checked := True;
 
       if ACBr_SEF2_dpk.Checked then
       begin
@@ -592,6 +729,17 @@ begin
       begin
         ACBr_TXTComum_dpk.Checked := True;
       end;
+
+      // pacotes TXT que também requerem o ACBr_PCNComum
+      if ACBr_ADRCST_dpk.Checked or ACBr_EDI_dpk.Checked or
+         ACBr_Ponto_dpk.Checked then
+      begin
+        ACBr_PCNComum_dpk.Checked := True;
+      end;
+
+      // ACBr_Convenio115.dpk requer ACBr_OpenSSL
+      if ACBr_Convenio115_dpk.Checked then
+        ACBr_OpenSSL_dpk.Checked := True;
 
       if (not ACBr_DFeReportRL_dpk.Checked) and
          (ACBr_NFeDanfeRL_dpk.Checked or ACBr_NFSeDanfseRL_dpk.Checked or
