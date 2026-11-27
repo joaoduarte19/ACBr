@@ -619,7 +619,7 @@ function TDFeRTCXmlWriter.Gerar_gDevTrib(
 begin
   Result := CreateElement('gDevTrib');
 
-  Result.AppendChild(AddNode(tcDe2, '#12', 'pDevTrib', 1, 15, 0,
+  Result.AppendChild(AddNode(tcDe4, '#12', 'pDevTrib', 1, 7, 0,
                                                DevTrib.pDevTrib, DSC_PDEVTRIB));
 
   Result.AppendChild(AddNode(tcDe2, '#13', 'vDevTrib', 1, 15, 1,

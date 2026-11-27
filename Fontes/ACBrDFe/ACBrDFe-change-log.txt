@@ -39,6 +39,13 @@ Símbolo : Significado
 [*]     : Recurso modificado/melhorado
 [-]     : Correção de Bug (assim esperamos)
 
+
+
+27/11/2026
+-- ACBrDFe.RTC.XmlWriter --
+[*] Ajustado para gravar a propriedade pDevTrib para 4 casas decimais que estava sendo gerado com 2
+  Por: Daniel de Morais InfoCotidiano
+
 27/11/2026
 -- ACBrDFe.RTC.XmlWriter --
 [*] ACBr 10312 - Criado as propriedades GerarGIBSSNZerado e GerarGCBSSNZerado para 
